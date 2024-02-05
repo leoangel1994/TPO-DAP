@@ -45,6 +45,9 @@
    - Asegurarse de que el emulador Android esté iniciado.
    - Ejecutar `npx react-native run-android`.
 
-   Si todo está configurado correctamente, deberías ver tu aplicación ejecutándose en el emulador.
+   Si todo está configurado correctamente, deberías ver tu aplicación ejecutándose en el emulador.P
+
+[EXTENSIONES EN VSCODE]
+https://www.youtube.com/watch?v=mrjy92pW0kM
 
 ---
