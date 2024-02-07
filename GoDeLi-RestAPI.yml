@@ -31,6 +31,32 @@ tags:
 
 
 paths:
+
+
+  /health:
+    get:
+      tags:
+        - health
+      summary: Estado de la API
+      description: |
+        Retorna el estado de la API.
+      operationId: getHealth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - UP
+                      - DOWN
+        '500':
+          description: Internal Server Error
+
   /recipes:
     get:
       tags:
@@ -95,7 +121,7 @@ paths:
     get:
       tags:
         - recipes
-      summary: Obtener receta
+      summary: Retorna una unica receta
       description: |
         Retorna una receta.
       operationId: getRecipe
@@ -177,49 +203,7 @@ paths:
           description: Internal Server Error
 
 
-
-  /recipes/{recipeId}/image:
-    put:
-      tags:
-        - recipes
-      summary: Actualizar imagen de receta
-      description: |
-        Actualiza la imagen de una receta.
-      operationId: updateRecipeImage
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                image:
-                  type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  image:
-                    type: string
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-  /recipes/{recipeId}/reviews:
+  /recipes/{recipeId}/rating:
     post:
       tags:
         - recipes
@@ -228,7 +212,7 @@ paths:
       parameters:
         - name: recipeId
           in: path
-          description: ID de la propiedad a calificar
+          description: ID de la receta a calificar
           required: true
           schema:
             type: string
@@ -257,14 +241,14 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor    
         
-  /recipes/{recipeId}/saved:
+  /users/{recipeId}/favourites:
     post:
       tags:
         - recipes
-      summary: Guardar receta
+      summary: Guardar receta en favoritos.
       description: |
-        Guarda una receta.
-      operationId: saveRecipe
+        Guarda una receta en favoritos.
+      operationId: favouriteRecipe
       parameters:
         - name: recipeId
           in: path
@@ -298,10 +282,10 @@ paths:
     delete:
       tags:
         - recipes
-      summary: Eliminar receta guardada.
+      summary: Eliminar receta guardada en favoritos.
       description: |
-        Elimina una receta guardada.
-      operationId: deleteSavedRecipe
+        Elimina una receta guardada en favoritos.
+      operationId: deleteFavouriteRecipe
       parameters:
         - name: recipeId
           in: path
@@ -326,11 +310,17 @@ paths:
     get:
       tags:
         - recipes
-      summary: Listar recetas guardadas
+      summary: Listar recetas favoritas de un usuario.
       description: |
-        Muestra una lista de recetas guardadas.
-      operationId: getSavedRecipes
+        Muestra una lista de recetas favoritas.
+      operationId: getFavouritesRecipes
       parameters:
+        - name: recipeId
+          in: path
+          description: ID de la receta.
+          required: true
+          schema:
+            type: integer
         - name: userId
           in: query
           description: ID del usuario.
@@ -368,139 +358,6 @@ paths:
           description: Internal Server Error
 
   
-  /recipes/{recipeId}/ingredients:
-    get:
-      tags:
-        - recipes
-      summary: Listar ingredientes de receta
-      description: |
-        Muestra una lista de ingredientes de una receta.
-      operationId: getRecipeIngredients
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ingredient'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-    post:
-      tags:
-        - recipes
-      summary: Agregar ingredientes a receta
-      description: |
-        Agrega ingredientes a una receta.
-      operationId: addRecipeIngredients
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Ingredient'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ingredient'
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-    
-
-  /recipes/{recipeId}/steps:
-    get:
-      tags:
-        - recipes
-      summary: Listar pasos de receta
-      description: |
-        Muestra una lista de pasos de una receta.
-      operationId: getRecipeSteps
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-    post:
-      tags:
-        - recipes
-      summary: Agregar pasos a receta
-      description: |
-        Agrega pasos a una receta.
-      operationId: addRecipeSteps
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-
   /recipes/{recipeId}/tags:
     get:
       tags:
@@ -593,7 +450,7 @@ paths:
           description: Internal Server Error. Error en el servidor
 
 
-  /users/{id}:
+  /users/{userId}:
     get:
       tags:
         - users
@@ -627,7 +484,7 @@ paths:
       summary: Editar los datos del perfil del usuario público
       operationId: updateUser
       parameters:
-        - name: userID
+        - name: userId
           in: path
           required: true
           schema:
@@ -658,7 +515,7 @@ paths:
       summary: Dar de baja la cuenta de un usuario público
       operationId: deleteUser
       parameters:
-        - name: userID
+        - name: userId
           in: path
           required: true
           schema:
@@ -711,7 +568,7 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /users/{id}/recipes:
+  /users/{userId}/recipes:
     get:
       tags:
         - users
@@ -754,7 +611,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /users/{id}/recipes/{recipeID}:
+  /users/{userId}/recipes/{recipeId}:
     get:
       tags:
         - users
@@ -865,7 +722,7 @@ components:
           type: string
         preparationTime:
           type: string
-        portions:
+        portions: ##platos que rinde
           type: integer
         steps:
           type: array
@@ -873,16 +730,23 @@ components:
             type: string
         image:
           type: string
-        userID:
+        youtubeLink:
+          type: string
+        userId:
           type: integer
         tags:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
+
         ingredientes:
           type: array
           items:
             $ref: '#/components/schemas/Ingredient'
+        propiedadesNutricionales:
+          type: array 
+          items:
+            $ref: '#/components/schemas/PropiedadesNutricionales'
 
       required:
         - title
@@ -892,6 +756,8 @@ components:
         - ingredients
         - steps
         - userId
+        - tags
+        - propiedadesNutricionales
       
 
     Ingredient:
@@ -901,13 +767,11 @@ components:
           type: integer
         name:
           type: string
-        description:
-          type: string
-        image:
+        amount: ##cantidad
           type: string
       required:
         - name
-        - description
+        - amount
 
     DatosRegistroUsuarioPublico:
       type: object
@@ -918,15 +782,16 @@ components:
           type: string
         email:
           type: string
-        password:
-          type: string
         imagen:
+          type: string
+        username:
           type: string
       required:
         - nombre
         - apellido
         - email
-        - password
+        - username
+
 
     TokenAutenticacionGoogle:
       type: object
@@ -947,10 +812,13 @@ components:
           type: string
         imagen:
           type: string
+        username: 
+          type: string
       required:
         - nombre
         - apellido
         - email
+        - username
 
     MensajeConfirmacion:
       type: object
@@ -971,9 +839,28 @@ components:
         - email
         - password
 
-    Tag:
+    PropiedadesNutricionales:
       type: object
       properties:
-        name:
-          type: string
+        calorias:
+          type: integer
+        proteinas:
+          type: integer
+        grasas totales:
+          type: integer
+       ## carbohidratos:
+       ##   type: integer
+
+    Tag:
+      type: string
+      enum:
+        - Rapida preparación
+        - Vegetarianas
+        - Veganas
+        - Aptas celiacos
+        - Estimula el sistema inmune
+        - Promueve la florea intestinal
+        - Antiinflamatoria
+        - Baja en sodio
+        - Baja en carbohidratos
       
