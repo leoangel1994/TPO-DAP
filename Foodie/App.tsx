@@ -52,16 +52,15 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
