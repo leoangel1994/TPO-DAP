@@ -241,123 +241,7 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor    
         
-  /users/{recipeId}/favourites:
-    post:
-      tags:
-        - recipes
-      summary: Guardar receta en favoritos.
-      description: |
-        Guarda una receta en favoritos.
-      operationId: favouriteRecipe
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-    delete:
-      tags:
-        - recipes
-      summary: Eliminar receta guardada en favoritos.
-      description: |
-        Elimina una receta guardada en favoritos.
-      operationId: deleteFavouriteRecipe
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-        - name: userId
-          in: query
-          description: ID del usuario.
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: No Content
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-      
-    get:
-      tags:
-        - recipes
-      summary: Listar recetas favoritas de un usuario.
-      description: |
-        Muestra una lista de recetas favoritas.
-      operationId: getFavouritesRecipes
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-        - name: userId
-          in: query
-          description: ID del usuario.
-          required: true
-          schema:
-            type: integer
-        - name: limit
-          in: query
-          description: Cantidad de recetas a retornar.
-          required: false
-          schema:
-            type: integer
-            default: 10
-        - name: offset
-          in: query
-          description: Cantidad de recetas a saltar.
-          required: false
-          schema:
-            type: integer
-            default: 0
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Recipe'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
 
-  
   /recipes/{recipeId}/tags:
     get:
       tags:
@@ -527,6 +411,127 @@ paths:
           description: Unauthorized. No autorizado para dar de baja esta cuenta
         '500':
           description: Internal Server Error. Error en el servidor
+
+  /users/{recipeId}/favourites:
+    post:
+      tags:
+        - users
+      summary: Guardar receta en favoritos.
+      description: |
+        Guarda una receta en favoritos.
+      operationId: favouriteRecipe
+      parameters:
+        - name: recipeId
+          in: path
+          description: ID de la receta.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - users
+      summary: Eliminar receta guardada en favoritos.
+      description: |
+        Elimina una receta guardada en favoritos.
+      operationId: deleteFavouriteRecipe
+      parameters:
+        - name: recipeId
+          in: path
+          description: ID de la receta.
+          required: true
+          schema:
+            type: integer
+        - name: userId
+          in: query
+          description: ID del usuario.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      
+    get:
+      tags:
+        - users
+      summary: Listar recetas favoritas de un usuario.
+      description: |
+        Muestra una lista de recetas favoritas.
+      operationId: getFavouritesRecipes
+      parameters:
+        - name: recipeId
+          in: path
+          description: ID de la receta.
+          required: true
+          schema:
+            type: integer
+        - name: userId
+          in: query
+          description: ID del usuario.
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Cantidad de recetas a retornar.
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: offset
+          in: query
+          description: Cantidad de recetas a saltar.
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  
+
+
+
 
   /users/login:
     post:
