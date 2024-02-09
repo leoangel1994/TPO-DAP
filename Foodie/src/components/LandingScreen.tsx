@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import Theme from '../../Theme';
+import {Theme} from '../../Theme';
 
 const LandingScreen = () => {
   return (

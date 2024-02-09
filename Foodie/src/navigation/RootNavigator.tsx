@@ -5,16 +5,21 @@ import LoginScreen from '../components/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
+export const Screens = {
+  Login: 'Login',
+  Landing: 'Landing',
+};
+
 const RootNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName={Screens.Login}
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Login" component={LoginScreen} options={{}} />
-        <Stack.Screen name="Landing" component={LandingScreen} options={{}} />
+        <Stack.Screen name={Screens.Login} component={LoginScreen} options={{}} />
+        <Stack.Screen name={Screens.Landing} component={LandingScreen} options={{}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

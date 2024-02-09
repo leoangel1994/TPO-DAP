@@ -1,12 +1,25 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import Theme from '../../Theme';
+import {StyleSheet, Text, View} from 'react-native';
+import {CommonStyle, Theme} from '../../Theme';
+import {useLinkTo} from '@react-navigation/native';
+
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+} from '@react-native-google-signin/google-signin';
 
 const LoginScreen = () => {
+  const linkTo = useLinkTo();
+
   return (
     <View style={styles.background}>
-      <View>
-        <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
-        <Text style={styles.subtitleText}>Esta linea es de prueba de fuente nomas</Text>
+      <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
+      <View style={styles.buttonPosition}>
+        <GoogleSigninButton
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={() => linkTo("/Landing")}
+          /* disabled={this.state.isSigninInProgress}*/
+        />
       </View>
     </View>
   );
@@ -16,20 +29,15 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  titleText: {
-    fontFamily: Theme.fontFamily.BOLD,
-    padding: 30,
-    color: Theme.colors.NEUTRAL_4,
-    fontSize: Theme.fontSize.TITLE,
-  },
-  subtitleText: {
-    fontFamily: Theme.fontFamily.REGULAR,
-    padding: 30,
-    color: Theme.colors.NEUTRAL_4,
-    fontSize: Theme.fontSize.SUBTITLE,
+  titleText: CommonStyle.titleText,
+  buttonPosition: {
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 32,
   },
 });
 
