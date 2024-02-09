@@ -10,6 +10,14 @@ const Theme = {
         NEUTRAL_2 : '#484848',
         NEUTRAL_3 : '#797979',
         NEUTRAL_4 : '#FFFFFF',
+    },
+    fontSize : {
+        TITLE : 30,
+        SUBTITLE: 16,
+    },
+    fontFamily : {
+        BOLD: 'Poppins-Bold',
+        REGULAR: 'Poppins-Regular',
     }
 };
 

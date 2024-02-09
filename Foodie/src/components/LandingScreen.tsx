@@ -15,11 +15,11 @@ const LandingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    text : {
-      color : Theme.colors.PRIMARY_1,
-      paddingHorizontal: 24,
-      fontSize: 48
-    },
-  });
+  text: {
+    color: Theme.colors.PRIMARY_1,
+    paddingHorizontal: 24,
+    fontSize: 48,
+  },
+});
 
 export default LandingScreen;
