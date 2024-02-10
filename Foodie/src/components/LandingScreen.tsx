@@ -1,7 +1,11 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
+import { PrimaryButton } from './PrimaryButton';
+import {useLinkTo} from '@react-navigation/native';
 
 const LandingScreen = () => {
+  const linkTo = useLinkTo();
+
   return (
     <View style={styles.background}>
       <ScrollView>
@@ -24,6 +28,7 @@ const LandingScreen = () => {
             minHeight: 248,
             backgroundColor: Theme.colors.SECONDARY_3,
           }}></View>
+        <PrimaryButton text="Nueva Receta" onPress={() => linkTo('/NuevaReceta1')}></PrimaryButton>
       </ScrollView>
       <View style={styles.backgroundTabBar}>
         <Text>yo? soy solo donde iría el footer...</Text>

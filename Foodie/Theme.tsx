@@ -38,11 +38,19 @@ export const CommonStyle = {
     width: 315,
     height: 48,
     backgroundColor: Theme.colors.SECONDARY_2,
-    margin: 32,
   },
   primaryButtonText: {
     color: Theme.colors.NEUTRAL_4,
     fontFamily: Theme.fontFamily.SEMIBOLD,
     fontSize: Theme.fontSize.SUBTITLE,
+  },
+  input: {
+    backgroundColor: Theme.colors.NEUTRAL_4,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: Theme.colors.SECONDARY_3,
+    fontFamily: Theme.fontFamily.REGULAR,
+    marginTop: 8,
+    marginBottom: 8,
   },
 };
