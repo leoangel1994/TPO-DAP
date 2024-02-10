@@ -25,9 +25,13 @@ export const Theme = {
 export const CommonStyle = {
   titleText: {
     fontFamily: Theme.fontFamily.BOLD,
-    padding: 30,
     color: Theme.colors.NEUTRAL_4,
     fontSize: Theme.fontSize.TITLE,
+  },
+  subTitleText: {
+    fontFamily: Theme.fontFamily.SEMIBOLD,
+    color: Theme.colors.NEUTRAL_4,
+    fontSize: Theme.fontSize.SUBTITLE,
   },
   primaryButton: {
     borderRadius: 10,

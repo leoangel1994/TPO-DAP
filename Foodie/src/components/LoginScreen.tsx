@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {useLinkTo} from '@react-navigation/native';
 
@@ -12,12 +12,15 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.background}>
-      <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
+      <ScrollView style={{padding: 30}}>
+        <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
+      </ScrollView>
+
       <View style={styles.buttonPosition}>
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
-          onPress={() => linkTo("/Landing")}
+          onPress={() => linkTo('/Landing')}
           /* disabled={this.state.isSigninInProgress}*/
         />
       </View>
@@ -29,7 +32,6 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
   titleText: CommonStyle.titleText,
