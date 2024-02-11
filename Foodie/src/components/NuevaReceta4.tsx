@@ -3,27 +3,27 @@ import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
 
-export const NuevaReceta1 = () => {
+export const NuevaReceta4 = () => {
   const linkTo = useLinkTo();
 
   return (
     <View style={styles.background}>
       <ScrollView>
-        <View style={{padding: 30, minWidth: '100%'}}>
-          <Text style={styles.titleText}>Nueva Receta</Text>
+        <View style={{padding: 30}}>
+          <Text style={styles.titleText}>Otros Datos</Text>
           <Text style={styles.subTitleText}>
-            Información principal sobre tu receta
+            Agrega más información para que otros puedan encotrar tu receta
+            facilmente
           </Text>
-          <TextInput style={styles.input} placeholder="Título"></TextInput>
-          <TextInput style={styles.input} placeholder="Descripción"></TextInput>
-          <TextInput
-            style={styles.input}
-            placeholder="Link a video"></TextInput>
+          <TextInput style={styles.input} placeholder="Cantidad de calorías"></TextInput>
+          <TextInput style={styles.input} placeholder="Cantidad de proteínas"></TextInput>
+          <TextInput style={styles.input} placeholder="Cantidad de grasas totales"></TextInput>
+          <TextInput style={styles.input} placeholder="Soy el dropdown de tags..."></TextInput>
         </View>
       </ScrollView>
       <PrimaryButton
         text="Siguiente"
-        onPress={() => linkTo('/NuevaReceta2')}></PrimaryButton>
+        onPress={() => linkTo('/Landing')}></PrimaryButton>
     </View>
   );
 };
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   input: CommonStyle.input,
 });
 
-export default NuevaReceta1;
+export default NuevaReceta4;

@@ -3,27 +3,26 @@ import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
 
-export const NuevaReceta1 = () => {
+export const NuevaReceta3 = () => {
   const linkTo = useLinkTo();
 
   return (
     <View style={styles.background}>
       <ScrollView>
-        <View style={{padding: 30, minWidth: '100%'}}>
-          <Text style={styles.titleText}>Nueva Receta</Text>
+        <View style={{padding: 30}}>
+          <Text style={styles.titleText}>Pasos</Text>
           <Text style={styles.subTitleText}>
-            Información principal sobre tu receta
+            Contanos paso a paso como se hace
           </Text>
-          <TextInput style={styles.input} placeholder="Título"></TextInput>
-          <TextInput style={styles.input} placeholder="Descripción"></TextInput>
-          <TextInput
-            style={styles.input}
-            placeholder="Link a video"></TextInput>
+          <TextInput style={styles.input} placeholder="Paso 1"></TextInput>
+          <PrimaryButton // cambiar a un componente que sea boton redondo +...
+            text="+"
+            onPress={() => console.log('yo agrego un TextInput arriba. ok.')}></PrimaryButton>
         </View>
       </ScrollView>
       <PrimaryButton
         text="Siguiente"
-        onPress={() => linkTo('/NuevaReceta2')}></PrimaryButton>
+        onPress={() => linkTo('/NuevaReceta4')}></PrimaryButton>
     </View>
   );
 };
@@ -39,4 +38,4 @@ const styles = StyleSheet.create({
   input: CommonStyle.input,
 });
 
-export default NuevaReceta1;
+export default NuevaReceta3;
