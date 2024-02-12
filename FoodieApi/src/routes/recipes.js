@@ -1,29 +1,23 @@
 const express = require('express');
+const recipeController = require('../controllers/recipeController');
 
 const router = express.Router();
+//'Listar recetas que cumplan con los filtros de búsqueda.'
+router.get('/', recipeController.getRecipesByFilters);
 
-router.get('/', (req, res) => {
-  res.send({ message: 'Listar recetas que cumplan con los filtros de búsqueda.' });
-});
+//'Crea una nueva receta.'
+router.post('/', recipeController.createRecipeById);
 
-router.post('/', (req, res) => {
-  res.send({ message: 'Crea una nueva receta.' });
-});
+//Retorna una receta para el id:' + req.params.id
+router.get('/:id', recipeController.getRecipeById);
 
-router.get('/:id', (req, res) => {
-  res.send({ message: 'Retorna una receta para el id:' + req.params.id });
-});
+//'Actualiza una receta para el id:' + req.params.id
+router.put('/:id', recipeController.updateRecipeById);
 
-router.put('/:id', (req, res) => {
-  res.send({ message: 'Actualiza una receta para el id:' + req.params.id });
-});
+//borra una receta para el id:' + req.params.id
+router.delete('/:id', recipeController.deleteRecipeById);
 
-router.delete('/:id', (req, res) => {
-  res.send({ message: 'borra una receta para el id:' + req.params.id });
-});
-
-router.post('/:id/rating', (req, res) => {
-  res.send({ message: 'Permitir que los usuarios califiquen las recetas para el id:' + req.params.id });
-});
+//Permitir que los usuarios califiquen las recetas para el id:' + req.params.id
+router.post('/:id/rating', recipeController.rateRecipeById);
 
 module.exports = router;
