@@ -2,10 +2,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import LoginScreen from '../components/LoginScreen';
-import NuevaReceta1 from '../components/NuevaReceta1';
-import NuevaReceta2 from '../components/NuevaReceta2';
-import NuevaReceta3 from '../components/NuevaReceta3';
-import NuevaReceta4 from '../components/NuevaReceta4';
+import NewRecipeScreen1 from '../components/NewRecipeScreen1';
+import NewRecipeScreen2 from '../components/NewRecipeScreen2';
+import NewRecipeScreen3 from '../components/NewRecipeScreen3';
+import NewRecipeScreen4 from '../components/NewRecipeScreen4';
 import {Theme} from '../../Theme';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LandingScreen from '../components/LandingScreen';
@@ -13,6 +13,13 @@ import SearchScreen from '../components/SearchScreen';
 import FavoritesScreen from '../components/FavoritesScreen';
 import ProfileScreen from '../components/ProfileScreen';
 import Icon from 'react-native-ico-material-design';
+import EditProfileScreen from '../components/EditProfileScreen';
+import MyRecipesScreen from '../components/MyRecipesScreen';
+import EditRecipeScreen1 from '../components/EditRecipeScreen1';
+import EditRecipeScreen2 from '../components/EditRecipeScreen2';
+import EditRecipeScreen3 from '../components/EditRecipeScreen3';
+import EditRecipeScreen4 from '../components/EditRecipeScreen4';
+import RecipeDetailsScreen from '../components/RecipeDetails';
 
 export const Screens = {
   Login: 'Login',
@@ -21,10 +28,17 @@ export const Screens = {
   Search: 'Search',
   Favorites: 'Favorites',
   Profile: 'Profile',
-  NuevaReceta1: 'NuevaReceta1',
-  NuevaReceta2: 'NuevaReceta2',
-  NuevaReceta3: 'NuevaReceta3',
-  NuevaReceta4: 'NuevaReceta4',
+  MyRecipes: 'MyRecipes',
+  EditProfile: 'EditProfile',
+  NewRecipe1: 'NewRecipe1',
+  NewRecipe2: 'NewRecipe2',
+  NewRecipe3: 'NewRecipe3',
+  NewRecipe4: 'NewRecipe4',
+  EditRecipe1: 'EditRecipe1',
+  EditRecipe2: 'EditRecipe2',
+  EditRecipe3: 'EditRecipe3',
+  EditRecipe4: 'EditRecipe4',
+  RecipeDetails: 'RecipeDetails',
 };
 
 const Tab = createBottomTabNavigator();
@@ -108,11 +122,46 @@ const RootNavigator = () => {
           component={LoginScreen}
           options={{}}
         />
-        <Stack.Screen
-          name={Screens.TabNavigator}
-          component={TabNavigator}
-          options={{}}
-        />
+        <Stack.Group>
+          <Stack.Screen
+            name={Screens.TabNavigator}
+            component={TabNavigator}
+            options={{}}
+          />
+          <Stack.Screen
+            name={Screens.EditProfile}
+            component={EditProfileScreen}
+            options={{
+              title: 'Editar Perfil',
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Theme.colors.SECONDARY_3,
+              },
+            }}
+          />
+          <Stack.Screen
+            name={Screens.MyRecipes}
+            component={MyRecipesScreen}
+            options={{
+              title: 'Mis Recetas',
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Theme.colors.SECONDARY_3,
+              },
+            }}
+          />
+          <Stack.Screen
+            name={Screens.RecipeDetails}
+            component={RecipeDetailsScreen}
+            options={{
+              title: 'Detales Receta',
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Theme.colors.SECONDARY_3,
+              },
+            }}
+          />
+        </Stack.Group>
         <Stack.Group
           screenOptions={{
             title: 'Nueva Receta',
@@ -122,23 +171,52 @@ const RootNavigator = () => {
             },
           }}>
           <Stack.Screen
-            name={Screens.NuevaReceta1}
-            component={NuevaReceta1}
+            name={Screens.NewRecipe1}
+            component={NewRecipeScreen1}
             options={{}}
           />
           <Stack.Screen
-            name={Screens.NuevaReceta2}
-            component={NuevaReceta2}
+            name={Screens.NewRecipe2}
+            component={NewRecipeScreen2}
             options={{}}
           />
           <Stack.Screen
-            name={Screens.NuevaReceta3}
-            component={NuevaReceta3}
+            name={Screens.NewRecipe3}
+            component={NewRecipeScreen3}
             options={{}}
           />
           <Stack.Screen
-            name={Screens.NuevaReceta4}
-            component={NuevaReceta4}
+            name={Screens.NewRecipe4}
+            component={NewRecipeScreen4}
+            options={{}}
+          />
+        </Stack.Group>
+        <Stack.Group
+          screenOptions={{
+            title: 'Editar Receta',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: Theme.colors.SECONDARY_3,
+            },
+          }}>
+          <Stack.Screen
+            name={Screens.EditRecipe1}
+            component={EditRecipeScreen1}
+            options={{}}
+          />
+          <Stack.Screen
+            name={Screens.EditRecipe2}
+            component={EditRecipeScreen2}
+            options={{}}
+          />
+          <Stack.Screen
+            name={Screens.EditRecipe3}
+            component={EditRecipeScreen3}
+            options={{}}
+          />
+          <Stack.Screen
+            name={Screens.EditRecipe4}
+            component={EditRecipeScreen4}
             options={{}}
           />
         </Stack.Group>

@@ -13,6 +13,8 @@ const ProfileScreen = () => {
           <Text style={styles.titleText}>Profile Screen</Text>
           <Text style={styles.subTitleText}>TODO</Text>
         </View>
+        <PrimaryButton text="Mis Recetas" onPress={() => linkTo('/MyRecipes')}></PrimaryButton>
+        <PrimaryButton text="Editar Perfil" onPress={() => linkTo('/EditProfile')}></PrimaryButton>
       </ScrollView>
     </View>
   );

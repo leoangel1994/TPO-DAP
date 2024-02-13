@@ -28,7 +28,7 @@ const LandingScreen = () => {
             minHeight: 248,
             backgroundColor: Theme.colors.SECONDARY_3,
           }}></View>
-        <PrimaryButton text="Nueva Receta" onPress={() => linkTo('/NuevaReceta1')}></PrimaryButton>
+        <PrimaryButton text="Nueva Receta" onPress={() => linkTo('/NewRecipe1')}></PrimaryButton>
       </ScrollView>
     </View>
   );
