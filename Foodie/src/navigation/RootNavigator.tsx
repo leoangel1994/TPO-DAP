@@ -12,6 +12,7 @@ import LandingScreen from '../components/LandingScreen';
 import SearchScreen from '../components/SearchScreen';
 import FavoritesScreen from '../components/FavoritesScreen';
 import ProfileScreen from '../components/ProfileScreen';
+import Icon from 'react-native-ico-material-design';
 
 export const Screens = {
   Login: 'Login',
@@ -35,11 +36,59 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {backgroundColor: Theme.colors.SECONDARY_3},
+        tabBarInactiveTintColor: Theme.colors.PRIMARY_1,
+        tabBarActiveTintColor: Theme.colors.PRIMARY_2,
       }}>
-      <Tab.Screen name={Screens.Landing} component={LandingScreen} />
-      <Tab.Screen name={Screens.Search} component={SearchScreen} />
-      <Tab.Screen name={Screens.Favorites} component={FavoritesScreen} />
-      <Tab.Screen name={Screens.Profile} component={ProfileScreen} />
+      <Tab.Screen
+        name={Screens.Landing}
+        component={LandingScreen}
+        options={{
+          title: 'Inicio',
+          tabBarIcon: ({size, color}) => (
+            <Icon name="home-button" height={size} width={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={Screens.Search}
+        component={SearchScreen}
+        options={{
+          title: 'Buscar',
+          tabBarIcon: ({size, color}) => (
+            <Icon
+              name="searching-magnifying-glass"
+              height={size}
+              width={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={Screens.Favorites}
+        component={FavoritesScreen}
+        options={{
+          title: 'Favoritos',
+          tabBarIcon: ({size, color}) => (
+            <Icon
+              name="mark-as-favorite-star"
+              height={size}
+              width={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={Screens.Profile}
+        component={ProfileScreen}
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({size, color}) => (
+            <Icon name="user-shape" height={size} width={size} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
