@@ -1,29 +1,19 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
+import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
 
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
-
-const LoginScreen = () => {
+const FavoritesScreen = () => {
   const linkTo = useLinkTo();
 
   return (
     <View style={styles.background}>
-      <ScrollView style={{padding: 30}}>
-        <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
+      <ScrollView>
+        <View style={{padding: 30}}>
+          <Text style={styles.titleText}>Favorites Screen</Text>
+          <Text style={styles.subTitleText}>TODO</Text>
+        </View>
       </ScrollView>
-
-      <View style={styles.buttonPosition}>
-        <GoogleSigninButton
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={() => linkTo('/TabNavigator')}
-          /* disabled={this.state.isSigninInProgress}*/
-        />
-      </View>
     </View>
   );
 };
@@ -34,7 +24,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
   },
+  backgroundTabBar: {
+    backgroundColor: Theme.colors.SECONDARY_2,
+    width: '100%',
+    height: 64,
+  },
   titleText: CommonStyle.titleText,
+  subTitleText: CommonStyle.subTitleText,
   buttonPosition: {
     justifyContent: 'center',
     marginLeft: 'auto',
@@ -43,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default FavoritesScreen;

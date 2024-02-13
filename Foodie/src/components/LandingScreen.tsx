@@ -30,9 +30,6 @@ const LandingScreen = () => {
           }}></View>
         <PrimaryButton text="Nueva Receta" onPress={() => linkTo('/NuevaReceta1')}></PrimaryButton>
       </ScrollView>
-      <View style={styles.backgroundTabBar}>
-        <Text>yo? soy solo donde iría el footer...</Text>
-      </View>
     </View>
   );
 };
