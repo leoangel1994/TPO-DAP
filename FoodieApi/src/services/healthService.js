@@ -1,12 +1,15 @@
-// Import any required models here
-//const Example = require('../models/example');
+const mongoose = require('mongoose');
+mongoose.set("strictQuery",false);
 
 // Define your service methods
 exports.getHealthCheck = async () => {
-  return {"status": "UP"};
-};
-
-exports.createExample = async (name) => {
-  const example = new Example({ name });
-  return await example.save();
+  try {
+    // Wait for database to connect, logging an error if there is a problem
+    await mongoose.connect(process.env.MONGODB_URI);
+    return {"status": "UP"};
+  }
+  catch(error){
+    console.log(error);
+    return {"status": "DOWN"};
+  }
 };
