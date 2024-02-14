@@ -14,8 +14,11 @@ exports.getRecipesByFilters = async (req, res) => {
 exports.getRecipeById = async (req, res) => {
   // Implement logic to get a recipe by ID
   try {
-      const recipe = await recipeService.getRecipeById(req.params.userId, req.params.recipeId);
-      res.json(recipe);
+    const userId = '65cccd19e15354a46e9714ed';//TODO: get user id from session
+    const recipe = await recipeService.getRecipeById(userId, req.params.id);
+
+    if (recipe == null) res.status(404).json({ error: 'Recipe not found' });
+    res.json(recipe);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -24,9 +27,10 @@ exports.getRecipeById = async (req, res) => {
 exports.createRecipe = async (req, res) => {
   // Implement logic to get recipes by filters
   try {
-      const userId = new mongoose.Types.ObjectId();//TODO: get user id from session
-      const recipe = await recipeService.createRecipe(userId, req.body);
-      res.json(recipe);
+    const userId = new mongoose.Types.ObjectId();//TODO: get user id from session
+    const recipe = await recipeService.createRecipe(userId, req.body);
+    
+    res.json(recipe);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: 'Internal Server Error'});
@@ -36,8 +40,11 @@ exports.createRecipe = async (req, res) => {
 exports.updateRecipeById = async (req, res) => {
   // Implement logic to update a recipe by ID
   try {
-      const recipe = await recipeService.updateRecipeById(req.params.userId, req.params.recipeId);
-      res.json(recipe);
+    const userId = '65cccd19e15354a46e9714ed';//TODO: get user id from session
+    const recipe = await recipeService.updateRecipeById(userId, req.params.id, req.body);
+    
+    if (recipe == null) res.status(404).json({ error: 'Recipe not found' });
+    res.json(recipe);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -84,7 +91,6 @@ exports.removeRecipeFromFavorites = async (req, res) => {
 }
 
 exports.getFavoriteRecipes = async (req, res) => {
-    // Implement logic to get favorite recipes
     try {
         const recipe = await recipeService.getFavoriteRecipes(req.params.userId);
         res.json(recipe);

@@ -24,12 +24,24 @@ exports.getRecipesByFilters = async (userId, filters) => {
 
 // Get recipe by ID
 exports.getRecipeById = async (userId, recipeId) => {
-    // Implement the logic to get a recipe by ID
+    try {
+        let recipe = await Recipe.findOne({_id: recipeId, userId: userId});
+        return recipe;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
 }
 
 // Update recipe by ID
-exports.updateRecipeById = async (userId, recipeId) => {
-    // Implement the logic to update a recipe by ID
+exports.updateRecipeById = async (userId, recipeId, body) => {
+    try {
+        let recipe = await Recipe.findOneAndUpdate({_id: recipeId, userId: userId}, body, { new: true });
+        return recipe;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
 }
 
 // Delete recipe by ID
