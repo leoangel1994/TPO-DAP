@@ -20,13 +20,13 @@ exports.getRecipeById = async (req, res) => {
     }
 }
 
-exports.createRecipeById = async (req, res) => {
+exports.createRecipe = async (req, res) => {
   // Implement logic to get recipes by filters
   try {
-      const recipe = await recipeService.createRecipeById(req.params.userId, req.body);
+      const recipe = await recipeService.createRecipe(req.params.userId, req.body);
       res.json(recipe);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: 'Internal Server Error'+error });
     }
 }
 
@@ -59,8 +59,6 @@ exports.rateRecipeById = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
-
 
 exports.saveRecipeToFavorites = async (req, res) => {
     // Implement logic to save a recipe to favorites

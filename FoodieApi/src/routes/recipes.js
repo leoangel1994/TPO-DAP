@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', recipeController.getRecipesByFilters);
 
 //'Crea una nueva receta.'
-router.post('/', recipeController.createRecipeById);
+router.post('/', recipeController.createRecipe);
 
 //Retorna una receta para el id:' + req.params.id
 router.get('/:id', recipeController.getRecipeById);

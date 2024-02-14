@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-mongoose.set("strictQuery",false);
 
 // Define your service methods
 exports.getHealthCheck = async () => {
   try {
-    // Wait for database to connect, logging an error if there is a problem
-    await mongoose.connect(process.env.MONGODB_URI);
-    return {"status": "UP"};
+    if (mongoose.connection.readyState in [1,2])
+      return {"status": "UP"};
+    return {"status":"DOWN", "state": mongoose.connection.readyState}
   }
   catch(error){
     console.log(error);

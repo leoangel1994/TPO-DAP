@@ -1,5 +1,6 @@
 // Import Recipe model
 const Recipe = require('../models/Recipe');
+const mongoose = require('mongoose');
 
 // Save recipe to favorites
 exports.saveRecipeToFavorites = async (userId, recipeId) => {
@@ -40,3 +41,16 @@ exports.deleteRecipeById = async (userId, recipeId) => {
 exports.rateRecipeById = async (userId, recipeId, rate) => {
     //implement recipe rating logic
 }
+
+exports.createRecipe = async (userId, body) => {
+    const recipe = new Recipe();
+    recipe.user = userId;
+    recipe.title = body.title;
+    recipe.description = body.description;
+    try {
+        recipe.save();
+    } 
+    catch (err) {
+        console.log(err);  
+    }
+};

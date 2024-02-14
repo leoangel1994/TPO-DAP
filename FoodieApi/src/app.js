@@ -11,6 +11,7 @@ const healthRouter = require('./routes/health');
 const envfile = require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const app = express();
+const connectDB  = require('./config/db');
 
 app.use(helmet()); // https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 app.use(logger('dev'));
@@ -29,5 +30,6 @@ app.use((req, res, next) => {
 
 // pass any unhandled errors to the error handler
 app.use(errorHandler);
+connectDB();
 
 module.exports = app;
