@@ -1,4 +1,5 @@
 const recipeService = require('../services/recipeService');
+var mongoose = require('mongoose');
 
 exports.getRecipesByFilters = async (req, res) => {
   // Implement logic to get recipes by filters
@@ -23,10 +24,12 @@ exports.getRecipeById = async (req, res) => {
 exports.createRecipe = async (req, res) => {
   // Implement logic to get recipes by filters
   try {
-      const recipe = await recipeService.createRecipe(req.params.userId, req.body);
+      const userId = new mongoose.Types.ObjectId();//TODO: get user id from session
+      const recipe = await recipeService.createRecipe(userId, req.body);
       res.json(recipe);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error'+error });
+      console.log(error);
+      res.status(500).json({ error: 'Internal Server Error'});
     }
 }
 

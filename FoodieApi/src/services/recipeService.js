@@ -43,12 +43,11 @@ exports.rateRecipeById = async (userId, recipeId, rate) => {
 }
 
 exports.createRecipe = async (userId, body) => {
-    const recipe = new Recipe();
-    recipe.user = userId;
-    recipe.title = body.title;
-    recipe.description = body.description;
+    body.userId = userId;
+    const recipe = new Recipe(body);
     try {
-        recipe.save();
+        await recipe.save();
+        return recipe;
     } 
     catch (err) {
         console.log(err);  
