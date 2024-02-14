@@ -241,73 +241,6 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor    
         
-
-  /recipes/{recipeId}/tags:
-    get:
-      tags:
-        - recipes
-      summary: Listar tags de receta
-      description: |
-        Muestra una lista de tags de una receta.
-      operationId: getRecipeTags
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-    post:
-      tags:
-        - recipes
-      summary: Agregar tags a receta
-      description: |
-        Agrega tags a una receta.
-      operationId: addRecipeTags
-      parameters:
-        - name: recipeId
-          in: path
-          description: ID de la receta.
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Tag'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-    
   /users:
     post:
       tags:
@@ -412,7 +345,7 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /users/{recipeId}/favourites:
+  /users/{userId}/favourites:
     post:
       tags:
         - users
@@ -421,9 +354,9 @@ paths:
         Guarda una receta en favoritos.
       operationId: favouriteRecipe
       parameters:
-        - name: recipeId
+        - name: userId
           in: path
-          description: ID de la receta.
+          description: ID del usuario.
           required: true
           schema:
             type: integer
@@ -432,10 +365,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                userId:
-                  type: integer
+              $ref: '#/components/schemas/Recipe'
       responses:
         '200':
           description: OK
@@ -458,15 +388,15 @@ paths:
         Elimina una receta guardada en favoritos.
       operationId: deleteFavouriteRecipe
       parameters:
-        - name: recipeId
+        - name: userId
           in: path
-          description: ID de la receta.
+          description: ID del usuario.
           required: true
           schema:
             type: integer
-        - name: userId
+        - name: recipeId
           in: query
-          description: ID del usuario.
+          description: ID de la receta.
           required: true
           schema:
             type: integer
@@ -486,15 +416,15 @@ paths:
         Muestra una lista de recetas favoritas.
       operationId: getFavouritesRecipes
       parameters:
-        - name: recipeId
+        - name: userId
           in: path
-          description: ID de la receta.
+          description: ID del usuario.
           required: true
           schema:
             type: integer
-        - name: userId
+        - name: recipeId
           in: query
-          description: ID del usuario.
+          description: ID de la receta.
           required: true
           schema:
             type: integer
@@ -573,48 +503,6 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /users/{userId}/recipes:
-    get:
-      tags:
-        - users
-      summary: Listar recetas de un usuario
-      operationId: listUserRecipes
-      parameters:
-        - name: userId
-          in: path
-          description: ID del usuario.
-          required: true
-          schema:
-            type: integer
-        - name: limit
-          in: query
-          description: Cantidad de recetas a retornar.
-          required: false
-          schema:
-            type: integer
-            default: 10
-        - name: offset
-          in: query
-          description: Cantidad de recetas a saltar.
-          required: false
-          schema:
-            type: integer
-            default: 0
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Recipe'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
 
   /users/{userId}/recipes/{recipeId}:
     get:
