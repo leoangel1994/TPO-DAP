@@ -19,7 +19,14 @@ exports.getFavoriteRecipes = async (userId) => {
 
 // Get recipe by ID
 exports.getRecipesByFilters = async (userId, filters) => {
-    // Implement the logic to get a recipe by ID
+    try {
+        let tags = filters.split(',');
+        let recipes = await Recipe.find({'tags': {$in:tags}, userId: userId});
+        return recipes;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
 }
 
 // Get recipe by ID
@@ -46,7 +53,13 @@ exports.updateRecipeById = async (userId, recipeId, body) => {
 
 // Delete recipe by ID
 exports.deleteRecipeById = async (userId, recipeId) => {
-    // Implement the logic to delete a recipe by ID
+    try {
+        let res = await Recipe.deleteOne({_id: recipeId, userId: userId});
+        return res.deletedCount;
+    } 
+    catch (err) {
+        console.log(err);
+    }
 }
 
 // Rate a recipe by Id
