@@ -1,8 +1,16 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
 import CarouselCards from './carrousel/CarrouselCard';
+import Icon from 'react-native-ico-material-design';
 
 const LandingScreen = () => {
   const linkTo = useLinkTo();
@@ -14,12 +22,42 @@ const LandingScreen = () => {
         <Text style={styles.subTitleText}>¿Qué vas a preparar hoy?</Text>
         <View
           style={{
+            flex: 2,
+            flexDirection: 'row',
             minWidth: '100%',
-            minHeight: 48,
+            minHeight: 64,
             marginTop: 16,
-            marginBottom: 48,
-            backgroundColor: Theme.colors.SECONDARY_3,
-          }}></View>
+            marginBottom: 24,
+          }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Hoy quiero..."></TextInput>
+          <View
+            style={{
+              width: '20%',
+              paddingLeft: 16,
+              justifyContent: 'center',
+              flex: 2,
+            }}>
+            <Pressable
+              style={{
+                backgroundColor: Theme.colors.SECONDARY_2,
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignContent: 'center',
+                height: 48,
+                width: 48,
+              }}>
+              <Icon
+                style={{marginLeft: 'auto', marginRight: 'auto'}}
+                name="filter-results-button"
+                height={20}
+                width={20}
+                color={Theme.colors.NEUTRAL_1}
+              />
+            </Pressable>
+          </View>
+        </View>
         <Text style={styles.subTitleText}>Los mejores calificados</Text>
         <CarouselCards />
       </View>
@@ -49,6 +87,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     marginBottom: 32,
   },
+  input: {...CommonStyle.input, width: '80%'},
 });
 
 export default LandingScreen;
