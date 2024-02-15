@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {PermissionsAndroid, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
@@ -24,6 +24,7 @@ export const NewRecipeScreen1 = () => {
       <PrimaryButton
         text="Siguiente"
         onPress={() => linkTo('/NewRecipe2')}></PrimaryButton>
+      <View style={{padding: 10}}></View>{/* pequeño padding extra por el boton del tab bar que me jode*/}
     </View>
   );
 };

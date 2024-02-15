@@ -20,6 +20,7 @@ import EditRecipeScreen2 from '../components/EditRecipeScreen2';
 import EditRecipeScreen3 from '../components/EditRecipeScreen3';
 import EditRecipeScreen4 from '../components/EditRecipeScreen4';
 import RecipeDetailsScreen from '../components/RecipeDetails';
+import {View} from 'react-native';
 
 export const Screens = {
   Login: 'Login',
@@ -75,6 +76,35 @@ const TabNavigator = () => {
               width={size}
               color={color}
             />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={Screens.NewRecipe1}
+        component={NewRecipeScreen1}
+        options={{
+          title: '',
+          tabBarIcon: ({size, color}) => (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 10, // space from bottombar
+                height: 58,
+                width: 58,
+                borderRadius: 58,
+                backgroundColor: Theme.colors.SECONDARY_2,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: 2,
+                borderColor: Theme.colors.PRIMARY_3
+              }}>
+              <Icon
+                name="add-plus-button"
+                height={size}
+                width={size}
+                color={Theme.colors.NEUTRAL_4}
+              />
+            </View>
           ),
         }}
       />
@@ -170,11 +200,6 @@ const RootNavigator = () => {
               backgroundColor: Theme.colors.SECONDARY_3,
             },
           }}>
-          <Stack.Screen
-            name={Screens.NewRecipe1}
-            component={NewRecipeScreen1}
-            options={{}}
-          />
           <Stack.Screen
             name={Screens.NewRecipe2}
             component={NewRecipeScreen2}
