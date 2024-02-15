@@ -1,35 +1,31 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import { PrimaryButton } from './PrimaryButton';
+import {PrimaryButton} from './PrimaryButton';
 import {useLinkTo} from '@react-navigation/native';
+import CarouselCards from './carrousel/CarrouselCard';
 
 const LandingScreen = () => {
   const linkTo = useLinkTo();
 
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{padding: 30}}>
-          <Text style={styles.titleText}>Hola ~Usuario~</Text>
-          <Text style={styles.subTitleText}>¿Qué vas a preparar hoy?</Text>
-          <View
-            style={{
-              minWidth: '100%',
-              minHeight: 48,
-              marginTop: 16,
-              marginBottom: 48,
-              backgroundColor: Theme.colors.SECONDARY_3,
-            }}></View>
-          <Text style={styles.subTitleText}>Los mejores calificados</Text>
-        </View>
+      <View style={{padding: 30}}>
+        <Text style={styles.titleText}>Hola ~Usuario~</Text>
+        <Text style={styles.subTitleText}>¿Qué vas a preparar hoy?</Text>
         <View
           style={{
             minWidth: '100%',
-            minHeight: 248,
+            minHeight: 48,
+            marginTop: 16,
+            marginBottom: 48,
             backgroundColor: Theme.colors.SECONDARY_3,
           }}></View>
-        <PrimaryButton text="Nueva Receta" onPress={() => linkTo('/NewRecipe1')}></PrimaryButton>
-      </ScrollView>
+        <Text style={styles.subTitleText}>Los mejores calificados</Text>
+        <CarouselCards />
+      </View>
+      <PrimaryButton
+        text="Nueva Receta"
+        onPress={() => linkTo('/NewRecipe1')}></PrimaryButton>
     </View>
   );
 };
