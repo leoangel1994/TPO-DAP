@@ -26,5 +26,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     ...CommonStyle.primaryButtonText,
     textAlign: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });

@@ -19,7 +19,7 @@ const LoginScreen = () => {
       <View style={styles.buttonPosition}>
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
+          color={GoogleSigninButton.Color.Light}
           onPress={() => linkTo('/TabNavigator')}
           /* disabled={this.state.isSigninInProgress}*/
         />
