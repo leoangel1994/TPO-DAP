@@ -33,6 +33,9 @@ router.post('/login', authController.login);
 //Cerrar sesión
 router.post('/logout', authController.logout);
 
+//Refrescar token
+router.post('/refreshToken', authController.refreshToken);
+
 //Obtener receta de un usuario para el Userid:' + req.params.userId + ' y recipeId' + req.params.recipeId
 router.get('/:userId/recipes/:recipeId', recipeController.getRecipeById);
 
