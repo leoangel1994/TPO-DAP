@@ -1,21 +1,28 @@
-import { Key } from "react"
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
+import {Key} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import { Screens } from '../../navigation/RootNavigator';
 
-export const SLIDER_WIDTH = Dimensions.get('window').width - 60
-export const ITEM_WIDTH = Math.round(SLIDER_WIDTH)
+export const SLIDER_WIDTH = Dimensions.get('window').width - 60;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 
-const CarouselCardItem = ({ item, index } : any) => {
+const CarouselCardItem = ({item, index, navigation}: any) => {
   return (
     <View style={styles.container} key={index}>
-      <Image
-        source={{ uri: item.imgUrl }}
-        style={styles.image}
-      />
+      <TouchableOpacity onPress={() => navigation.navigate(Screens.RecipeDetails)}>
+        <Image source={{uri: item.imgUrl}} style={styles.image} />
+      </TouchableOpacity>
       <Text style={styles.header}>{item.title}</Text>
       <Text style={styles.body}>{item.body}</Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: ITEM_WIDTH,
     paddingBottom: 40,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -37,18 +44,18 @@ const styles = StyleSheet.create({
     height: 300,
   },
   header: {
-    color: "#222",
+    color: '#222',
     fontSize: 28,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     paddingLeft: 20,
-    paddingTop: 20
+    paddingTop: 20,
   },
   body: {
-    color: "#222",
+    color: '#222',
     fontSize: 18,
     paddingLeft: 20,
-    paddingRight: 20
-  }
-})
+    paddingRight: 20,
+  },
+});
 
-export default CarouselCardItem
+export default CarouselCardItem;

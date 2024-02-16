@@ -4,7 +4,7 @@ import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarrouselItem'
 import data from './test_data'
 
-const CarouselCards = () => {
+const CarouselCards = ({navigation}: {navigation: any}) => {
   const isCarousel = React.useRef(null)
 
   return (
@@ -14,7 +14,7 @@ const CarouselCards = () => {
         layoutCardOffset={9}
         ref={isCarousel}
         data={data}
-        renderItem={CarouselCardItem}
+        renderItem={({item, index} : any ) => {return <CarouselCardItem item={item} index={index} navigation={navigation}/>}}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
         inactiveSlideShift={0}

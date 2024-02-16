@@ -9,7 +9,7 @@ import {CommonStyle, Theme} from '../../Theme';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
 
-const LandingScreen = () => {
+const LandingScreen = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -54,7 +54,7 @@ const LandingScreen = () => {
           </View>
         </View>
         <Text style={styles.subTitleText}>Los mejores calificados</Text>
-        <CarouselCards />
+        <CarouselCards navigation={navigation}/>
       </View>
     </View>
   );
