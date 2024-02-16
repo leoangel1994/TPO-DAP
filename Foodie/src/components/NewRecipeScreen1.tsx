@@ -1,11 +1,9 @@
-import {PermissionsAndroid, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
-import {useLinkTo} from '@react-navigation/native';
+import {Screens} from '../navigation/RootNavigator';
 
-export const NewRecipeScreen1 = () => {
-  const linkTo = useLinkTo();
-
+export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
       <ScrollView>
@@ -23,8 +21,9 @@ export const NewRecipeScreen1 = () => {
       </ScrollView>
       <PrimaryButton
         text="Siguiente"
-        onPress={() => linkTo('/NewRecipe2')}></PrimaryButton>
-      <View style={{padding: 10}}></View>{/* pequeño padding extra por el boton del tab bar que me jode*/}
+        onPress={() => navigation.navigate(Screens.NewRecipe2)}></PrimaryButton>
+      <View style={{padding: 10}}></View>
+      {/* pequeño padding extra por el boton del tab bar que me jode*/}
     </View>
   );
 };

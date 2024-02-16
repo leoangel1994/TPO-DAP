@@ -1,11 +1,9 @@
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
-import {useLinkTo} from '@react-navigation/native';
+import { Screens } from '../navigation/RootNavigator';
 
-export const NewRecipeScreen4 = () => {
-  const linkTo = useLinkTo();
-
+export const NewRecipeScreen4 = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
       <ScrollView>
@@ -22,8 +20,8 @@ export const NewRecipeScreen4 = () => {
         </View>
       </ScrollView>
       <PrimaryButton
-        text="Siguiente"
-        onPress={() => linkTo('/Landing')}></PrimaryButton>
+        text="Finalizar"
+        onPress={() => navigation.navigate(Screens.Landing)}></PrimaryButton>
     </View>
   );
 };

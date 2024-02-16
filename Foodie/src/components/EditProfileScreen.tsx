@@ -1,11 +1,7 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
-import {useLinkTo} from '@react-navigation/native';
 
 const EditProfileScreen = () => {
-  const linkTo = useLinkTo();
-
   return (
     <View style={styles.background}>
       <ScrollView>

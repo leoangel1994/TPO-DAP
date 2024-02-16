@@ -1,11 +1,9 @@
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
-import {useLinkTo} from '@react-navigation/native';
+import {Screens} from '../navigation/RootNavigator';
 
-export const EditRecipeScreen3 = () => {
-  const linkTo = useLinkTo();
-
+export const EditRecipeScreen3 = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
       <ScrollView>
@@ -17,12 +15,16 @@ export const EditRecipeScreen3 = () => {
           <TextInput style={styles.input} placeholder="Paso 1"></TextInput>
           <PrimaryButton // cambiar a un componente que sea boton redondo +...
             text="+"
-            onPress={() => console.log('yo agrego un TextInput arriba. ok.')}></PrimaryButton>
+            onPress={() =>
+              console.log('yo agrego un TextInput arriba. ok.')
+            }></PrimaryButton>
         </View>
       </ScrollView>
       <PrimaryButton
         text="Siguiente"
-        onPress={() => linkTo('/EditRecipe4')}></PrimaryButton>
+        onPress={() =>
+          navigation.navigate(Screens.EditRecipe4)
+        }></PrimaryButton>
     </View>
   );
 };

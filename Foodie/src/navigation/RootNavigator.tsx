@@ -31,6 +31,7 @@ export const Screens = {
   Profile: 'Profile',
   MyRecipes: 'MyRecipes',
   EditProfile: 'EditProfile',
+  PlusButton: 'PlusButton',
   NewRecipe1: 'NewRecipe1',
   NewRecipe2: 'NewRecipe2',
   NewRecipe3: 'NewRecipe3',
@@ -40,6 +41,11 @@ export const Screens = {
   EditRecipe3: 'EditRecipe3',
   EditRecipe4: 'EditRecipe4',
   RecipeDetails: 'RecipeDetails',
+};
+
+// workaround para el + button del tabbar
+export const PlusButtonNullComponent = () => {
+  return <></>;
 };
 
 const Tab = createBottomTabNavigator();
@@ -80,8 +86,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={Screens.NewRecipe1}
-        component={NewRecipeScreen1}
+        name={Screens.PlusButton}
+        component={PlusButtonNullComponent}
         options={{
           title: '',
           tabBarIcon: ({size, color}) => (
@@ -96,7 +102,7 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderWidth: 2,
-                borderColor: Theme.colors.PRIMARY_3
+                borderColor: Theme.colors.PRIMARY_3,
               }}>
               <Icon
                 name="add-plus-button"
@@ -107,6 +113,12 @@ const TabNavigator = () => {
             </View>
           ),
         }}
+        listeners={({navigation}) => ({
+          tabPress: e => {
+            e.preventDefault(); //workaround porque no logré que funcione de otra manera.
+            navigation.navigate(Screens.NewRecipe1);
+          },
+        })}
       />
       <Tab.Screen
         name={Screens.Favorites}
@@ -200,6 +212,11 @@ const RootNavigator = () => {
               backgroundColor: Theme.colors.SECONDARY_3,
             },
           }}>
+          <Stack.Screen
+            name={Screens.NewRecipe1}
+            component={NewRecipeScreen1}
+            options={{}}
+          />
           <Stack.Screen
             name={Screens.NewRecipe2}
             component={NewRecipeScreen2}

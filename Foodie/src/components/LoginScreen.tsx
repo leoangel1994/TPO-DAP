@@ -1,14 +1,13 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import {useLinkTo} from '@react-navigation/native';
 
 import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
+import { Screens } from '../navigation/RootNavigator';
 
-const LoginScreen = () => {
-  const linkTo = useLinkTo();
+const LoginScreen = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.background}>
@@ -20,7 +19,7 @@ const LoginScreen = () => {
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
-          onPress={() => linkTo('/TabNavigator')}
+          onPress={() => navigation.navigate(Screens.TabNavigator)}
           /* disabled={this.state.isSigninInProgress}*/
         />
       </View>
