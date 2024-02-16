@@ -1,3 +1,4 @@
+import React from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
@@ -11,10 +12,12 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
           <Text style={styles.titleText}>Preparación</Text>
           <TextInput
             style={styles.input}
-            placeholder="Cantidad de Platos"></TextInput>
+            placeholder="Cantidad de Platos"
+          />
           <TextInput
             style={styles.input}
-            placeholder="Tiempo de preparación"></TextInput>
+            placeholder="Tiempo de preparación"
+          />
           <Text style={{...styles.titleText, marginTop: 32}}>Ingredientes</Text>
           <View
             style={{
@@ -26,16 +29,25 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
             }}>
             <View style={{width: '50%'}}>
               <Text style={styles.subTitleText}>Nombre</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Nombre del Ingrediente"
+              />
             </View>
-            <Text style={styles.subTitleText}>Cantidad</Text>
+            <View style={{width: '50%'}}>
+              <Text style={styles.subTitleText}>Cantidad</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Cantidad del Ingrediente"
+              />
+            </View>
           </View>
-
-          <View style={{width: '50%'}}></View>
         </View>
       </ScrollView>
       <PrimaryButton
         text="Siguiente"
-        onPress={() => navigation.navigate(Screens.NewRecipe3)}></PrimaryButton>
+        onPress={() => navigation.navigate(Screens.NewRecipe3)}
+      />
     </View>
   );
 };
@@ -48,7 +60,11 @@ const styles = StyleSheet.create({
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
-  input: CommonStyle.input,
+  input: {
+    ...CommonStyle.input,
+    marginTop: 8,
+  },
 });
 
 export default NewRecipeScreen2;
+
