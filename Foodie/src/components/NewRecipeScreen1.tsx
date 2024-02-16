@@ -22,8 +22,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
       <PrimaryButton
         text="Siguiente"
         onPress={() => navigation.navigate(Screens.NewRecipe2)}></PrimaryButton>
-      <View style={{padding: 10}}></View>
-      {/* pequeño padding extra por el boton del tab bar que me jode*/}
     </View>
   );
 };

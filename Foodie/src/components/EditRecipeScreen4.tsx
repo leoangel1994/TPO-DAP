@@ -28,7 +28,7 @@ export const EditRecipeScreen4 = ({navigation}: {navigation: any}) => {
         </View>
       </ScrollView>
       <PrimaryButton
-        text="Siguiente"
+        text="Finalizar"
         onPress={() => navigation.navigate(Screens.Landing)}></PrimaryButton>
     </View>
   );
