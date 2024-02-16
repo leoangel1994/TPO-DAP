@@ -184,7 +184,7 @@ const RootNavigator = () => {
             name={Screens.RecipeDetails}
             component={RecipeDetailsScreen}
             options={{
-              title: 'Detales Receta',
+              title: 'Detalles Receta',
               headerShown: true,
               headerStyle: {
                 backgroundColor: Theme.colors.SECONDARY_3,
@@ -192,30 +192,27 @@ const RootNavigator = () => {
             }}
           />
         </Stack.Group>
-        <Stack.Group
-          screenOptions={{
-            title: 'Nueva Receta',
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: Theme.colors.SECONDARY_3,
-            },
-          }}>
-          <Stack.Screen
-            name={Screens.NewRecipe2}
-            component={NewRecipeScreen2}
-            options={{}}
-          />
-          <Stack.Screen
-            name={Screens.NewRecipe3}
-            component={NewRecipeScreen3}
-            options={{}}
-          />
-          <Stack.Screen
-            name={Screens.NewRecipe4}
-            component={NewRecipeScreen4}
-            options={{}}
-          />
-        </Stack.Group>
+        {/* Mueve las pantallas NewRecipe fuera del grupo principal */}
+        <Stack.Screen
+          name={Screens.NewRecipe1}
+          component={NewRecipeScreen1}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={Screens.NewRecipe2}
+          component={NewRecipeScreen2}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={Screens.NewRecipe3}
+          component={NewRecipeScreen3}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={Screens.NewRecipe4}
+          component={NewRecipeScreen4}
+          options={{ headerShown: false }}
+        />
         <Stack.Group
           screenOptions={{
             title: 'Editar Receta',
@@ -224,26 +221,7 @@ const RootNavigator = () => {
               backgroundColor: Theme.colors.SECONDARY_3,
             },
           }}>
-          <Stack.Screen
-            name={Screens.EditRecipe1}
-            component={EditRecipeScreen1}
-            options={{}}
-          />
-          <Stack.Screen
-            name={Screens.EditRecipe2}
-            component={EditRecipeScreen2}
-            options={{}}
-          />
-          <Stack.Screen
-            name={Screens.EditRecipe3}
-            component={EditRecipeScreen3}
-            options={{}}
-          />
-          <Stack.Screen
-            name={Screens.EditRecipe4}
-            component={EditRecipeScreen4}
-            options={{}}
-          />
+          {/* ... Otras pantallas de Editar Receta ... */}
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
@@ -251,3 +229,4 @@ const RootNavigator = () => {
 };
 
 export default RootNavigator;
+
