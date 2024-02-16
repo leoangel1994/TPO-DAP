@@ -55,6 +55,7 @@ const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName={Screens.Landing}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarStyle: {backgroundColor: Theme.colors.SECONDARY_3},
         tabBarInactiveTintColor: Theme.colors.PRIMARY_1,
