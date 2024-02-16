@@ -20,17 +20,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const [images, setImages] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
 
-  const openCamera = async () => {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      const result = await launchCamera();
-      setImages([...images, result.assets[0].uri]);
-      // No avanzar al siguiente paso en NewRecipeScreen1
-    }
-  };
-
   const openGallery = async () => {
     const result = await launchImageLibrary();
     if (images.length < 3) {
