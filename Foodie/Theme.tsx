@@ -14,6 +14,8 @@ export const Theme = {
   fontSize: {
     TITLE: 30,
     SUBTITLE: 16,
+    CARD_TITLE: 24,
+    CARD_SUBTITLE: 16,
   },
   fontFamily: {
     BOLD: 'Poppins-Bold',

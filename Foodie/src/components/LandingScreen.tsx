@@ -1,20 +1,15 @@
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
-import {useLinkTo} from '@react-navigation/native';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
 
-const LandingScreen = () => {
-  const linkTo = useLinkTo();
-
+const LandingScreen = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -59,11 +54,8 @@ const LandingScreen = () => {
           </View>
         </View>
         <Text style={styles.subTitleText}>Los mejores calificados</Text>
-        <CarouselCards />
+        <CarouselCards navigation={navigation}/>
       </View>
-      <PrimaryButton
-        text="Nueva Receta"
-        onPress={() => linkTo('/NewRecipe1')}></PrimaryButton>
     </View>
   );
 };
