@@ -13,11 +13,10 @@ import Swiper from 'react-native-swiper';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
 import { SmallButton } from './SmallButton';
-import { useLinkTo } from '@react-navigation/native';
+import {Screens} from '../navigation/RootNavigator';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
-const NewRecipeScreen1 = ({ navigation }) => {
-  const linkTo = useLinkTo();
+export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const [images, setImages] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -48,7 +47,7 @@ const NewRecipeScreen1 = ({ navigation }) => {
   const navigateToNextScreen = () => {
     // Avanzar al siguiente paso y navegar a NewRecipeScreen2
     setCurrentStep(currentStep + 1);
-    navigation.navigate('NewRecipe2');
+    navigation.navigate(Screens.NewRecipe2);
   };
 
   return (
@@ -203,9 +202,3 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen1;
-
-
-
-
-
-

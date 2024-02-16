@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce8cf57a-476b-4788-ab71-0173b8893497" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Foodie/src/components/NewRecipeScreen2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/src/components/NewRecipeScreen2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/src/components/NewRecipeScreen1.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/src/components/NewRecipeScreen1.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/src/components/SmallButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Foodie/src/navigation/RootNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Foodie/src/navigation/RootNavigator.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +42,6 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/pedromoura/Documents/GitHub/TPO-DAP2/Foodie/android/app/src/main/res/mipmap-xxxhdpi",
     "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
