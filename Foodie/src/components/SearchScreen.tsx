@@ -2,7 +2,6 @@ import {
   FlatList,
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +11,8 @@ import {CommonStyle, Theme} from '../../Theme';
 import {Screens} from '../navigation/RootNavigator';
 import Icon from 'react-native-ico-material-design';
 import data from './carrousel/test_data';
+import ModalFiltros from './FiltersModal';
+import {useState} from 'react';
 
 const Item = ({title}: any) => (
   <View style={styles.listItem}>
@@ -20,6 +21,8 @@ const Item = ({title}: any) => (
 );
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -48,9 +51,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
               flex: 2,
             }}>
             <Pressable
-              onPress={() => {
-                console.log('TOOD: Modal');
-              }}
+              onPress={() => setModalVisible(true)}
               style={{
                 backgroundColor: Theme.colors.SECONDARY_2,
                 borderRadius: 10,
@@ -77,6 +78,17 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           />
         </SafeAreaView>
       </View>
+      <ModalFiltros
+        visible={modalVisible}
+        onFiltersChanged={(index: number, value: boolean) => {
+          let newFilters = [...filters]
+          newFilters[index] = value;
+          setFilters(newFilters)
+        }}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 };

@@ -15,7 +15,7 @@ import ModalFiltros from './FiltersModal';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  let filters = [false, false, false, false, false, false, false, false, false];
+  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -70,7 +70,9 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       <ModalFiltros
         visible={modalVisible}
         onFiltersChanged={(index : number, value : boolean) => {
-          filters[index] = value;
+          let newFilters = [...filters]
+          newFilters[index] = value;
+          setFilters(newFilters)
         }}
         onRequestClose={() => {
           setModalVisible(false);
