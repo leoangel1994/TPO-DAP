@@ -2,9 +2,8 @@ import React from 'react'
 import { View } from "react-native"
 import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarrouselItem'
-import data from './test_data'
 
-const CarouselCards = ({navigation}: {navigation: any}) => {
+const CarouselCards = ({navigation, data}: {navigation: any, data: any}) => {
   const isCarousel = React.useRef(null)
 
   return (

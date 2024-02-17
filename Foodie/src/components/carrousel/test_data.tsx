@@ -1,6 +1,6 @@
 // en base a lo que veo del diseño. despues usar la estructura posta...
 // ojo con la cantidad de tags para esta pantalla, tienen que ser limitadas...
-const data = [
+const test_data = [
   {
     id: 1,
     title: 'Arroz con Pollo',
@@ -53,4 +53,4 @@ const data = [
   },
 ];
 
-export default data;
+export default test_data;

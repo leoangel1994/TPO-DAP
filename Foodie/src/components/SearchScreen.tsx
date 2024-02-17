@@ -1,8 +1,5 @@
 import {
-  FlatList,
-  Image,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,24 +8,11 @@ import {
 import {CommonStyle, Theme} from '../../Theme';
 import {Screens} from '../navigation/RootNavigator';
 import Icon from 'react-native-ico-material-design';
-import data from './carrousel/test_data';
+import test_data from './carrousel/test_data';
 import ModalFiltros from './FiltersModal';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-
-const Item = ({data}: any) => (
-  <View style={styles.listItem}>
-    <View style={{flex: 1, flexDirection: 'row'}}>
-      <View style={{width: '42%'}}>
-        <Image source={{uri: data.imgUrl}} style={styles.listImage} />
-      </View>
-      <View style={{width: '58%'}}>
-        <Text style={styles.listItemTitle}>{data.title}</Text>
-        <Text style={styles.listDescriptionText}>{data.description}</Text>
-      </View>
-    </View>
-  </View>
-);
+import RecipesFlatList from './RecipesFlatList';
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -105,15 +89,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           </View>
         </View>
       </View>
-      <SafeAreaView style={styles.listContainer}>
-        <FlatList
-          data={data}
-          renderItem={itemData => {
-            return <Item data={itemData.item} />;
-          }}
-          keyExtractor={item => String(item.id)}
-        />
-      </SafeAreaView>
+      <RecipesFlatList dataList={test_data}/>
       <ModalFiltros
         initialState={[...filters]}
         visible={modalVisible}

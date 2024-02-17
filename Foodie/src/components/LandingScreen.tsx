@@ -5,6 +5,7 @@ import Icon from 'react-native-ico-material-design';
 import {useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
+import test_data from './carrousel/test_data';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -74,7 +75,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
           </View>
         </View>
         <Text style={styles.subTitleText}>Los mejores calificados</Text>
-        <CarouselCards navigation={navigation} />
+        <CarouselCards navigation={navigation} data={test_data} />
       </View>
       <ModalFiltros
         visible={modalVisible}
