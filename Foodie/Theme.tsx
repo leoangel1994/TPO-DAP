@@ -10,6 +10,8 @@ export const Theme = {
     NEUTRAL_2: '#484848',
     NEUTRAL_3: '#797979',
     NEUTRAL_4: '#FFFFFF',
+    NEUTRAL_5: '#F5F5F5',
+    OPACITY: '#12121288',
   },
   fontSize: {
     TITLE: 30,
