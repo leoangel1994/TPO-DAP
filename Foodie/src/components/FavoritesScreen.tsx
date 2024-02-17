@@ -1,17 +1,16 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
+import RecipesFlatList from './RecipesFlatList';
+import test_data from './carrousel/test_data';
 
 const FavoritesScreen = () => {
 
   return (
     <View style={styles.background}>
-      <ScrollView>
         <View style={{padding: 30}}>
-          <Text style={styles.titleText}>Favorites Screen</Text>
-          <Text style={styles.subTitleText}>TODO</Text>
+          <Text style={styles.titleText}>Mis Favoritos</Text>
         </View>
-      </ScrollView>
+        <RecipesFlatList dataList={test_data}/>
     </View>
   );
 };
