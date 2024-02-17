@@ -24,18 +24,14 @@ const Item = ({title}: any) => (
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const route : any = useRoute() // For searches received from Landing Screen
-  const initFilters = route.params?.filtersApplied;
-  const initSearchText = route.params?.searchedText;
   
-  // TODO: HELP WANTED - solo funciona cuando aun no se entro a la pantalla... como hago en general?
-  console.log("search test: ", initSearchText)
-  console.log("Init Filter: ", initFilters)
-  const [searchText, setSearchText] = useState(initSearchText ? initSearchText : '');
-  const [filters, setFilters] = useState( initFilters ? [...initFilters] : [false, false, false, false, false, false, false, false, false]);
-  console.log("setted Filter: ", filters)
-  console.log(searchText)
+  const [searchText, setSearchText] = useState('');
+  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
 
-  useEffect(()=>{}, [searchText])
+  useEffect(()=>{
+    setSearchText(route.params?.filtersApplied ?? [false, false, false, false, false, false, false, false, false])
+    setSearchText(route.params?.searchedText ?? "")
+  }, [route.params?.filtersApplied, route.params?.searchedText])
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
