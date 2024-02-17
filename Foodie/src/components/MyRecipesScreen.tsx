@@ -10,7 +10,7 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
       <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Mis Recetas</Text>
       </View>
-      <RecipesFlatList dataList={test_data} />
+      <RecipesFlatList dataList={test_data} onNextPress={() => navigation.navigate(Screens.RecipeDetails)}/>
     </View>
   );
 };

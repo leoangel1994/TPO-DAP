@@ -1,14 +1,15 @@
 import {
   FlatList,
   Image,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { CommonStyle, Theme } from '../../Theme';
+import {Theme} from '../../Theme';
 
-const Item = ({data}: any) => (
+const Item = ({data, onNextPress}: any) => (
   <View style={styles.listItem}>
     <View style={{flex: 1, flexDirection: 'row'}}>
       <View style={{width: '42%'}}>
@@ -17,18 +18,23 @@ const Item = ({data}: any) => (
       <View style={{width: '58%'}}>
         <Text style={styles.listItemTitle}>{data.title}</Text>
         <Text style={styles.listDescriptionText}>{data.description}</Text>
+        <Pressable
+          style={styles.nextPressable}
+          onPress={() => onNextPress(data.id)}>
+          <Text style={styles.nextArrow}>{'>>'}</Text>
+        </Pressable>
       </View>
     </View>
   </View>
 );
 
-const RecipesFlatList = ({dataList} : any) => {
+const RecipesFlatList = ({dataList, onNextPress}: any) => {
   return (
     <SafeAreaView style={styles.listContainer}>
       <FlatList
         data={dataList}
         renderItem={itemData => {
-          return <Item data={itemData.item} />;
+          return <Item data={itemData.item} onNextPress={onNextPress} />;
         }}
         keyExtractor={item => String(item.id)}
       />
@@ -69,6 +75,17 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 'auto',
     paddingTop: 0,
+  },
+  nextPressable: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  nextArrow: {
+    fontFamily: Theme.fontFamily.BOLD,
+    fontSize: Theme.fontSize.LIST_ITEM_TITLE,
+    color: Theme.colors.SECONDARY_1,
+    alignSelf: 'flex-end',
+    marginRight: 8,
   },
 });
 

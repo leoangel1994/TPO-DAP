@@ -89,7 +89,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           </View>
         </View>
       </View>
-      <RecipesFlatList dataList={test_data}/>
+      <RecipesFlatList dataList={test_data} onNextPress={() => navigation.navigate(Screens.RecipeDetails)}/>
       <ModalFiltros
         initialState={[...filters]}
         visible={modalVisible}

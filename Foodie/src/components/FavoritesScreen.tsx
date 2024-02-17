@@ -2,15 +2,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import RecipesFlatList from './RecipesFlatList';
 import test_data from './carrousel/test_data';
+import { Screens } from '../navigation/RootNavigator';
 
-const FavoritesScreen = () => {
+const FavoritesScreen = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.background}>
         <View style={{padding: 30}}>
           <Text style={styles.titleText}>Mis Favoritos</Text>
         </View>
-        <RecipesFlatList dataList={test_data}/>
+        <RecipesFlatList dataList={test_data} onNextPress={() => navigation.navigate(Screens.RecipeDetails)}/>
     </View>
   );
 };
