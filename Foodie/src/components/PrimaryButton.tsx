@@ -1,20 +1,24 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {CommonStyle} from '../../Theme';
+import {CommonStyle, Theme} from '../../Theme';
 
 interface PrimaryButtonProps {
   text: string;
   onPress: CallableFunction;
+  backgroundColor?: string
 }
 
 export const PrimaryButton = (props: PrimaryButtonProps) => {
   return (
-    <Pressable style={styles.primaryButton} onPress={() => props.onPress()}>
+    <Pressable
+      style={{
+        ...styles.primaryButton,
+        backgroundColor: props.backgroundColor ?? Theme.colors.SECONDARY_2,
+      }}
+      onPress={() => props.onPress()}>
       <Text style={styles.primaryButtonText}>{props.text}</Text>
     </Pressable>
   );
 };
-
-// TODO: centrar el div reloaded
 
 const styles = StyleSheet.create({
   primaryButton: {

@@ -12,6 +12,7 @@ export const Theme = {
     NEUTRAL_4: '#FFFFFF',
     NEUTRAL_5: '#F5F5F5',
     OPACITY: '#12121288',
+    DANGER: '#C84326',
   },
   fontSize: {
     TITLE: 30,
