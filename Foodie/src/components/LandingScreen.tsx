@@ -11,6 +11,7 @@ import {CommonStyle, Theme} from '../../Theme';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
 import {useState} from 'react';
+import { Screens } from '../navigation/RootNavigator';
 
 const tagColor = (isPressed: boolean) => {
   return isPressed ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_4;
@@ -41,12 +42,15 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
             flexDirection: 'row',
             minWidth: '100%',
             minHeight: 64,
+            maxHeight: 64,
             marginTop: 16,
             marginBottom: 24,
           }}>
           <TextInput
             style={styles.input}
-            placeholder="Hoy quiero..."></TextInput>
+            placeholder="Hoy quiero..."
+            onSubmitEditing={() => {navigation.navigate(Screens.Search)}}
+            ></TextInput>
           <View
             style={{
               width: '20%',
