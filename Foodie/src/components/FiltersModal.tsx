@@ -1,5 +1,5 @@
 import {Theme} from '../../Theme';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Modal,
   Pressable,
@@ -21,15 +21,27 @@ interface ModalFiltrosProps {
 }
 
 const ModalFiltros = (props: ModalFiltrosProps) => {
-  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] = useState(props.initialState[0]);
-  const [filtersvegetariana, setFiltersvegetariana] = useState(props.initialState[1]);
-  const [filtersvegana, setFiltersvegana] = useState(props.initialState[2]);
-  const [filtersaptaCeliaco, setFiltersaptaCeliaco] = useState(props.initialState[3]);
-  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] = useState(props.initialState[4]);
-  const [filterspromueveFlora, setFilterspromueveFlora] = useState(props.initialState[5]);
-  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(props.initialState[6]);
-  const [filtersBajaEnSodio, setFiltersBajaEnSodio] = useState(props.initialState[7]);
-  const [filtersBajaEnCarbo, setFiltersBajaEnCarbo] = useState(props.initialState[8]);
+  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] = useState(false);
+  const [filtersvegetariana, setFiltersvegetariana] = useState(false);
+  const [filtersvegana, setFiltersvegana] = useState(false);
+  const [filtersaptaCeliaco, setFiltersaptaCeliaco] = useState(false);
+  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] = useState(false);
+  const [filterspromueveFlora, setFilterspromueveFlora] = useState(false);
+  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(false);
+  const [filtersBajaEnSodio, setFiltersBajaEnSodio] = useState(false);
+  const [filtersBajaEnCarbo, setFiltersBajaEnCarbo] = useState(false);
+
+  useEffect(()=>{
+    setFiltersrapidaPreparacion(props.initialState[0]);
+    setFiltersvegetariana(props.initialState[1]);
+    setFiltersvegana(props.initialState[2]);
+    setFiltersaptaCeliaco(props.initialState[3]);
+    setFiltersestimulaSistInmune(props.initialState[4]);
+    setFilterspromueveFlora(props.initialState[5]);
+    setFiltersAntiInflamatoria(props.initialState[6]);
+    setFiltersBajaEnSodio(props.initialState[7]);
+    setFiltersBajaEnCarbo(props.initialState[8]);
+  }, [props.initialState])
 
   return (
     <Modal

@@ -29,7 +29,9 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
 
   useEffect(()=>{
-    setSearchText(route.params?.filtersApplied ?? [false, false, false, false, false, false, false, false, false])
+    console.log("ue", route.params?.filtersApplied)
+    console.log("ue", route.params?.searchedText)
+    setFilters(route.params?.filtersApplied ? [...route.params?.filtersApplied] : [false, false, false, false, false, false, false, false, false])
     setSearchText(route.params?.searchedText ?? "")
   }, [route.params?.filtersApplied, route.params?.searchedText])
   return (
