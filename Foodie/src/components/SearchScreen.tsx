@@ -129,35 +129,6 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
-  listItem: {
-    backgroundColor: Theme.colors.NEUTRAL_4,
-    padding: 0,
-    marginVertical: 12,
-    marginHorizontal: 20,
-    borderRadius: 10,
-  },
-  listImage: {
-    borderRadius: 10,
-    height: 136,
-    width: '100%',
-  },
-  listItemTitle: {
-    color: Theme.colors.SECONDARY_1,
-    fontFamily: Theme.fontFamily.SEMIBOLD,
-    fontSize: Theme.fontSize.LIST_ITEM_TITLE,
-    marginLeft: 20,
-    marginRight: 'auto',
-    paddingTop: 8,
-    marginBottom: 16,
-  },
-  listDescriptionText: {
-    color: Theme.colors.NEUTRAL_1,
-    fontFamily: Theme.fontFamily.REGULAR,
-    fontSize: Theme.fontSize.LIST_ITEM_TEXT,
-    marginLeft: 20,
-    marginRight: 'auto',
-    paddingTop: 0,
-  },
 });
 
 export default SearchScreen;
