@@ -1,26 +1,23 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
-import { Screens } from '../navigation/RootNavigator';
+import {Screens} from '../navigation/RootNavigator';
+import RecipesFlatList from './RecipesFlatList';
+import test_data from './carrousel/test_data';
 
 const MyRecipesScreen = ({navigation}: {navigation: any}) => {
-
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{padding: 30}}>
-          <Text style={styles.titleText}>Mis Recetas</Text>
-          <Text style={styles.subTitleText}>TODO</Text>
-        </View>
-        <PrimaryButton text="Detalle Receta X" onPress={() => navigation.navigate(Screens.RecipeDetails)}></PrimaryButton>
-        <PrimaryButton text="Editar Receta X" onPress={() => navigation.navigate(Screens.EditRecipe1)}></PrimaryButton>
-      </ScrollView>
+      <View style={styles.mainContainer}>
+        <Text style={styles.titleText}>Mis Recetas</Text>
+      </View>
+      <RecipesFlatList dataList={test_data} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',
