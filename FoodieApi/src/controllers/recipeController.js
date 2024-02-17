@@ -1,17 +1,21 @@
 const recipeService = require('../services/recipeService');
 var mongoose = require('mongoose');
+const getProfileId = require('../utils/jwtHelper').getProfileId;
 
 exports.getRecipesByFilters = async (req, res) => {
   try {
-    const userId = '65cccd19e15354a46e9714ed';//TODO: get user id from session
-    const recipes = await recipeService.getRecipesByFilters(userId, req.query.filters);
+    //Get user from token
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
     
+    const recipes = await recipeService.getRecipesByFilters(userId, req.query.filters);
     if (recipes == null){
       res.status(404).json({ error: 'Recipes not found' });
       return;
     } 
     res.json(recipes);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -19,7 +23,10 @@ exports.getRecipesByFilters = async (req, res) => {
 exports.getRecipeById = async (req, res) => {
   // Implement logic to get a recipe by ID
   try {
-    const userId = '65cccd19e15354a46e9714ed';//TODO: get user id from session
+    //Get user from token
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+
     const recipe = await recipeService.getRecipeById(userId, req.params.id);
 
     if (recipe == null){
@@ -33,9 +40,10 @@ exports.getRecipeById = async (req, res) => {
 }
 
 exports.createRecipe = async (req, res) => {
-  // Implement logic to get recipes by filters
   try {
-    const userId = new mongoose.Types.ObjectId();//TODO: get user id from session
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+    
     const recipe = await recipeService.createRecipe(userId, req.body);
     
     res.json(recipe);
@@ -46,9 +54,10 @@ exports.createRecipe = async (req, res) => {
 }
 
 exports.updateRecipeById = async (req, res) => {
-  // Implement logic to update a recipe by ID
   try {
-    const userId = '65cccd19e15354a46e9714ed';//TODO: get user id from session
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+    
     const recipe = await recipeService.updateRecipeById(userId, req.params.id, req.body);
     
     if (recipe == null){
@@ -62,9 +71,10 @@ exports.updateRecipeById = async (req, res) => {
 }
 
 exports.deleteRecipeById = async (req, res) => {
-  // Implement logic to delete a recipe by ID
   try {
-    const userId = '65cd2a02e02142d99843a0c5'; //TODO: Get user id from session
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+    
     let result = await recipeService.deleteRecipeById(userId, req.params.id);
     if (result == 0){
       res.status(404).json({ error: 'Recipe not found' });

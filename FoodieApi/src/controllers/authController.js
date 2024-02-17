@@ -22,7 +22,7 @@ exports.logout = async (req, res) => {
 
 exports.refreshToken = async (req, res) => {
   try {
-    const refreshToken = req.body.token;
+    const refreshToken = req.body.refreshToken;
     if (refreshToken == null) return res.sendStatus(401);
 
     const newToken = await authService.refreshToken(refreshToken);

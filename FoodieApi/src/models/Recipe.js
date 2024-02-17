@@ -20,7 +20,7 @@ const RecipeSchema = new Schema({
     files: []
   },
   youtubeLink: { type: String, default: '' },
-  userId: { type: Schema.ObjectId, ref: 'User' },
+  profileId: String,
   tags: [String],
   ingredients: [IngredientSchema],
   nutritionalProperties: {

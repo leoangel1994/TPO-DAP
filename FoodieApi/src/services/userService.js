@@ -1,5 +1,6 @@
 // Import User model
 const User = require('../models/User');
+const auth = require('../services/authService');
 
 // Create a new user
 exports.createUser = async () => {

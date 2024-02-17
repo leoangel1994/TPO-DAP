@@ -3,25 +3,25 @@ const Recipe = require('../models/Recipe');
 const mongoose = require('mongoose');
 
 // Save recipe to favorites
-exports.saveRecipeToFavorites = async (userId, recipeId) => {
+exports.saveRecipeToFavorites = async (profileId, recipeId) => {
     // Implement the logic to save a recipe to favorites
 }
 
 // Remove recipe from favorites
-exports.removeRecipeFromFavorites = async (userId, recipeId) => {
+exports.removeRecipeFromFavorites = async (profileId, recipeId) => {
     // Implement the logic to remove a recipe from favorites
 }
 
 // Get favorite recipes by user ID
-exports.getFavoriteRecipes = async (userId) => {
+exports.getFavoriteRecipes = async (profileId) => {
     // Implement the logic to get favorite recipes by user ID
 }
 
 // Get recipe by ID
-exports.getRecipesByFilters = async (userId, filters) => {
+exports.getRecipesByFilters = async (profileId, filters) => {
     try {
         let tags = filters.split(',');
-        let recipes = await Recipe.find({'tags': {$in:tags}, userId: userId});
+        let recipes = await Recipe.find({'tags': {$in:tags}, profileId: profileId});
         return recipes;
     } 
     catch (err) {
@@ -30,9 +30,9 @@ exports.getRecipesByFilters = async (userId, filters) => {
 }
 
 // Get recipe by ID
-exports.getRecipeById = async (userId, recipeId) => {
+exports.getRecipeById = async (profileId, recipeId) => {
     try {
-        let recipe = await Recipe.findOne({_id: recipeId, userId: userId});
+        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId});
         return recipe;
     } 
     catch (err) {
@@ -41,9 +41,9 @@ exports.getRecipeById = async (userId, recipeId) => {
 }
 
 // Update recipe by ID
-exports.updateRecipeById = async (userId, recipeId, body) => {
+exports.updateRecipeById = async (profileId, recipeId, body) => {
     try {
-        let recipe = await Recipe.findOneAndUpdate({_id: recipeId, userId: userId}, body, { new: true });
+        let recipe = await Recipe.findOneAndUpdate({_id: recipeId, profileId: profileId}, body, { new: true });
         return recipe;
     } 
     catch (err) {
@@ -52,9 +52,9 @@ exports.updateRecipeById = async (userId, recipeId, body) => {
 }
 
 // Delete recipe by ID
-exports.deleteRecipeById = async (userId, recipeId) => {
+exports.deleteRecipeById = async (profileId, recipeId) => {
     try {
-        let res = await Recipe.deleteOne({_id: recipeId, userId: userId});
+        let res = await Recipe.deleteOne({_id: recipeId, profileId: profileId});
         return res.deletedCount;
     } 
     catch (err) {
@@ -63,12 +63,12 @@ exports.deleteRecipeById = async (userId, recipeId) => {
 }
 
 // Rate a recipe by Id
-exports.rateRecipeById = async (userId, recipeId, rate) => {
+exports.rateRecipeById = async (profileId, recipeId, rate) => {
     //implement recipe rating logic
 }
 
-exports.createRecipe = async (userId, body) => {
-    body.userId = userId;
+exports.createRecipe = async (profileId, body) => {
+    body.profileId = profileId;
     const recipe = new Recipe(body);
     try {
         await recipe.save();
