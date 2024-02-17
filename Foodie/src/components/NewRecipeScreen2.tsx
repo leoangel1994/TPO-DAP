@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   addButtonText: {
-    color: Theme.colors.WHITE,
+    color: Theme.colors.NEUTRAL_4,
     fontSize: 20,
   },
 });
