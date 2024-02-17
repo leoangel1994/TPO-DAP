@@ -1,10 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
@@ -12,10 +6,20 @@ import {useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 
-
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
+  const [searchText, setSearchText] = useState('');
+  const [filters, setFilters] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -34,8 +38,13 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
           <TextInput
             style={styles.input}
             placeholder="Hoy quiero..."
+            onChangeText={newText => setSearchText(newText)}
+            defaultValue={searchText}
             onSubmitEditing={() => {
-              navigation.navigate(Screens.Search);
+              navigation.navigate(Screens.Search, {
+                searchedText: searchText,
+                filtersApplied: [...filters],
+              });
             }}></TextInput>
           <View
             style={{
@@ -69,10 +78,11 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       </View>
       <ModalFiltros
         visible={modalVisible}
-        onFiltersChanged={(index : number, value : boolean) => {
-          let newFilters = [...filters]
+        initialState={[...filters]}
+        onFiltersChanged={(index: number, value: boolean) => {
+          let newFilters = [...filters];
           newFilters[index] = value;
-          setFilters(newFilters)
+          setFilters(newFilters);
         }}
         onRequestClose={() => {
           setModalVisible(false);

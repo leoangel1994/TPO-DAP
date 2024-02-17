@@ -17,20 +17,19 @@ interface ModalFiltrosProps {
   visible: boolean;
   onFiltersChanged: (index: number, value: boolean) => void;
   onRequestClose: CallableFunction;
+  initialState : boolean[]
 }
 
 const ModalFiltros = (props: ModalFiltrosProps) => {
-  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] =
-    useState(false);
-  const [filtersvegetariana, setFiltersvegetariana] = useState(false);
-  const [filtersvegana, setFiltersvegana] = useState(false);
-  const [filtersaptaCeliaco, setFiltersaptaCeliaco] = useState(false);
-  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] =
-    useState(false);
-  const [filterspromueveFlora, setFilterspromueveFlora] = useState(false);
-  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(false);
-  const [filtersBajaEnSodio, setFiltersBajaEnSodio] = useState(false);
-  const [filtersBajaEnCarbo, setFiltersBajaEnCarbo] = useState(false);
+  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] = useState(props.initialState[0]);
+  const [filtersvegetariana, setFiltersvegetariana] = useState(props.initialState[1]);
+  const [filtersvegana, setFiltersvegana] = useState(props.initialState[2]);
+  const [filtersaptaCeliaco, setFiltersaptaCeliaco] = useState(props.initialState[3]);
+  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] = useState(props.initialState[4]);
+  const [filterspromueveFlora, setFilterspromueveFlora] = useState(props.initialState[5]);
+  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(props.initialState[6]);
+  const [filtersBajaEnSodio, setFiltersBajaEnSodio] = useState(props.initialState[7]);
+  const [filtersBajaEnCarbo, setFiltersBajaEnCarbo] = useState(props.initialState[8]);
 
   return (
     <Modal
@@ -68,7 +67,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(1, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(1, !filtersvegetariana);
                   setFiltersvegetariana(!filtersvegetariana);
                 }}>
                 <Text
@@ -81,7 +80,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(2, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(2, !filtersvegana);
                   setFiltersvegana(!filtersvegana);
                 }}>
                 <Text
@@ -94,7 +93,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(3, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(3, !filtersaptaCeliaco);
                   setFiltersaptaCeliaco(!filtersaptaCeliaco);
                 }}>
                 <Text
@@ -107,7 +106,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(4, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(4, !filtersestimulaSistInmune);
                   setFiltersestimulaSistInmune(!filtersestimulaSistInmune);
                 }}>
                 <Text
@@ -120,7 +119,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(5, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(5, !filterspromueveFlora);
                   setFilterspromueveFlora(!filterspromueveFlora);
                 }}>
                 <Text
@@ -133,7 +132,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(6, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(6, !filtersAntiInflamatoria);
                   setFiltersAntiInflamatoria(!filtersAntiInflamatoria);
                 }}>
                 <Text
@@ -146,7 +145,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(7, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(7, !filtersBajaEnSodio);
                   setFiltersBajaEnSodio(!filtersBajaEnSodio);
                 }}>
                 <Text
@@ -159,7 +158,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
               </Pressable>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(8, !filtersrapidaPreparacion);
+                  props.onFiltersChanged(8, !filtersBajaEnCarbo);
                   setFiltersBajaEnCarbo(!filtersBajaEnCarbo);
                 }}>
                 <Text

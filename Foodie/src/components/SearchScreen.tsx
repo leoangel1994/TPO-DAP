@@ -12,7 +12,8 @@ import {Screens} from '../navigation/RootNavigator';
 import Icon from 'react-native-ico-material-design';
 import data from './carrousel/test_data';
 import ModalFiltros from './FiltersModal';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import { useRoute } from '@react-navigation/native';
 
 const Item = ({title}: any) => (
   <View style={styles.listItem}>
@@ -22,7 +23,19 @@ const Item = ({title}: any) => (
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
+  const route : any = useRoute() // For searches received from Landing Screen
+  const initFilters = route.params?.filtersApplied;
+  const initSearchText = route.params?.searchedText;
+  
+  // TODO: HELP WANTED - solo funciona cuando aun no se entro a la pantalla... como hago en general?
+  console.log("search test: ", initSearchText)
+  console.log("Init Filter: ", initFilters)
+  const [searchText, setSearchText] = useState(initSearchText ? initSearchText : '');
+  const [filters, setFilters] = useState( initFilters ? [...initFilters] : [false, false, false, false, false, false, false, false, false]);
+  console.log("setted Filter: ", filters)
+  console.log(searchText)
+
+  useEffect(()=>{}, [searchText])
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -39,6 +52,8 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           }}>
           <TextInput
             style={styles.input}
+            onChangeText={newText => setSearchText(newText)}
+            defaultValue={searchText}
             placeholder="Hoy quiero..."
             onSubmitEditing={() => {
               navigation.navigate(Screens.Search);
@@ -79,6 +94,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         </SafeAreaView>
       </View>
       <ModalFiltros
+        initialState={[...filters]}
         visible={modalVisible}
         onFiltersChanged={(index: number, value: boolean) => {
           let newFilters = [...filters]
