@@ -28,11 +28,7 @@ export const EditRecipeScreen1 = ({navigation}: {navigation: any}) => {
 };
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: Theme.colors.PRIMARY_1,
-    flex: 1,
-    alignItems: 'flex-start',
-  },
+  background: CommonStyle.background,
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
   input: CommonStyle.input,

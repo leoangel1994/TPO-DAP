@@ -20,11 +20,7 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
 };
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: Theme.colors.PRIMARY_1,
-    flex: 1,
-    alignItems: 'flex-start',
-  },
+  background: CommonStyle.background,
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',

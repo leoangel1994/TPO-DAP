@@ -6,20 +6,23 @@ import {Screens} from '../navigation/RootNavigator';
 const fake_profile = {
   picture:
     'https://img.asmedia.epimg.net/resizer/YSEO6kkVnSsaaG3stkWsOkaizvY=/644x362/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/EE5Z5V4DD5MLHMGVBQNDWFAO4Y.jpg',
+  fullName: 'Jerome Nigel McElroy',
+  gmail: 'chef@google.com',
+  appName: 'chefApp#1245 ',
 };
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.background}>
-      <View style={{padding: 30, width: '100%'}}>
+      <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Mi perfil</Text>
         <Image
           source={{uri: fake_profile.picture}}
           style={styles.profileImage}
         />
-        <Text style={styles.subTitleText}>Mi perfil</Text>
-        <Text style={styles.subTitleText}>Mi perfil</Text>
-        <Text style={styles.subTitleText}>Mi perfil</Text>
+        <Text style={styles.subTitleText}>{fake_profile.fullName}</Text>
+        <Text style={styles.subTitleText}>{fake_profile.gmail}</Text>
+        <Text style={styles.subTitleText}>{fake_profile.appName}</Text>
       </View>
       <PrimaryButton
         text="Mis Recetas"
@@ -43,11 +46,8 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
 };
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: Theme.colors.PRIMARY_1,
-    flex: 1,
-    alignItems: 'flex-start',
-  },
+  background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',

@@ -1,3 +1,5 @@
+import {DimensionValue, FlexAlignType} from 'react-native';
+
 export const Theme = {
   colors: {
     PRIMARY_1: '#2196F3',
@@ -29,7 +31,19 @@ export const Theme = {
   },
 };
 
+const MAX_WIDTH: DimensionValue = '100%';
+const FLEX_START: FlexAlignType = 'flex-start';
+
 export const CommonStyle = {
+  background: {
+    backgroundColor: Theme.colors.PRIMARY_1,
+    flex: 1,
+    alignItems: FLEX_START,
+  },
+  mainContainer: {
+    padding: 30,
+    width: MAX_WIDTH,
+  },
   titleText: {
     fontFamily: Theme.fontFamily.BOLD,
     color: Theme.colors.NEUTRAL_4,
