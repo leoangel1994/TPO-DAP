@@ -1,5 +1,6 @@
 import {
   FlatList,
+  Image,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -13,27 +14,47 @@ import Icon from 'react-native-ico-material-design';
 import data from './carrousel/test_data';
 import ModalFiltros from './FiltersModal';
 import {useEffect, useState} from 'react';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 
-const Item = ({title}: any) => (
+const Item = ({data}: any) => (
   <View style={styles.listItem}>
-    <Text style={styles.title}>{title}</Text>
+    <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{width: '42%'}}>
+        <Image source={{uri: data.imgUrl}} style={styles.listImage} />
+      </View>
+      <View style={{width: '58%'}}>
+        <Text style={styles.listItemTitle}>{data.title}</Text>
+        <Text style={styles.listDescriptionText}>{data.description}</Text>
+      </View>
+    </View>
   </View>
 );
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const route : any = useRoute() // For searches received from Landing Screen
-  
-  const [searchText, setSearchText] = useState('');
-  const [filters, setFilters] = useState([false, false, false, false, false, false, false, false, false]);
+  const route: any = useRoute(); // For searches received from Landing Screen
 
-  useEffect(()=>{
-    console.log("ue", route.params?.filtersApplied)
-    console.log("ue", route.params?.searchedText)
-    setFilters(route.params?.filtersApplied ? [...route.params?.filtersApplied] : [false, false, false, false, false, false, false, false, false])
-    setSearchText(route.params?.searchedText ?? "")
-  }, [route.params?.filtersApplied, route.params?.searchedText])
+  const [searchText, setSearchText] = useState('');
+  const [filters, setFilters] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  useEffect(() => {
+    setFilters(
+      route.params?.filtersApplied
+        ? [...route.params?.filtersApplied]
+        : [false, false, false, false, false, false, false, false, false],
+    );
+    setSearchText(route.params?.searchedText ?? '');
+  }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
       <View style={{padding: 30}}>
@@ -46,7 +67,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             minHeight: 64,
             maxHeight: 64,
             marginTop: 16,
-            marginBottom: 24,
+            marginBottom: 0,
           }}>
           <TextInput
             style={styles.input}
@@ -83,21 +104,23 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             </Pressable>
           </View>
         </View>
-        <SafeAreaView style={styles.listContainer}>
-          <FlatList
-            data={data}
-            renderItem={({item}) => <Item title={item.title} />}
-            keyExtractor={item => String(item.id)}
-          />
-        </SafeAreaView>
       </View>
+      <SafeAreaView style={styles.listContainer}>
+        <FlatList
+          data={data}
+          renderItem={itemData => {
+            return <Item data={itemData.item} />;
+          }}
+          keyExtractor={item => String(item.id)}
+        />
+      </SafeAreaView>
       <ModalFiltros
         initialState={[...filters]}
         visible={modalVisible}
         onFiltersChanged={(index: number, value: boolean) => {
-          let newFilters = [...filters]
+          let newFilters = [...filters];
           newFilters[index] = value;
-          setFilters(newFilters)
+          setFilters(newFilters);
         }}
         onRequestClose={() => {
           setModalVisible(false);
@@ -131,13 +154,33 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItem: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: Theme.colors.NEUTRAL_4,
+    padding: 0,
+    marginVertical: 12,
+    marginHorizontal: 20,
+    borderRadius: 10,
   },
-  title: {
-    fontSize: 32,
+  listImage: {
+    borderRadius: 10,
+    height: 136,
+    width: '100%',
+  },
+  listItemTitle: {
+    color: Theme.colors.SECONDARY_1,
+    fontFamily: Theme.fontFamily.SEMIBOLD,
+    fontSize: Theme.fontSize.LIST_ITEM_TITLE,
+    marginLeft: 20,
+    marginRight: 'auto',
+    paddingTop: 8,
+    marginBottom: 16,
+  },
+  listDescriptionText: {
+    color: Theme.colors.NEUTRAL_1,
+    fontFamily: Theme.fontFamily.REGULAR,
+    fontSize: Theme.fontSize.LIST_ITEM_TEXT,
+    marginLeft: 20,
+    marginRight: 'auto',
+    paddingTop: 0,
   },
 });
 

@@ -18,6 +18,8 @@ export const Theme = {
     SUBTITLE: 16,
     CARD_TITLE: 24,
     CARD_SUBTITLE: 16,
+    LIST_ITEM_TITLE: 20,
+    LIST_ITEM_TEXT: 12,
   },
   fontFamily: {
     BOLD: 'Poppins-Bold',
