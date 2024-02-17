@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const recipeController = require('../controllers/recipeController');
 const authController = require('../controllers/authController');
+const filesController = require('../controllers/filesController');
 const auth = require('../services/authService');
 const router = express.Router();
 
@@ -45,5 +46,7 @@ router.put('/:userId/recipes/:recipeId', auth.authenticateToken, recipeControlle
 
 //Eliminar receta de un usuario para el Userid:' + req.params.userId + ' y recipeId' + req.params.recipeId
 router.delete('/:userId/recipes/:recipeId', auth.authenticateToken, recipeController.deleteRecipeById);
+
+router.post('/image', filesController.uploadProfileImage);
 
 module.exports = router; 

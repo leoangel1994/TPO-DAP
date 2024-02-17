@@ -4,7 +4,9 @@ const auth = require('../services/authService');
 
 // Create a new user
 exports.createUser = async () => {
-    // Implement the logic to create a user
+    return {
+        message: 'Create a new user'
+    };
 };
 
 // Get user by ID
