@@ -1,15 +1,13 @@
-// NewRecipeScreen2.tsx
-
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
-import { Screens } from '../navigation/RootNavigator';
 import ProgressBar from './ProgressBar';
+import { Screens } from '../navigation/RootNavigator';
 
 export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
-  const [currentStep, setCurrentStep] = useState(2); // Establece el paso actual para la barra de progreso
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', quantity: '' }]);
@@ -27,10 +25,24 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
     setIngredients(updatedIngredients);
   };
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardOpen(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardOpen(false);
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.background}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.content}>
+      <ScrollView>
+        <View style={{ padding: 30, minWidth: '100%' }}>
           <Text style={styles.titleText}>Preparación</Text>
           <TextInput style={styles.input} placeholder="Cantidad de Platos" />
           <TextInput style={styles.input} placeholder="Tiempo de preparación" />
@@ -65,7 +77,7 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
         </View>
       </ScrollView>
 
-      <ProgressBar totalSteps={4} currentStep={currentStep} />
+      {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={2} />}
 
       <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe3)} />
     </View>
@@ -73,18 +85,16 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',  // Alinea el ProgressBar al centro horizontalmente
+    justifyContent: 'center',
+    marginTop: 20,
+  },
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-  },
-  container: {
-    flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  content: {
-    padding: 30,
-    minWidth: '100%',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
@@ -109,3 +119,5 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen2;
+
+

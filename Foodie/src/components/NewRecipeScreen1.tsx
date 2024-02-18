@@ -1,7 +1,5 @@
-// NewRecipeScreen1.tsx
-
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
@@ -13,12 +11,12 @@ import ProgressBar from './ProgressBar';
 export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
   const [images, setImages] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const openGallery = async () => {
     const result = await launchImageLibrary();
     if (images.length < 3) {
       setImages([...images, result.assets[0].uri]);
-      // No avanzar al siguiente paso en NewRecipeScreen1
     }
   };
 
@@ -28,10 +26,27 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
   };
 
   const navigateToNextScreen = () => {
-    // Avanzar al siguiente paso y navegar a NewRecipeScreen2
     setCurrentStep(currentStep + 1);
     navigation.navigate(Screens.NewRecipe2);
   };
+
+  const handleKeyboardDidShow = () => {
+    setIsKeyboardOpen(true);
+  };
+
+  const handleKeyboardDidHide = () => {
+    setIsKeyboardOpen(false);
+  };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   return (
     <View style={styles.background}>
@@ -70,7 +85,9 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
         </View>
       </ScrollView>
 
-      <ProgressBar totalSteps={4} currentStep={currentStep} />
+      {!isKeyboardOpen && (
+        <ProgressBar totalSteps={4} currentStep={currentStep} />
+      )}
 
       <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
     </View>
