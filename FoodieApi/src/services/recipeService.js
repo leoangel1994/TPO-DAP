@@ -21,7 +21,7 @@ exports.getFavoriteRecipes = async (profileId) => {
 exports.getRecipesByFilters = async (profileId, filters) => {
     try {
         let tags = filters.split(',');
-        let recipes = await Recipe.find({'tags': {$in:tags}, profileId: profileId});
+        let recipes = await Recipe.find({'tags': {$in:tags}});
         return recipes;
     } 
     catch (err) {

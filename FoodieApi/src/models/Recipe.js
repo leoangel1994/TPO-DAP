@@ -15,10 +15,7 @@ const RecipeSchema = new Schema({
   preparationTime: { type: String, default: '', trim: true, maxlength: 400 },
   portions: { type: Number, min: 0, },
   steps: [String],
-  image: {
-    cdnUri: String,
-    files: []
-  },
+  images: [{url:String, imageId:String}],
   youtubeLink: { type: String, default: '' },
   profileId: String,
   tags: [String],
