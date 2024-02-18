@@ -8,7 +8,25 @@ exports.getRecipesByFilters = async (req, res) => {
     const userId = getProfileId(req);
     if (userId == null) return res.sendStatus(401);
     
-    const recipes = await recipeService.getRecipesByFilters(userId, req.query.filters);
+    const recipes = await recipeService.getRecipesByFilters(userId, req.query.tags, req.query.ingredients, req.query.title);
+    if (recipes == null){
+      res.status(404).json({ error: 'Recipes not found' });
+      return;
+    } 
+    res.json(recipes);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getRecipesForCarousel = async (req, res) => {
+  try {
+    //Get user from token
+    const userId = getProfileId(req);
+    if (userId == null) {res.sendStatus(401); return};
+    
+    const recipes = await recipeService.getRecipesForCarousel();
     if (recipes == null){
       res.status(404).json({ error: 'Recipes not found' });
       return;
