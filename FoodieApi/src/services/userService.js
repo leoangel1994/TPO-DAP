@@ -2,16 +2,15 @@
 const User = require('../models/User');
 const auth = require('../services/authService');
 
-// Create a new user
-exports.createUser = async () => {
-    return {
-        message: 'Create a new user'
-    };
-};
-
 // Get user by ID
-exports.getUserById = async (id) => {
-    // Implement the logic to get a user by ID
+exports.getUserById = async (profileId) => {
+    try {
+        let user = await User.findOne({profileId: profileId});
+        return user;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
 }
 
 // Update user by ID

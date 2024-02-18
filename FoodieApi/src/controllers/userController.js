@@ -1,23 +1,18 @@
 const userService = require('../services/userService');
-
-exports.createUser = async (req, res) => {
-    // Implement logic to create a user
-    try {
-        const user = await userService.createUser();
-        res.json(user);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-}
+const getProfileId = require('../utils/jwtHelper').getProfileId;
 
 exports.getUserById = async (req, res) => {
-    // Implement logic to get a user by ID
-    try {
-        const user = await userService.getUserById(req.params.id);
-        res.json(user);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+  // Implement logic to get a user by ID
+  try {
+    const user = await userService.getUserById(req.params.userId);
+    if (user == null){
+      res.status(404).json({ error: 'User not found' });
+      return;
+    } 
+    res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
 
 exports.updateUserById = async (req, res) => {

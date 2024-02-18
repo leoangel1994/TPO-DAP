@@ -6,10 +6,6 @@ const filesController = require('../controllers/filesController');
 const auth = require('../services/authService');
 const router = express.Router();
 
-//User
-//Registrar un usuario público utilizando Google
-router.post('/', userController.createUser);
-
 //Obtener datos del perfil de un usuario público para el id:' + req.params.userId
 router.get('/:userId', auth.authenticateToken, userController.getUserById);
 
