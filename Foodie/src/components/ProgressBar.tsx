@@ -17,13 +17,14 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ totalSteps, currentStep }) =>
             <View
               style={[
                 styles.progressStep,
+                (currentStep > index + 1 || currentStep === index + 1) && styles.completedStep,
                 currentStep === index + 1 && styles.activeStep,
               ]}
             >
               <Text
                 style={[
                   styles.stepText,
-                  currentStep === index + 1 && styles.activeStepText,
+                  (currentStep > index + 1 || currentStep === index + 1) && styles.activeStepText,
                 ]}
               >
                 {index + 1}
@@ -40,8 +41,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ totalSteps, currentStep }) =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',  // Alinea el ProgressBar al centro horizontalmente
-    justifyContent: 'center', // Alinea el ProgressBar al centro verticalmente
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 20,
   },
   progressBar: {
@@ -54,12 +55,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   progressStep: {
-    backgroundColor: '#797979',
     borderRadius: 50,
     width: 30,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#797979',
+  },
+  completedStep: {
+    backgroundColor: '#F37F21',
   },
   activeStep: {
     backgroundColor: '#F37F21',
@@ -75,8 +79,8 @@ const styles = StyleSheet.create({
   progressLine: {
     flex: 1,
     height: 4,
-    backgroundColor: '#797979',
     maxWidth: 80,
+    backgroundColor: '#797979',
   },
 });
 
