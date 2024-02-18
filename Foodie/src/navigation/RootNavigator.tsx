@@ -20,7 +20,7 @@ import EditRecipeScreen2 from '../components/EditRecipeScreen2';
 import EditRecipeScreen3 from '../components/EditRecipeScreen3';
 import EditRecipeScreen4 from '../components/EditRecipeScreen4';
 import RecipeDetailsScreen from '../components/RecipeDetails';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 export const Screens = {
   Login: 'Login',
@@ -92,18 +92,7 @@ const TabNavigator = () => {
           title: '',
           tabBarIcon: ({size, color}) => (
             <View
-              style={{
-                position: 'absolute',
-                bottom: 10, // space from bottombar
-                height: 58,
-                width: 58,
-                borderRadius: 58,
-                backgroundColor: Theme.colors.SECONDARY_2,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 2,
-                borderColor: Theme.colors.PRIMARY_3,
-              }}>
+              style={styles.plusButton}>
               <Icon
                 name="add-plus-button"
                 height={size}
@@ -266,5 +255,20 @@ const RootNavigator = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  plusButton: {
+    position: 'absolute',
+    bottom: 10, // space from bottombar
+    height: 58,
+    width: 58,
+    borderRadius: 58,
+    backgroundColor: Theme.colors.SECONDARY_2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Theme.colors.PRIMARY_3,
+  },
+});
 
 export default RootNavigator;
