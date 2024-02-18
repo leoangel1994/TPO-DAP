@@ -1,11 +1,15 @@
+// NewRecipeScreen2.tsx
+
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
 import { Screens } from '../navigation/RootNavigator';
+import ProgressBar from './ProgressBar';
 
 export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
+  const [currentStep, setCurrentStep] = useState(2); // Establece el paso actual para la barra de progreso
 
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', quantity: '' }]);
@@ -25,8 +29,8 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{ padding: 30, minWidth: '100%' }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
           <Text style={styles.titleText}>Preparación</Text>
           <TextInput style={styles.input} placeholder="Cantidad de Platos" />
           <TextInput style={styles.input} placeholder="Tiempo de preparación" />
@@ -58,11 +62,12 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
           <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
-
-          {/* Botón Siguiente */}
-          <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe3)} />
         </View>
       </ScrollView>
+
+      <ProgressBar totalSteps={4} currentStep={currentStep} />
+
+      <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe3)} />
     </View>
   );
 };
@@ -71,7 +76,15 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    alignItems: 'flex-start',
+  },
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  content: {
+    padding: 30,
+    minWidth: '100%',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
