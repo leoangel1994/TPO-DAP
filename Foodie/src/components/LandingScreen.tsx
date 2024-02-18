@@ -23,21 +23,12 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
   ]);
   return (
     <View style={styles.background}>
-      <View style={{padding: 30}}>
+      <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Hola ~Usuario~</Text>
         <Text style={styles.subTitleText}>¿Qué vas a preparar hoy?</Text>
-        <View
-          style={{
-            flex: 2,
-            flexDirection: 'row',
-            minWidth: '100%',
-            minHeight: 64,
-            maxHeight: 64,
-            marginTop: 16,
-            marginBottom: 24,
-          }}>
+        <View style={styles.searchContainer}>
           <TextInput
-            style={styles.input}
+            style={styles.searchInput}
             placeholder="Hoy quiero..."
             onChangeText={newText => setSearchText(newText)}
             defaultValue={searchText}
@@ -47,23 +38,10 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
                 filtersApplied: [...filters],
               });
             }}></TextInput>
-          <View
-            style={{
-              width: '20%',
-              paddingLeft: 16,
-              justifyContent: 'center',
-              flex: 2,
-            }}>
+          <View style={styles.searchButtonContainer}>
             <Pressable
               onPress={() => setModalVisible(true)}
-              style={{
-                backgroundColor: Theme.colors.SECONDARY_2,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignContent: 'center',
-                height: 48,
-                width: 48,
-              }}>
+              style={styles.filterButton}>
               <Icon
                 style={{marginLeft: 'auto', marginRight: 'auto'}}
                 name="filter-results-button"
@@ -95,20 +73,33 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
-  backgroundTabBar: {
-    backgroundColor: Theme.colors.SECONDARY_2,
-    width: '100%',
-    height: 64,
-  },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
-  buttonPosition: {
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: 32,
+  searchInput: {...CommonStyle.input, width: '80%'},
+  mainContainer: CommonStyle.mainContainer,
+  searchContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    minWidth: '100%',
+    minHeight: 64,
+    maxHeight: 64,
+    marginTop: 16,
+    marginBottom: 24,
   },
-  input: {...CommonStyle.input, width: '80%'},
+  searchButtonContainer: {
+    width: '20%',
+    paddingLeft: 16,
+    justifyContent: 'center',
+    flex: 2,
+  },
+  filterButton: {
+    backgroundColor: Theme.colors.SECONDARY_2,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignContent: 'center',
+    height: 48,
+    width: 48,
+  },
 });
 
 export default LandingScreen;
