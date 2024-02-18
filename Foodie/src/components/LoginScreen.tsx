@@ -1,21 +1,20 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-
 import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
-import { Screens } from '../navigation/RootNavigator';
+import {Screens} from '../navigation/RootNavigator';
 
 const LoginScreen = ({navigation}: {navigation: any}) => {
-
   return (
     <View style={styles.background}>
-      <ScrollView style={{padding: 30}}>
+      <ScrollView style={styles.mainContainer}>
         <Text style={styles.titleText}>¡Hola!{'\n'}Bienvenido</Text>
       </ScrollView>
 
       <View style={styles.buttonPosition}>
+        {/*TODO: hacer lo de google sign in.*/} 
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
@@ -29,6 +28,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
   titleText: CommonStyle.titleText,
   buttonPosition: {
     justifyContent: 'center',

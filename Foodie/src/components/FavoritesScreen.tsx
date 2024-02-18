@@ -7,9 +7,9 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
-  const [favRecipesListData, setFavRecipesListData] = useState<RecipesListItemType[]>(
-    [],
-  );
+  const [favRecipesListData, setFavRecipesListData] = useState<
+    RecipesListItemType[]
+  >([]);
 
   const getRecipesListData = () => {
     axios
@@ -27,10 +27,10 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
   useEffect(() => {
     getRecipesListData();
   }, []);
-  
+
   return (
     <View style={styles.background}>
-      <View style={{padding: 30}}>
+      <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Mis Favoritos</Text>
       </View>
       {favRecipesListData.length != 0 ? (
@@ -47,6 +47,8 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
+
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',

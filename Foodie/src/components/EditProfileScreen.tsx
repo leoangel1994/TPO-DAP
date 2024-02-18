@@ -1,21 +1,20 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 
 const EditProfileScreen = () => {
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{padding: 30}}>
-          <Text style={styles.titleText}>Edit Profile Screen</Text>
-          <Text style={styles.subTitleText}>TODO</Text>
-        </View>
-      </ScrollView>
+      <View style={styles.mainContainer}>
+        <Text style={styles.titleText}>Edit Profile Screen</Text>
+        <Text style={styles.subTitleText}>TODO</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',

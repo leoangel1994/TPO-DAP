@@ -53,18 +53,9 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
-      <View style={{padding: 30}}>
+      <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Buscá Recetas</Text>
-        <View
-          style={{
-            flex: 2,
-            flexDirection: 'row',
-            minWidth: '100%',
-            minHeight: 64,
-            maxHeight: 64,
-            marginTop: 16,
-            marginBottom: 0,
-          }}>
+        <View style={styles.searchContainer}>
           <TextInput
             style={styles.input}
             onChangeText={newText => setSearchText(newText)}
@@ -73,25 +64,12 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             onSubmitEditing={() => {
               navigation.navigate(Screens.Search);
             }}></TextInput>
-          <View
-            style={{
-              width: '20%',
-              paddingLeft: 16,
-              justifyContent: 'center',
-              flex: 2,
-            }}>
+          <View style={styles.searchButtonContainer}>
             <Pressable
               onPress={() => setModalVisible(true)}
-              style={{
-                backgroundColor: Theme.colors.SECONDARY_2,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignContent: 'center',
-                height: 48,
-                width: 48,
-              }}>
+              style={styles.filterButton}>
               <Icon
-                style={{marginLeft: 'auto', marginRight: 'auto'}}
+                style={styles.filterIcon}
                 name="filter-results-button"
                 height={20}
                 width={20}
@@ -127,6 +105,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
 
 const styles = StyleSheet.create({
   background: CommonStyle.background,
+  mainContainer: CommonStyle.mainContainer,
   backgroundTabBar: {
     backgroundColor: Theme.colors.SECONDARY_2,
     width: '100%',
@@ -143,6 +122,33 @@ const styles = StyleSheet.create({
   input: {...CommonStyle.input, width: '80%'},
   listContainer: {
     flex: 1,
+  },
+  searchContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    minWidth: '100%',
+    minHeight: 64,
+    maxHeight: 64,
+    marginTop: 16,
+    marginBottom: 36,
+  },
+  searchButtonContainer: {
+    width: '20%',
+    paddingLeft: 16,
+    justifyContent: 'center',
+    flex: 2,
+  },
+  filterButton: {
+    backgroundColor: Theme.colors.SECONDARY_2,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignContent: 'center',
+    height: 48,
+    width: 48,
+  },
+  filterIcon: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 
