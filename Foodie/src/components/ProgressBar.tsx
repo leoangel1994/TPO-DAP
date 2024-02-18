@@ -40,8 +40,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ totalSteps, currentStep }) =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center',  // Alinea el ProgressBar al centro horizontalmente
+    justifyContent: 'center', // Alinea el ProgressBar al centro verticalmente
     marginTop: 20,
   },
   progressBar: {
