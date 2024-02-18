@@ -1,14 +1,3 @@
-// Fake Recipe Data type TODO: replace usage with true one
-export interface RecipesListItemType {
-  recipeId: number;
-  title: string;
-  preparationTime: string;
-  portions: number;
-  image: string;
-  tags: string[];
-  description: string;
-}
-
 // Recipe Data Type
 export interface RecipeNutritionalProperties {
   calories: number;

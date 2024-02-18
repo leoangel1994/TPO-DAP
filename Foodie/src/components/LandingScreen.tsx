@@ -26,10 +26,9 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
 
   const getCarrouselData = () => {
     axios
-      //.get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      //.get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
       .get('http://15.228.167.207:3000/recipes/carousel')
       .then(response => {
-        console.log(response.data);
         const item_data: Recipe[] = response.data;
         setCarrouselData(item_data);
         console.log('GET: OK');
