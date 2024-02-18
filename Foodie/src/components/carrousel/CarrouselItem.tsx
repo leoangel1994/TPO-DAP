@@ -9,16 +9,23 @@ import {
 } from 'react-native';
 import {Screens} from '../../navigation/RootNavigator';
 import {Theme} from '../../../Theme';
+import { CarrouselDataType } from '../FoodApiInterfaces/interfaces';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width - 60;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 
-const CarouselCardItem = ({item, index, navigation}: any) => {
+interface CarrouselItemProps {
+  item : CarrouselDataType;
+  index: number;
+  navigation: any;
+} 
+
+const CarouselCardItem = ({item, index, navigation} : CarrouselItemProps) => {
   return (
     <View style={styles.container} key={index}>
       <TouchableOpacity
         onPress={() => navigation.navigate(Screens.RecipeDetails)}>
-        <Image source={{uri: item.imgUrl}} style={styles.image} />
+        <Image source={{uri: item.image}} style={styles.image} />
       </TouchableOpacity>
       <Text style={styles.header}>{item.title}</Text>
       <View style={styles.textRow}>

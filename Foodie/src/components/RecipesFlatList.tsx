@@ -8,19 +8,30 @@ import {
   View,
 } from 'react-native';
 import {Theme} from '../../Theme';
+import { RecipesListItemType } from './FoodApiInterfaces/interfaces';
 
-const Item = ({data, onNextPress}: any) => (
+interface RecipesListItemProps {
+  data : RecipesListItemType;
+  onNextPress: (recipeId: number) => void
+}
+
+interface RecipesListProps {
+  dataList : RecipesListItemType[];
+  onNextPress: (recipeId: number) => void
+}
+
+const Item = ({data, onNextPress}: RecipesListItemProps) => (
   <View style={styles.listItem}>
     <View style={{flex: 1, flexDirection: 'row'}}>
       <View style={{width: '42%'}}>
-        <Image source={{uri: data.imgUrl}} style={styles.listImage} />
+        <Image source={{uri: data.image}} style={styles.listImage} />
       </View>
       <View style={{width: '58%'}}>
         <Text style={styles.listItemTitle}>{data.title}</Text>
         <Text style={styles.listDescriptionText}>{data.description}</Text>
         <Pressable
           style={styles.nextPressable}
-          onPress={() => onNextPress(data.id)}>
+          onPress={() => onNextPress(data.recipeId)}>
           <Text style={styles.nextArrow}>{'>>'}</Text>
         </Pressable>
       </View>
@@ -28,7 +39,7 @@ const Item = ({data, onNextPress}: any) => (
   </View>
 );
 
-const RecipesFlatList = ({dataList, onNextPress}: any) => {
+const RecipesFlatList = ({dataList, onNextPress}: RecipesListProps) => {
   return (
     <SafeAreaView style={styles.listContainer}>
       <FlatList
@@ -36,7 +47,7 @@ const RecipesFlatList = ({dataList, onNextPress}: any) => {
         renderItem={itemData => {
           return <Item data={itemData.item} onNextPress={onNextPress} />;
         }}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={item => String(item.recipeId)}
       />
       <View style={{padding: 16}}></View>
     </SafeAreaView>

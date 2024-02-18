@@ -2,10 +2,11 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
-import test_data from './carrousel/test_data';
+import axios from 'axios';
+import { CarrouselDataType } from './FoodApiInterfaces/interfaces';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +22,25 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
     false,
     false,
   ]);
+  const [carrouselData, setCarrouselData] = useState<CarrouselDataType[]>([]);
+
+  const getCarrouselData = () => {
+    axios
+      .get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      .then(response => {
+        const item_data : CarrouselDataType[] = response.data
+        setCarrouselData(item_data);
+        console.log('GET: OK');
+      })
+      .catch(() => {
+        console.log('TODO: Pantalla manejo de error');
+      });
+  };
+
+  useEffect(() => {
+    getCarrouselData();
+  }, []);
+
   return (
     <View style={styles.background}>
       <View style={styles.mainContainer}>
@@ -43,7 +63,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
               onPress={() => setModalVisible(true)}
               style={styles.filterButton}>
               <Icon
-                style={{marginLeft: 'auto', marginRight: 'auto'}}
+                style={styles.filterIcon}
                 name="filter-results-button"
                 height={20}
                 width={20}
@@ -53,7 +73,11 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
           </View>
         </View>
         <Text style={styles.subTitleText}>Los mejores calificados</Text>
-        <CarouselCards navigation={navigation} data={test_data} />
+        {carrouselData.length != 0 ? (
+          <CarouselCards navigation={navigation} data={carrouselData} />
+        ) : (
+          <Text>Cargando...</Text>
+        )}
       </View>
       <ModalFiltros
         visible={modalVisible}
@@ -99,6 +123,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     height: 48,
     width: 48,
+  },
+  filterIcon: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 
