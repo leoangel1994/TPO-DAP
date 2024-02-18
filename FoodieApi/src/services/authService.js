@@ -94,7 +94,7 @@ exports.authenticateToken = async (req, res, next) => {
 
 function generateAccessToken (user) {
   try {
-      return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' })
+      return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
   } catch (error) {
       console.log(error);
       return null;
