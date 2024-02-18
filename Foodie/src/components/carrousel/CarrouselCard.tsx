@@ -5,7 +5,6 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarrouselItem'
 
 const CarouselCards = ({navigation, data}: {navigation: any, data: any}) => {
   const isCarousel = React.useRef(null)
-
   return (
     <View>
       <Carousel
