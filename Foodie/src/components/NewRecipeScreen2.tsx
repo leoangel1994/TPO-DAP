@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,

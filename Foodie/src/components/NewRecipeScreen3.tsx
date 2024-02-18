@@ -1,41 +1,111 @@
-import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
-import {Screens} from '../navigation/RootNavigator';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native';
+import { CommonStyle, Theme } from '../../Theme';
+import { PrimaryButton } from './PrimaryButton';
+import ProgressBar from './ProgressBar'; // Import the ProgressBar component
+import { Screens } from '../navigation/RootNavigator';
 
-export const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
+export const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
+  const [steps, setSteps] = useState<string[]>(['']);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 4;
+
+  const addStep = () => {
+    setSteps([...steps, '']);
+  };
+
+  const updateStep = (index: number, text: string) => {
+    const newSteps = [...steps];
+    newSteps[index] = text;
+    setSteps(newSteps);
+  };
+
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    }
+    navigation.navigate(Screens.NewRecipe4);
+  };
+
+  const handleKeyboardDidShow = () => {
+    setIsKeyboardOpen(true);
+  };
+
+  const handleKeyboardDidHide = () => {
+    setIsKeyboardOpen(false);
+  };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.background}>
-      <ScrollView>
-        <View style={{padding: 30}}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={{ padding: 30 }}>
           <Text style={styles.titleText}>Pasos</Text>
-          <Text style={styles.subTitleText}>
-            Contanos paso a paso como se hace
-          </Text>
-          <TextInput style={styles.input} placeholder="Paso 1"></TextInput>
-          <PrimaryButton // cambiar a un componente que sea boton redondo +...
-            text="+"
-            onPress={() =>
-              console.log('yo agrego un TextInput arriba. ok.')
-            }></PrimaryButton>
+          <Text style={styles.subTitleText}>Contanos paso a paso como se hace</Text>
+
+          {steps.map((step, index) => (
+            <TextInput
+              key={index}
+              style={styles.input}
+              placeholder={`Paso ${index + 1}`}
+              value={step}
+              onChangeText={(text) => updateStep(index, text)}
+            />
+          ))}
+
+          <TouchableOpacity style={styles.addButton} onPress={addStep}>
+            <Text style={{ fontSize: 20, color: 'white' }}>+</Text>
+          </TouchableOpacity>
+
+          {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={3} />}
         </View>
       </ScrollView>
-      <PrimaryButton
-        text="Siguiente"
-        onPress={() => navigation.navigate(Screens.NewRecipe4)}></PrimaryButton>
+
+      <View style={styles.footer}>
+        <PrimaryButton text="Siguiente" onPress={handleNext} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: Theme.colors.PRIMARY_1,
+  container: {
     flex: 1,
-    alignItems: 'flex-start',
+    backgroundColor: Theme.colors.PRIMARY_1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
-  input: CommonStyle.input,
+  input: {
+    ...CommonStyle.input,
+    marginBottom: 8,
+  },
+  addButton: {
+    backgroundColor: Theme.colors.SECONDARY_1,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 8,
+  },
+  footer: {
+    justifyContent: 'flex-end',
+  },
 });
 
 export default NewRecipeScreen3;
