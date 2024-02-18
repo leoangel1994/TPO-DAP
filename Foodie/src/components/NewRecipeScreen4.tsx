@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
+import ProgressBar from './ProgressBar';  // Asegúrate de importar ProgressBar desde la ruta correcta
 
 const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }) => {
   const handleTagSelect = (tag) => {
@@ -40,14 +41,14 @@ export const NewRecipeScreen4 = ({ navigation }) => {
   const availableTags = [
     'Veganas',
     'Aptas Celiacos',
-    'Rápida Preparación', //
-    'Estimula el Sistema Inmune', //
-    'Vegetarianas', // Corregido:
-    'Promueve la Flora Intestinal', //
-    'Baja en Sodio', //
-    'Baja en Carbohidratos', //
+    'Rápida Preparación',
+    'Estimula el Sistema Inmune',
+    'Vegetarianas',
+    'Promueve la Flora Intestinal',
+    'Baja en Sodio',
+    'Baja en Carbohidratos',
     'Antiinflamatoria'
-    ]
+  ];
 
   const handleTagSelect = (tags) => {
     setSelectedTags(tags);
@@ -72,10 +73,13 @@ export const NewRecipeScreen4 = ({ navigation }) => {
           />
         </View>
       </ScrollView>
+
+      <ProgressBar totalSteps={4} currentStep={4} />
+
       <PrimaryButton
         text="Finalizar"
         onPress={() => navigation.navigate(Screens.Landing)}
-      ></PrimaryButton>
+      />
     </View>
   );
 };
@@ -84,7 +88,8 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',  // Asegúrate de que el contenido se distribuya verticalmente
+    alignItems: 'center',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     margin: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: 1, // Asegúrate de que la opacidad sea 1 para evitar transparencia
+    opacity: 1,
   },
 });
 
