@@ -2,20 +2,18 @@ import {StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {Screens} from '../navigation/RootNavigator';
 import RecipesFlatList from './RecipesFlatList';
-import {RecipesListItemType} from './FoodApiInterfaces/interfaces';
+import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const MyRecipesScreen = ({navigation}: {navigation: any}) => {
-  const [recipesListData, setRecipesListData] = useState<RecipesListItemType[]>(
-    [],
-  );
+  const [recipesListData, setRecipesListData] = useState<Recipe[]>([]);
 
   const getRecipesListData = () => {
     axios
-      .get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      .get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
       .then(response => {
-        const item_data: RecipesListItemType[] = response.data;
+        const item_data: Recipe[] = response.data;
         setRecipesListData(item_data);
         console.log('GET: OK');
       })
@@ -27,7 +25,7 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
   useEffect(() => {
     getRecipesListData();
   }, []);
-  
+
   return (
     <View style={styles.background}>
       <View style={styles.mainContainer}>

@@ -5,6 +5,34 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import {Screens} from '../navigation/RootNavigator';
+import EncryptedStorage from 'react-native-encrypted-storage';
+
+async function pruebitaStoreUserSession() {
+  try {
+    await EncryptedStorage.setItem(
+      'user_session',
+      JSON.stringify({
+        age: 21,
+        token: 'ACCESS_TOKEN',
+        username: 'emeraldsanto',
+        languages: ['fr', 'en', 'de'],
+      }),
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function pruebitaRetrieveUserSession() {
+  try {
+    const session = await EncryptedStorage.getItem('user_session');
+    if (session !== undefined) {
+      console.log(session);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const LoginScreen = ({navigation}: {navigation: any}) => {
   return (
@@ -14,11 +42,17 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       </ScrollView>
 
       <View style={styles.buttonPosition}>
-        {/*TODO: hacer lo de google sign in.*/} 
+        {/*TODO: hacer lo de google sign in.*/}
+        {/*TODO: https://github.com/react-native-google-signin/google-signin */}
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
-          onPress={() => navigation.navigate(Screens.TabNavigator)}
+          onPress={() => {
+            pruebitaStoreUserSession()
+              .then(() => pruebitaRetrieveUserSession())
+              .catch(e => console.log(e));
+            navigation.navigate(Screens.TabNavigator);
+          }}
           /* disabled={this.state.isSigninInProgress}*/
         />
       </View>

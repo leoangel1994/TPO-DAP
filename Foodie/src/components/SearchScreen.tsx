@@ -6,7 +6,7 @@ import ModalFiltros from './FiltersModal';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import RecipesFlatList from './RecipesFlatList';
-import {RecipesListItemType} from './FoodApiInterfaces/interfaces';
+import {Recipe} from './FoodApiInterfaces/interfaces';
 import axios from 'axios';
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
@@ -27,13 +27,13 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   ]);
 
   const [searchResultRecipesListData, setSearchResultRecipesListData] =
-    useState<RecipesListItemType[]>([]);
+    useState<Recipe[]>([]);
 
   const getRecipesListData = () => {
     axios
-      .get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      .get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
       .then(response => {
-        const item_data: RecipesListItemType[] = response.data;
+        const item_data: Recipe[] = response.data;
         setSearchResultRecipesListData(item_data);
         console.log('GET: OK');
       })
