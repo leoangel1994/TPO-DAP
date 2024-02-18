@@ -24,7 +24,7 @@ const Item = ({data, onNextPress}: RecipesListItemProps) => (
   <View style={styles.listItem}>
     <View style={{flex: 1, flexDirection: 'row'}}>
       <View style={{width: '42%'}}>
-        {data.images && data.images[0] && data.images[0].url ? (
+        {data.images && data.images.length > 0 && data.images[0].url ? (
           <Image source={{uri: data.images[0].url}} style={styles.listImage} />
         ) : (
           <></>
