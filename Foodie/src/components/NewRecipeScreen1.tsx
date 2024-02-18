@@ -35,8 +35,8 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{ padding: 30, minWidth: '100%' }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
           <Text style={styles.titleText}>Nueva Receta</Text>
           <Text style={styles.subTitleText}>Información principal sobre tu receta</Text>
           <TextInput style={styles.input} placeholder="Título" />
@@ -73,7 +73,6 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
       <ProgressBar totalSteps={4} currentStep={currentStep} />
 
       <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
-      <View style={{ padding: 50 }}></View>
     </View>
   );
 };
@@ -82,7 +81,15 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    alignItems: 'flex-start',
+  },
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  content: {
+    padding: 30,
+    minWidth: '100%',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
@@ -124,3 +131,4 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen1;
+
