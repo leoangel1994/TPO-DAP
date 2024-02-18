@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 import axios from 'axios';
-import {CarrouselDataType} from './FoodApiInterfaces/interfaces';
+import {Recipe} from './FoodApiInterfaces/interfaces';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,7 +22,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
     false,
     false,
   ]);
-  const [carrouselData, setCarrouselData] = useState<CarrouselDataType[]>([]);
+  const [carrouselData, setCarrouselData] = useState<Recipe[]>([]);
 
   const getCarrouselData = () => {
     axios
@@ -30,18 +30,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       .get('http://15.228.167.207:3000/recipes/carousel')
       .then(response => {
         console.log(response.data);
-        const item_data: CarrouselDataType[] = [];
-        for (let i in response.data) {
-          const item = {} as CarrouselDataType; // Para el carrousel no me interesan todos esos datos...
-          item.recipeId = response.data[i]._id;
-          item.title = response.data[i].title;
-          item.preparationTime = response.data[i].preparationTime;
-          item.portions = response.data[i].portions;
-          item.image = (response.data[i].images.length > 0) ? response.data[i].images[0]?.url : null;
-          item.tags = response.data[i].tags;
-          item.description = response.data[i].description;
-          item_data.push(item);
-        }
+        const item_data: Recipe[] = response.data;
         setCarrouselData(item_data);
         console.log('GET: OK');
       })
