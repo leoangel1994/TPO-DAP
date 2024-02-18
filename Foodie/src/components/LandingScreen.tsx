@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 import axios from 'axios';
-import { CarrouselDataType } from './FoodApiInterfaces/interfaces';
+import {CarrouselDataType} from './FoodApiInterfaces/interfaces';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,9 +26,22 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
 
   const getCarrouselData = () => {
     axios
-      .get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      //.get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      .get('http://15.228.167.207:3000/recipes/carousel')
       .then(response => {
-        const item_data : CarrouselDataType[] = response.data
+        console.log(response.data);
+        const item_data: CarrouselDataType[] = [];
+        for (let i in response.data) {
+          const item = {} as CarrouselDataType; // Para el carrousel no me interesan todos esos datos...
+          item.recipeId = response.data[i]._id;
+          item.title = response.data[i].title;
+          item.preparationTime = response.data[i].preparationTime;
+          item.portions = response.data[i].portions;
+          item.image = (response.data[i].images.length > 0) ? response.data[i].images[0]?.url : null;
+          item.tags = response.data[i].tags;
+          item.description = response.data[i].description;
+          item_data.push(item);
+        }
         setCarrouselData(item_data);
         console.log('GET: OK');
       })
