@@ -23,8 +23,8 @@ exports.getRecipesByFilters = async (req, res) => {
 exports.getRecipesForCarousel = async (req, res) => {
   try {
     //Get user from token
-    const userId = getProfileId(req);
-    if (userId == null) {res.sendStatus(401); return};
+    //const userId = getProfileId(req);
+    //if (userId == null) {res.sendStatus(401); return};
     
     const recipes = await recipeService.getRecipesForCarousel();
     if (recipes == null){
