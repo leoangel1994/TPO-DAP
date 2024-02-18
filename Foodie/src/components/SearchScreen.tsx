@@ -1,18 +1,13 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {Screens} from '../navigation/RootNavigator';
 import Icon from 'react-native-ico-material-design';
-import test_data from './carrousel/test_data';
 import ModalFiltros from './FiltersModal';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import RecipesFlatList from './RecipesFlatList';
+import {RecipesListItemType} from './FoodApiInterfaces/interfaces';
+import axios from 'axios';
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +26,22 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
     false,
   ]);
 
+  const [searchResultRecipesListData, setSearchResultRecipesListData] =
+    useState<RecipesListItemType[]>([]);
+
+  const getRecipesListData = () => {
+    axios
+      .get('https://run.mocky.io/v3/a9cf908b-d545-4ab3-950f-c4c9330c8761')
+      .then(response => {
+        const item_data: RecipesListItemType[] = response.data;
+        setSearchResultRecipesListData(item_data);
+        console.log('GET: OK');
+      })
+      .catch(() => {
+        console.log('TODO: Pantalla manejo de error');
+      });
+  };
+
   useEffect(() => {
     setFilters(
       route.params?.filtersApplied
@@ -38,6 +49,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         : [false, false, false, false, false, false, false, false, false],
     );
     setSearchText(route.params?.searchedText ?? '');
+    getRecipesListData(); // TODO: pasar filtros y texto...
   }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
@@ -89,7 +101,14 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           </View>
         </View>
       </View>
-      <RecipesFlatList dataList={test_data} onNextPress={() => navigation.navigate(Screens.RecipeDetails)}/>
+      {searchResultRecipesListData.length != 0 ? (
+        <RecipesFlatList
+          dataList={searchResultRecipesListData}
+          onNextPress={() => navigation.navigate(Screens.RecipeDetails)}
+        />
+      ) : (
+        <Text>Cargando...</Text>
+      )}
       <ModalFiltros
         initialState={[...filters]}
         visible={modalVisible}
