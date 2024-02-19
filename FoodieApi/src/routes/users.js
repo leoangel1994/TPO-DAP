@@ -7,7 +7,7 @@ const auth = require('../services/authService');
 const router = express.Router();
 
 //Obtener datos del perfil de un usuario público para el id:' + req.params.userId
-router.get('/:userId', auth.authenticateToken, userController.getUserById);
+router.get('/', auth.authenticateToken, userController.getUserById);
 
 //Editar los datos del perfil del usuario público para el id:' + req.params.userId
 router.put('/:userId', auth.authenticateToken, userController.updateUserById);

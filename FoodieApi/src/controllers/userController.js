@@ -4,7 +4,11 @@ const getProfileId = require('../utils/jwtHelper').getProfileId;
 exports.getUserById = async (req, res) => {
   // Implement logic to get a user by ID
   try {
-    const user = await userService.getUserById(req.params.userId);
+    //Get user from token
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+    
+    const user = await userService.getUserById(userId);
     if (user == null){
       res.status(404).json({ error: 'User not found' });
       return;
