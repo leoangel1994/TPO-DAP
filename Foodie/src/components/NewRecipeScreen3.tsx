@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native';
-import { CommonStyle, Theme } from '../../Theme';
-import { PrimaryButton } from './PrimaryButton';
+import React, {useState, useEffect} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {CommonStyle, Theme} from '../../Theme';
+import {PrimaryButton} from './PrimaryButton';
 import ProgressBar from './ProgressBar'; // Importa el componente ProgressBar
-import { Screens } from '../navigation/RootNavigator';
-import { useRoute } from '@react-navigation/native';
+import {Screens} from '../navigation/RootNavigator';
+import {useRoute} from '@react-navigation/native';
 
-const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
-  const route: any = useRoute(); // For searches received from Landing Screen
-  console.log(route.params)
+const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
+  const route: any = useRoute();
   const [steps, setSteps] = useState<string[]>(['']);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-  const totalSteps = 4;
 
   const addStep = () => {
     setSteps([...steps, '']);
@@ -23,8 +31,14 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
     setSteps(newSteps);
   };
 
-  const handleNext = () => {
-    navigation.navigate(Screens.NewRecipe4);
+  const navigateToNextScreen = () => {
+    navigation.navigate(Screens.NewRecipe4, {
+      step1: route.params.step1,
+      step2: route.params.step2,
+      step3: {
+        steps: steps,
+      },
+    });
   };
 
   const handleKeyboardDidShow = () => {
@@ -36,8 +50,14 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   };
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      handleKeyboardDidShow,
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      handleKeyboardDidHide,
+    );
 
     return () => {
       keyboardDidShowListener.remove();
@@ -46,11 +66,15 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.contentContainer}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.background}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
           <Text style={styles.titleText}>Pasos</Text>
-          <Text style={styles.subTitleText}>Contanos paso a paso como se hace</Text>
+          <Text style={styles.subTitleText}>
+            Contanos paso a paso como se hace
+          </Text>
 
           {steps.map((step, index) => (
             <TextInput
@@ -58,34 +82,47 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
               style={styles.input}
               placeholder={`Paso ${index + 1}`}
               value={step}
-              onChangeText={(text) => updateStep(index, text)}
+              onChangeText={text => updateStep(index, text)}
             />
           ))}
 
           <TouchableOpacity style={styles.addButton} onPress={addStep}>
-            <Text style={{ fontSize: 20, color: 'white' }}>+</Text>
+            <Text style={{fontSize: 20, color: 'white'}}>+</Text>
           </TouchableOpacity>
         </View>
-
-        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
-
-        <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe4)} />
       </ScrollView>
-    </View>
+      <View style={{height: 160}}>
+        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
+        <View style={{height: 36}} />
+        <PrimaryButton
+          text="Siguiente"
+          backgroundColor={
+            steps[0] && steps[0].length > 0
+              ? Theme.colors.SECONDARY_2
+              : Theme.colors.NEUTRAL_3
+          }
+          onPress={() => {
+            if (steps[0] && steps[0].length > 0) navigateToNextScreen();
+          }}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  background: {
     backgroundColor: Theme.colors.PRIMARY_1,
+    flex: 1,
   },
-  scrollViewContent: {
+  container: {
     flexGrow: 1,
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
-  contentContainer: {
+  content: {
     padding: 30,
+    minWidth: '100%',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
@@ -94,7 +131,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   addButton: {
-    backgroundColor: Theme.colors.SECONDARY_1,
+    backgroundColor: Theme.colors.SECONDARY_2,
     width: 40,
     height: 40,
     borderRadius: 20,
