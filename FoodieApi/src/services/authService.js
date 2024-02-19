@@ -7,6 +7,7 @@ const client = new OAuth2Client(process.env.CLIENT_ID);
 let refreshTokens = []
 
 exports.login = async (req, res) => {
+  console.log(req.headers.authorization);
   let token = req.headers.authorization.split(' ')[1];
   try {
   async function verify() {
