@@ -22,6 +22,7 @@ import ProgressBar from './ProgressBar';
 export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const [titleText, setTitleText] = useState('');
   const [descriptionText, setDescriptionText] = useState('');
+  const [isValidLink, setIsValidLink] = useState(true);
   const [videoLinkText, setVideoLinkText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
@@ -67,6 +68,21 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
     setIsKeyboardOpen(false);
   };
 
+  const regexValidateUrl = (url: string) => {
+    var urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // validate protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i',
+    ); // validate fragment locator
+    let regex = new RegExp(urlPattern, 'i');
+    let match = regex.exec(url);
+    return match ? match.length > 0 : false;
+  };
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -101,12 +117,28 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
           <TextInput
             style={styles.input}
             placeholder="Descripción"
+            multiline={true}
             onChangeText={newText => setDescriptionText(newText)}
           />
           <TextInput
-            style={styles.input}
+            style={[
+              styles.input,
+              !isValidLink &&
+                !(videoLinkText.length == 0) && {
+                  borderColor: Theme.colors.DANGER,
+                },
+            ]}
             placeholder="Link a video"
-            onChangeText={newText => setVideoLinkText(newText)}
+            onChangeText={newText => {
+              if (regexValidateUrl(newText)) {
+                setVideoLinkText(newText);
+                setIsValidLink(true);
+                console.log('valid url');
+              } else {
+                setVideoLinkText(newText);
+                setIsValidLink(false);
+              }
+            }}
           />
           <SmallButton text="Adjuntar Imágen" onPress={openGallery} />
 
@@ -133,7 +165,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
               ))
             )}
           </Swiper>
-
         </View>
       </ScrollView>
 
@@ -142,9 +173,14 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
         <View style={{height: 36}} />
         <PrimaryButton
           text="Siguiente"
-          backgroundColor={titleText && descriptionText ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3}
+          backgroundColor={
+            titleText && descriptionText && isValidLink
+              ? Theme.colors.SECONDARY_2
+              : Theme.colors.NEUTRAL_3
+          }
           onPress={() => {
-            if (titleText && descriptionText) navigateToNextScreen();
+            if (titleText && descriptionText && isValidLink)
+              navigateToNextScreen();
           }}
         />
       </View>
