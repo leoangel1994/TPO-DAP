@@ -3,7 +3,7 @@ import {CommonStyle, Theme} from '../../Theme';
 import {Screens} from '../navigation/RootNavigator';
 import Icon from 'react-native-ico-material-design';
 import ModalFiltros from './FiltersModal';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
@@ -14,7 +14,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute(); // For searches received from Landing Screen
 
   const [searchText, setSearchText] = useState('');
-  const [filters, setFilters] = useState([
+  const filters = useRef([
     false,
     false,
     false,
@@ -43,11 +43,9 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   };
 
   useEffect(() => {
-    setFilters(
-      route.params?.filtersApplied
-        ? [...route.params?.filtersApplied]
-        : [false, false, false, false, false, false, false, false, false],
-    );
+    filters.current = route.params?.filtersApplied
+      ? [...route.params?.filtersApplied]
+      : [false, false, false, false, false, false, false, false, false];
     setSearchText(route.params?.searchedText ?? '');
     getRecipesListData(); // TODO: pasar filtros y texto...
   }, [route.params?.filtersApplied, route.params?.searchedText]);
@@ -88,12 +86,12 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         <Text>Cargando...</Text>
       )}
       <ModalFiltros
-        initialState={[...filters]}
+        initialState={[...filters.current]}
         visible={modalVisible}
         onFiltersChanged={(index: number, value: boolean) => {
-          let newFilters = [...filters];
+          let newFilters = [...filters.current];
           newFilters[index] = value;
-          setFilters(newFilters);
+          filters.current = newFilters;
         }}
         onRequestClose={() => {
           setModalVisible(false);
