@@ -7,6 +7,7 @@ exports.login = async (req, res) => {
     const user = await authService.login(req, res);
     res.json(user);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
