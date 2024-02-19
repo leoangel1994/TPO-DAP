@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Keyboard, Platform } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
@@ -49,7 +49,10 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
   }, []);
 
   return (
-    <View style={styles.background}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.background}
+    >
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.content}>
           <Text style={styles.titleText}>Nueva Receta</Text>
@@ -83,14 +86,17 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
 
           <SmallButton text="Seleccionar Imagen" onPress={openGallery} />
         </View>
+
       </ScrollView>
 
       {!isKeyboardOpen && (
         <ProgressBar totalSteps={4} currentStep={currentStep} />
       )}
 
+      <View style={{ height: 25 }} />
+
       <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -148,4 +154,6 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen1;
+
+
 
