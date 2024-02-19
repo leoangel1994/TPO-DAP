@@ -2,7 +2,7 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import CarouselCards from './carrousel/CarrouselCard';
 import Icon from 'react-native-ico-material-design';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import {Recipe} from './FoodApiInterfaces/interfaces';
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const filters = useRef([
+  const [filters, setFilters] = useState([
     false,
     false,
     false,
@@ -60,7 +60,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
             onSubmitEditing={() => {
               navigation.navigate(Screens.Search, {
                 searchedText: searchText,
-                filtersApplied: [...filters.current],
+                filtersApplied: [...filters],
               });
             }}></TextInput>
           <View style={styles.searchButtonContainer}>
@@ -86,11 +86,11 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       </View>
       <ModalFiltros
         visible={modalVisible}
-        initialState={[...filters.current]}
+        initialState={[...filters]}
         onFiltersChanged={(index: number, value: boolean) => {
-          let newFilters = [...filters.current];
+          let newFilters = [...filters];
           newFilters[index] = value;
-          filters.current = newFilters;
+          setFilters(newFilters);
         }}
         onRequestClose={() => {
           setModalVisible(false);
