@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
   },
   searchButtonContainer: {
     width: '20%',
-    paddingLeft: 16,
     justifyContent: 'center',
+    alignItems: 'flex-end',
     flex: 2,
   },
   filterButton: {

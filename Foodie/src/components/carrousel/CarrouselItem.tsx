@@ -25,7 +25,7 @@ const CarouselCardItem = ({item, index, navigation}: CarrouselItemProps) => {
       <TouchableOpacity
         onPress={() => navigation.navigate(Screens.RecipeDetails)}>
         {item.images && item.images.length > 0 && item.images[0].url ? (
-          <Image source={{uri: item.images[0].url}} style={styles.image} />
+          <Image source={{uri: item.images[0].url, scale: 1}} style={styles.image} />
         ) : (
           <></>
         )}
@@ -73,22 +73,22 @@ const styles = StyleSheet.create({
   },
   image: {
     width: ITEM_WIDTH,
-    height: 136,
+    height: 200,
   },
   header: {
     color: Theme.colors.NEUTRAL_1,
     fontFamily: Theme.fontFamily.SEMIBOLD,
     fontSize: Theme.fontSize.CARD_TITLE,
-    marginLeft: 'auto',
+    marginLeft: 24,
     marginRight: 'auto',
     paddingTop: 8,
-    marginBottom: 16,
+    marginBottom: 4,
   },
   timeText: {
     color: Theme.colors.NEUTRAL_1,
     fontFamily: Theme.fontFamily.REGULAR,
     fontSize: Theme.fontSize.CARD_SUBTITLE,
-    marginLeft: 12,
+    marginLeft: 24,
     width: '33%',
     textAlign: 'left',
     marginRight: 'auto',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     width: '50%',
     textAlign: 'right',
-    marginRight: 12,
+    marginRight: 24,
     paddingTop: 4,
     marginBottom: 16,
   },
