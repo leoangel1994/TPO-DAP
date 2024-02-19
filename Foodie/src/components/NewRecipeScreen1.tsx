@@ -89,14 +89,14 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
 
           <Swiper
             style={styles.swiperContainer}
-            showsButtons={false}
-            showsPagination={false}
-            loadMinimalSize={2}>
+            showsButtons={true}
+            showsPagination={true}
+            key={images.length}
+            activeDotColor={Theme.colors.SECONDARY_1}
+            >
             {images.length === 0 ? (
               <View style={styles.slide}>
-                <Text style={styles.noImageText}>
-                  No hay imágenes cargadas
-                </Text>
+                <Text style={styles.noImageText}>No hay imágenes cargadas</Text>
               </View>
             ) : (
               images.map((image, index) => (
@@ -112,17 +112,15 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             )}
           </Swiper>
 
-          <SmallButton text="Seleccionar Imagen" onPress={openGallery} />
+          <SmallButton text="Adjuntar Imágen" onPress={openGallery} />
         </View>
       </ScrollView>
 
-      {!isKeyboardOpen && (
-        <ProgressBar currentStep={1} />
-      )}
-
-      <View style={{height: 30}} />
-
-      <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
+      <>
+        {!isKeyboardOpen && <ProgressBar currentStep={1} />}
+        <View style={{height: 30}} />
+        <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
+      </>
     </KeyboardAvoidingView>
   );
 };
@@ -145,7 +143,8 @@ const styles = StyleSheet.create({
   subTitleText: CommonStyle.subTitleText,
   input: CommonStyle.input,
   swiperContainer: {
-    height: 150,
+    marginTop: 8,
+    height: 200,
     marginBottom: 10,
   },
   slide: {
@@ -158,19 +157,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   selectedImage: {
-    width: '100%',
-    height: '100%',
+    width: 120,
+    height: 120,
     borderRadius: 10,
   },
   deleteButton: {
     position: 'absolute',
-    top: 10,
-    right: 10,
-    backgroundColor: 'rgba(255, 99, 71, 0.8)',
-    padding: 10,
-    borderRadius: 50,
+    left: '60%',
+    top: '20%',
+    backgroundColor: Theme.colors.DANGER,
     width: 30,
     height: 30,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
