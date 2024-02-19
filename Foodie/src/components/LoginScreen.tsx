@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -12,7 +12,6 @@ import axios from 'axios';
 import {PrimaryButton} from './PrimaryButton';
 
 async function StoreUserSession(accessToken :string, refreshToken: string, setUserName: any) {
-  console.log(accessToken);
   axios
     .get('http://15.228.167.207:3000/users',
     {
@@ -21,7 +20,6 @@ async function StoreUserSession(accessToken :string, refreshToken: string, setUs
       } 
     })
     .then(response => {
-      console.log("RESPONSE: " + response.data.userName + " " + response.data.profileId + " " + accessToken + " " + refreshToken)
       EncryptedStorage.setItem(
         'user_session',
         JSON.stringify({
@@ -56,10 +54,14 @@ async function getAuthData(idtoken: string, setUserName: any) {
     });
 };
 
-async function signin(setloggedIn: any, setUserName: any) {
+function GoogleConfigure(){
   GoogleSignin.configure({
-    webClientId: '668505742836-j257248c8cr7hbaupc1hqi7toufmdt00.apps.googleusercontent.com' // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
-  });  
+      webClientId: '668505742836-j257248c8cr7hbaupc1hqi7toufmdt00.apps.googleusercontent.com' // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
+  });
+}
+
+async function Signin(setloggedIn: any, setUserName: any) {
+  GoogleConfigure();  
   
   try {
       const userInfo = await GoogleSignin.signIn();
@@ -83,6 +85,18 @@ async function signin(setloggedIn: any, setUserName: any) {
 const LoginScreen = ({navigation}: {navigation: any}) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userName, setUserName] = useState('');
+  useLayoutEffect(() => {
+    const fetchLogInData = async () => {
+      GoogleConfigure();
+      await GoogleSignin.signInSilently();
+      let isSignedIn = await GoogleSignin.isSignedIn();
+      if (isSignedIn){
+        navigation.navigate(Screens.TabNavigator);
+      }
+    };
+    fetchLogInData().catch(console.error);
+    console.log('useLayoutEffect');
+    }, []);
   return (
     <View style={styles.background}>
       <ScrollView style={styles.mainContainer}>
@@ -95,7 +109,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Light}
             onPress={async () => {
-              await signin(setloggedIn, setUserName);
+              await Signin(setloggedIn, setUserName);
             }}
           />
         )}
