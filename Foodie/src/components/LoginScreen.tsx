@@ -62,6 +62,7 @@ async function signin(setloggedIn: any, setUserName: any) {
   });  
   
   try {
+      const userInfo = await GoogleSignin.signIn();
       const token = await GoogleSignin.getTokens();
       await getAuthData(token.idToken, setUserName);
 
