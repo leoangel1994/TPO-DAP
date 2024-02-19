@@ -108,6 +108,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             placeholder="Link a video"
             onChangeText={newText => setVideoLinkText(newText)}
           />
+          <SmallButton text="Adjuntar Imágen" onPress={openGallery} />
 
           <Swiper
             style={styles.swiperContainer}
@@ -133,7 +134,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             )}
           </Swiper>
 
-          <SmallButton text="Adjuntar Imágen" onPress={openGallery} />
         </View>
       </ScrollView>
 
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   input: CommonStyle.input,
   swiperContainer: {
     marginTop: 8,
-    height: 200,
+    height: 140,
     marginBottom: 10,
   },
   slide: {

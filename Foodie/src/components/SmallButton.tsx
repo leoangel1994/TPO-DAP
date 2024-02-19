@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     ...CommonStyle.primaryButton,
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 32,
+    marginTop: 16,
+    marginBottom: 4,
     width: '80%',
   },
   primaryButtonText: {
