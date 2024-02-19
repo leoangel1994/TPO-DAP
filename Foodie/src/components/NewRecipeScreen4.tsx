@@ -27,7 +27,7 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
 
   return (
     <View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 16}}>
         {availableTags.map((tag: any, index: any) => (
           <TouchableOpacity
             key={index}
@@ -55,7 +55,11 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
 
 export const NewRecipeScreen4 = ({navigation}: any) => {
   const route: any = useRoute();
-  console.log(route.params);
+
+  const [calories, setCalories] = useState(0);
+  const [proteins, setProteins] = useState(0);
+  const [totalFat, setTotalFat] = useState(0);
+
   const [selectedTags, setSelectedTags] = useState([]);
   const availableTags = [
     'Veganas',
@@ -73,29 +77,63 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
     setSelectedTags(tags);
   };
 
+  const submitFormNewRecipe = () => {
+    console.log({
+      step1: route.params.step1,
+      step2: route.params.step2,
+      step3: route.params.step3,
+      step4: {
+        calories: calories,
+        proteins: proteins,
+        totalFat: totalFat,
+        tags: selectedTags,
+      },
+    });
+
+    //TODO: axios POST new recipe...
+
+    navigateToNextScreen();
+  };
+
+  const navigateToNextScreen = () => {
+    navigation.navigate(Screens.Landing);
+  };
+
   return (
     <View style={styles.background}>
-      <ScrollView>
-        <View style={{padding: 30}}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
           <Text style={styles.titleText}>Otros Datos</Text>
           <Text style={styles.subTitleText}>
-            Agrega más información para que otros puedan encontrar tu receta
+            Agregá más información para que otros puedan encontrar tu receta
             fácilmente
           </Text>
           <TextInput
             style={styles.input}
             placeholder="Cantidad de calorías"
             keyboardType="numeric"
+            onChangeText={newText => {
+              newText.replace(/[^0-9]/, '');
+              setCalories(Number.parseInt(newText));
+            }}
           />
           <TextInput
             style={styles.input}
             placeholder="Cantidad de proteínas"
             keyboardType="numeric"
+            onChangeText={newText => {
+              newText.replace(/[^0-9]/, '');
+              setProteins(Number.parseInt(newText));
+            }}
           />
           <TextInput
             style={styles.input}
             placeholder="Cantidad de grasas totales"
             keyboardType="numeric"
+            onChangeText={newText => {
+              newText.replace(/[^0-9]/, '');
+              setTotalFat(Number.parseInt(newText));
+            }}
           />
 
           <TagsDropdown
@@ -105,13 +143,21 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
           />
         </View>
       </ScrollView>
-
-      <ProgressBar currentStep={4} />
-
-      <PrimaryButton
-        text="Finalizar"
-        onPress={() => navigation.navigate(Screens.Landing)}
-      />
+      <View style={{height: 160}}>
+        <ProgressBar currentStep={4} />
+        <View style={{height: 36}} />
+        <PrimaryButton
+          text="Finalizar"
+          backgroundColor={
+            calories && proteins && totalFat
+              ? Theme.colors.SECONDARY_2
+              : Theme.colors.NEUTRAL_3
+          }
+          onPress={() => {
+            if (calories && proteins && totalFat) submitFormNewRecipe();
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -122,6 +168,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between', // Asegúrate de que el contenido se distribuya verticalmente
     alignItems: 'center',
+  },
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  content: {
+    padding: 30,
+    minWidth: '100%',
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
