@@ -22,8 +22,11 @@ exports.getUserById = async (req, res) => {
 exports.updateUserById = async (req, res) => {
     // Implement logic to update a user by ID
     try {
-        const user = await userService.updateUserById(req);
-        res.json(user);
+      const userId = getProfileId(req);
+      if (userId == null) return res.sendStatus(401);
+      
+      const user = await userService.updateUserById(userId, req.body);
+      res.json(user);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
       }

@@ -18,7 +18,7 @@ exports.getFavoriteRecipes = async (profileId) => {
 }
 
 // Get recipe by ID
-exports.getRecipesByFilters = async (profileId, tags, ingredients, title) => {
+exports.getRecipesByFilters = async (tags, ingredients, title) => {
     try {
         console.log(tags, ingredients, title)
         let tagsFilters = tags == null ? [] : tags.split(',');
@@ -37,7 +37,7 @@ exports.getRecipesByFilters = async (profileId, tags, ingredients, title) => {
     }
 }
 
-exports.getRecipesForCarousel = async (profileId) => {
+exports.getRecipesForCarousel = async () => {
     try {
         let recipes = await Recipe
         .find({}).limit(10);
@@ -49,9 +49,9 @@ exports.getRecipesForCarousel = async (profileId) => {
 }
 
 // Get recipe by ID
-exports.getRecipeById = async (profileId, recipeId) => {
+exports.getRecipeById = async (recipeId) => {
     try {
-        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId});
+        let recipe = await Recipe.findOne({_id: recipeId});
         return recipe;
     } 
     catch (err) {

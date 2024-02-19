@@ -6,24 +6,24 @@ const filesController = require('../controllers/filesController');
 const auth = require('../services/authService');
 const router = express.Router();
 
-//Obtener datos del perfil de un usuario público para el id:' + req.params.userId
+//Obtener datos del perfil del usuario logueado
 router.get('/', auth.authenticateToken, userController.getUserById);
 
-//Editar los datos del perfil del usuario público para el id:' + req.params.userId
-router.put('/:userId', auth.authenticateToken, userController.updateUserById);
+//Editar los datos del perfil del usuario logueado
+router.put('/', auth.authenticateToken, userController.updateUserById);
 
-//Dar de baja la cuenta de un usuario público para el id:' + req.params.userId
-router.delete('/:userId', auth.authenticateToken, userController.deleteUserById);
+//Dar de baja la cuenta del usuario logueado
+router.delete('/', auth.authenticateToken, userController.deleteUserById);
 
 //User Favourites
 //Guarda una receta en favoritos para el user id: ' + req.params.userId
-router.post('/:userId/favourites/', auth.authenticateToken, recipeController.saveRecipeToFavorites);
+router.post('/favourites/', auth.authenticateToken, recipeController.saveRecipeToFavorites);
 
 //Eliminar receta guardada en favoritos para el user id:' + req.params.userId
-router.delete('/:userId/favourites/:recipeId', auth.authenticateToken, recipeController.removeRecipeFromFavorites);
+router.delete('/favourites/:recipeId', auth.authenticateToken, recipeController.removeRecipeFromFavorites);
 
 //'Muestra una lista de recetas favoritas para el user id: ' + req.params.userId
-router.get('/:userId/favourites', auth.authenticateToken, recipeController.getFavoriteRecipes);
+router.get('/favourites', auth.authenticateToken, recipeController.getFavoriteRecipes);
 
 //Iniciar sesión
 router.post('/login', authController.login);
@@ -34,15 +34,10 @@ router.post('/logout', auth.authenticateToken, authController.logout);
 //Refrescar token
 router.post('/refreshToken', authController.refreshToken);
 
-//Obtener receta de un usuario para el Userid:' + req.params.userId + ' y recipeId' + req.params.recipeId
-router.get('/:userId/recipes/:recipeId', auth.authenticateToken, recipeController.getRecipeById);
+//Obtener recetas creadas por el usuario logueado
+router.get('/recipes/:recipeId', auth.authenticateToken, recipeController.getRecipeById);
 
-//Actualizar receta de un usuario para el Userid:' + req.params.userId + ' y recipeId' + req.params.recipeId
-router.put('/:userId/recipes/:recipeId', auth.authenticateToken, recipeController.updateRecipeById);
-
-//Eliminar receta de un usuario para el Userid:' + req.params.userId + ' y recipeId' + req.params.recipeId
-router.delete('/:userId/recipes/:recipeId', auth.authenticateToken, recipeController.deleteRecipeById);
-
+//subir imagen de perfil del usuario logueado
 router.post('/image', filesController.uploadProfileImage);
 
 module.exports = router; 

@@ -4,11 +4,7 @@ const getProfileId = require('../utils/jwtHelper').getProfileId;
 
 exports.getRecipesByFilters = async (req, res) => {
   try {
-    //Get user from token
-    const userId = getProfileId(req);
-    if (userId == null) return res.sendStatus(401);
-    
-    const recipes = await recipeService.getRecipesByFilters(userId, req.query.tags, req.query.ingredients, req.query.title);
+    const recipes = await recipeService.getRecipesByFilters(req.query.tags, req.query.ingredients, req.query.title);
     if (recipes == null){
       res.status(404).json({ error: 'Recipes not found' });
       return;
@@ -21,11 +17,7 @@ exports.getRecipesByFilters = async (req, res) => {
 }
 
 exports.getRecipesForCarousel = async (req, res) => {
-  try {
-    //Get user from token
-    //const userId = getProfileId(req);
-    //if (userId == null) {res.sendStatus(401); return};
-    
+  try { 
     const recipes = await recipeService.getRecipesForCarousel();
     if (recipes == null){
       res.status(404).json({ error: 'Recipes not found' });
@@ -39,13 +31,8 @@ exports.getRecipesForCarousel = async (req, res) => {
 }
 
 exports.getRecipeById = async (req, res) => {
-  // Implement logic to get a recipe by ID
   try {
-    //Get user from token
-    const userId = getProfileId(req);
-    if (userId == null) return res.sendStatus(401);
-
-    const recipe = await recipeService.getRecipeById(userId, req.params.id);
+    const recipe = await recipeService.getRecipeById(req.params.id);
 
     if (recipe == null){
       res.status(404).json({ error: 'Recipe not found' });
@@ -106,9 +93,10 @@ exports.deleteRecipeById = async (req, res) => {
 }
 
 exports.rateRecipeById = async (req, res) => {
-  //implement logic to rate a recipe by id
+  const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
   try {
-    const recipe = await recipeService.rateRecipeById(req.params.userId, req.params.recipeId, req.body);
+    const recipe = await recipeService.rateRecipeById(userId, req.params.recipeId, req.body);
     res.json(recipe);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -116,9 +104,10 @@ exports.rateRecipeById = async (req, res) => {
 }
 
 exports.saveRecipeToFavorites = async (req, res) => {
-    // Implement logic to save a recipe to favorites
+  const userId = getProfileId(req);
+  if (userId == null) return res.sendStatus(401);
     try {
-        const recipe = await recipeService.saveRecipeToFavorites(req.params.userId, req.body);
+        const recipe = await recipeService.saveRecipeToFavorites(userId, req.body);
         res.json(recipe);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -126,9 +115,10 @@ exports.saveRecipeToFavorites = async (req, res) => {
 }
 
 exports.removeRecipeFromFavorites = async (req, res) => {
-    // Implement logic to remove a recipe from favorites
+  const userId = getProfileId(req);
+  if (userId == null) return res.sendStatus(401);
     try {
-        const recipe = await recipeService.removeRecipeFromFavorites(req.params.userId, req.params.recipeId);
+        const recipe = await recipeService.removeRecipeFromFavorites(userId, req.params.recipeId);
         res.json(recipe);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -137,8 +127,11 @@ exports.removeRecipeFromFavorites = async (req, res) => {
 
 exports.getFavoriteRecipes = async (req, res) => {
     try {
-        const recipe = await recipeService.getFavoriteRecipes(req.params.userId);
-        res.json(recipe);
+      const userId = getProfileId(req);
+      if (userId == null) return res.sendStatus(401);
+      
+      const recipe = await recipeService.getFavoriteRecipes(userId);
+      res.json(recipe);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
       }

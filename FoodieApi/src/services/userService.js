@@ -14,7 +14,7 @@ exports.getUserById = async (profileId) => {
 }
 
 // Update user by ID
-exports.updateUserById = async (req) => {
+exports.updateUserById = async (userId, req) => {
     // Implement the logic to update a user by ID
 }
 
