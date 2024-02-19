@@ -4,8 +4,11 @@ import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
 import ProgressBar from './ProgressBar'; // Importa el componente ProgressBar
 import { Screens } from '../navigation/RootNavigator';
+import { useRoute } from '@react-navigation/native';
 
 const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
+  const route: any = useRoute(); // For searches received from Landing Screen
+  console.log(route.params)
   const [steps, setSteps] = useState<string[]>(['']);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const totalSteps = 4;

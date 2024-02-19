@@ -51,9 +51,9 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const navigateToNextScreen = () => {
     navigation.navigate(Screens.NewRecipe2, {
       step1: {
-        title: '',
-        description: '',
-        videoLink: '',
+        title: titleText,
+        description: descriptionText,
+        videoLink: videoLinkText,
         images: [...images],
       },
     });
@@ -137,9 +137,9 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
         </View>
       </ScrollView>
 
-      <>
+      <View style={{height: 160}}>
         {!isKeyboardOpen && <ProgressBar currentStep={1} />}
-        <View style={{height: 30}} />
+        <View style={{height: 36}} />
         <PrimaryButton
           text="Siguiente"
           backgroundColor={titleText && descriptionText ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3}
@@ -147,7 +147,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             if (titleText && descriptionText) navigateToNextScreen();
           }}
         />
-      </>
+      </View>
     </KeyboardAvoidingView>
   );
 };
