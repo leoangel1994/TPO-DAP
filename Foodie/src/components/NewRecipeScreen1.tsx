@@ -20,6 +20,9 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ProgressBar from './ProgressBar';
 
 export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
+  const [titleText, setTitleText] = useState('');
+  const [descriptionText, setDescriptionText] = useState('');
+  const [videoLinkText, setVideoLinkText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
@@ -46,7 +49,14 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   };
 
   const navigateToNextScreen = () => {
-    navigation.navigate(Screens.NewRecipe2);
+    navigation.navigate(Screens.NewRecipe2, {
+      step1: {
+        title: '',
+        description: '',
+        videoLink: '',
+        images: [...images],
+      },
+    });
   };
 
   const handleKeyboardDidShow = () => {
@@ -83,17 +93,28 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
           <Text style={styles.subTitleText}>
             Información principal sobre tu receta
           </Text>
-          <TextInput style={styles.input} placeholder="Título" />
-          <TextInput style={styles.input} placeholder="Descripción" />
-          <TextInput style={styles.input} placeholder="Link a video" />
+          <TextInput
+            style={styles.input}
+            placeholder="Título"
+            onChangeText={newText => setTitleText(newText)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Descripción"
+            onChangeText={newText => setDescriptionText(newText)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Link a video"
+            onChangeText={newText => setVideoLinkText(newText)}
+          />
 
           <Swiper
             style={styles.swiperContainer}
             showsButtons={true}
             showsPagination={true}
             key={images.length}
-            activeDotColor={Theme.colors.SECONDARY_1}
-            >
+            activeDotColor={Theme.colors.SECONDARY_1}>
             {images.length === 0 ? (
               <View style={styles.slide}>
                 <Text style={styles.noImageText}>No hay imágenes cargadas</Text>
@@ -119,7 +140,13 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
       <>
         {!isKeyboardOpen && <ProgressBar currentStep={1} />}
         <View style={{height: 30}} />
-        <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
+        <PrimaryButton
+          text="Siguiente"
+          backgroundColor={titleText && descriptionText ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3}
+          onPress={() => {
+            if (titleText && descriptionText) navigateToNextScreen();
+          }}
+        />
       </>
     </KeyboardAvoidingView>
   );
