@@ -77,7 +77,7 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
         </View>
       </View>
 
-      {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={2} />}
+      {!isKeyboardOpen && <ProgressBar currentStep={2} />}
 
       <View style={{ height: 15 }} />
 

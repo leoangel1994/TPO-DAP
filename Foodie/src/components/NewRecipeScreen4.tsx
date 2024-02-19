@@ -75,7 +75,7 @@ export const NewRecipeScreen4 = ({ navigation } : any) => {
         </View>
       </ScrollView>
 
-      <ProgressBar totalSteps={4} currentStep={4} />
+      <ProgressBar currentStep={4} />
 
       <PrimaryButton
         text="Finalizar"

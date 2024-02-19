@@ -8,7 +8,6 @@ import { Screens } from '../navigation/RootNavigator';
 const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   const [steps, setSteps] = useState<string[]>(['']);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
   const addStep = () => {
@@ -22,9 +21,6 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   };
 
   const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
     navigation.navigate(Screens.NewRecipe4);
   };
 
@@ -68,7 +64,7 @@ const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         </View>
 
-        {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={2} />}
+        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
 
         <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe4)} />
       </ScrollView>

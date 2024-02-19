@@ -21,7 +21,6 @@ import ProgressBar from './ProgressBar';
 
 export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const [images, setImages] = useState<string[]>([]);
-  const [currentStep, setCurrentStep] = useState(1);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const openGallery = async () => {
@@ -47,7 +46,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   };
 
   const navigateToNextScreen = () => {
-    setCurrentStep(currentStep + 1);
     navigation.navigate(Screens.NewRecipe2);
   };
 
@@ -97,7 +95,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             {images.length === 0 ? (
               <View style={styles.slide}>
                 <Text style={styles.noImageText}>
-                  No hay imágenes seleccionadas
+                  No hay imágenes cargadas
                 </Text>
               </View>
             ) : (
@@ -119,7 +117,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
       </ScrollView>
 
       {!isKeyboardOpen && (
-        <ProgressBar totalSteps={4} currentStep={currentStep} />
+        <ProgressBar currentStep={1} />
       )}
 
       <View style={{height: 30}} />
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noImageText: {
-    color: 'gray',
+    color: Theme.colors.NEUTRAL_4,
     fontSize: 16,
   },
   selectedImage: {

@@ -1,14 +1,17 @@
 // ProgressBar.tsx
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {Theme} from '../../Theme';
 
 interface ProgressBarProps {
-  totalSteps: number;
   currentStep: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ totalSteps, currentStep }) => {
+const ProgressBar = ({currentStep}: ProgressBarProps) => {
+  const totalSteps: number = 4;
+  if (currentStep < 1 || currentStep > 4)
+    throw new Error('invalid ProgressBar step');
   return (
     <View style={styles.container}>
       <View style={styles.progressBar}>
@@ -17,20 +20,21 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ totalSteps, currentStep }) =>
             <View
               style={[
                 styles.progressStep,
-                (currentStep > index + 1 || currentStep === index + 1) && styles.completedStep,
-                currentStep === index + 1 && styles.activeStep,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.stepText,
-                  (currentStep > index + 1 || currentStep === index + 1) && styles.activeStepText,
-                ]}
-              >
-                {index + 1}
-              </Text>
+                currentStep > index + 1 && styles.completedStepColor,
+                currentStep === index + 1 && styles.activeStepColor,
+              ]}>
+              <Text style={styles.stepText}>{index + 1}</Text>
             </View>
-            {index < totalSteps - 1 && <View style={styles.progressLine} />}
+            {index < totalSteps - 1 ? (
+              <View
+                style={[
+                  styles.progressLine,
+                  currentStep > index + 1 && styles.completedProgressLineColor,
+                ]}
+              />
+            ) : (
+              <></>
+            )}
           </View>
         ))}
       </View>
@@ -55,22 +59,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   progressStep: {
-    borderRadius: 50,
+    borderRadius: 25,
     width: 30,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#797979',
+    backgroundColor: Theme.colors.NEUTRAL_3,
   },
-  completedStep: {
-    backgroundColor: '#F37F21',
+  completedStepColor: {
+    backgroundColor: Theme.colors.SECONDARY_2,
   },
-  activeStep: {
-    backgroundColor: '#F37F21',
-  },
-  activeStepText: {
-    color: 'white',
-    fontSize: 16,
+  activeStepColor: {
+    backgroundColor: Theme.colors.SECONDARY_1,
   },
   stepText: {
     color: 'white',
@@ -80,10 +80,11 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 4,
     maxWidth: 80,
-    backgroundColor: '#797979',
+    backgroundColor: Theme.colors.NEUTRAL_3,
+  },
+  completedProgressLineColor: {
+    backgroundColor: Theme.colors.SECONDARY_2,
   },
 });
 
 export default ProgressBar;
-
-
