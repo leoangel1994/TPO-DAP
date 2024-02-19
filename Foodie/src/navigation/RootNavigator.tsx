@@ -21,9 +21,11 @@ import EditRecipeScreen3 from '../components/EditRecipeScreen3';
 import EditRecipeScreen4 from '../components/EditRecipeScreen4';
 import RecipeDetailsScreen from '../components/RecipeDetails';
 import {StyleSheet, View} from 'react-native';
+import ErrorScreen from '../components/Error/ErrorScreen';
 
 export const Screens = {
   Login: 'Login',
+  ErrorScreen: "Error",
   TabNavigator: 'TabNavigator', // Tabs
   Landing: 'Landing',
   Search: 'Search',
@@ -148,6 +150,11 @@ const RootNavigator = () => {
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen
+          name={Screens.ErrorScreen}
+          component={ErrorScreen}
+          options={{}}
+        />
         <Stack.Screen
           name={Screens.Login}
           component={LoginScreen}

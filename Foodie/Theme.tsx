@@ -15,6 +15,7 @@ export const Theme = {
     NEUTRAL_5: '#F5F5F5',
     OPACITY: '#12121288',
     DANGER: '#C84326',
+    WARNING: '#FBBF35',
   },
   fontSize: {
     TITLE: 30,

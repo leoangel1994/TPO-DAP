@@ -34,7 +34,11 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        console.log('TODO: Pantalla manejo de error');
+        navigation.navigate(Screens.ErrorScreen, {
+          errorCode: '1',
+          errorMessage: 'Error al cargar el carrousel',
+          nextScreen: Screens.Login,
+        });
       });
   };
 
