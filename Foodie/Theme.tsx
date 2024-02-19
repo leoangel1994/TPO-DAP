@@ -72,6 +72,7 @@ export const CommonStyle = {
     borderWidth: 2,
     borderColor: Theme.colors.SECONDARY_3,
     fontFamily: Theme.fontFamily.REGULAR,
+    paddingLeft: 16,
     marginTop: 8,
     marginBottom: 8,
   },

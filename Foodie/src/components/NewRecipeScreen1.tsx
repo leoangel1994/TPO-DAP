@@ -133,7 +133,6 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
               if (regexValidateUrl(newText)) {
                 setVideoLinkText(newText);
                 setIsValidLink(true);
-                console.log('valid url');
               } else {
                 setVideoLinkText(newText);
                 setIsValidLink(false);
