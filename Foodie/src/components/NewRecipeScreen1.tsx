@@ -1,22 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import Swiper from 'react-native-swiper';
-import { CommonStyle, Theme } from '../../Theme';
-import { PrimaryButton } from './PrimaryButton';
-import { SmallButton } from './SmallButton';
-import { Screens } from '../navigation/RootNavigator';
-import { launchImageLibrary } from 'react-native-image-picker';
+import {CommonStyle, Theme} from '../../Theme';
+import {PrimaryButton} from './PrimaryButton';
+import {SmallButton} from './SmallButton';
+import {Screens} from '../navigation/RootNavigator';
+import {launchImageLibrary} from 'react-native-image-picker';
 import ProgressBar from './ProgressBar';
 
-export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
-  const [images, setImages] = useState([]);
+export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
+  const [images, setImages] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const openGallery = async () => {
-    const result = await launchImageLibrary();
-    if (images.length < 3) {
-      setImages([...images, result.assets[0].uri]);
+    try {
+      const result = await launchImageLibrary({mediaType: 'photo'});
+      if (
+        images.length < 3 &&
+        result.assets &&
+        result.assets.length > 0 &&
+        result.assets[0].uri &&
+        result.assets[0].uri.length > 0
+      ) {
+        setImages([...images, result.assets[0].uri]);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -39,8 +60,14 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
   };
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      handleKeyboardDidShow,
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      handleKeyboardDidHide,
+    );
 
     return () => {
       keyboardDidShowListener.remove();
@@ -51,12 +78,13 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.background}
-    >
+      style={styles.background}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.content}>
           <Text style={styles.titleText}>Nueva Receta</Text>
-          <Text style={styles.subTitleText}>Información principal sobre tu receta</Text>
+          <Text style={styles.subTitleText}>
+            Información principal sobre tu receta
+          </Text>
           <TextInput style={styles.input} placeholder="Título" />
           <TextInput style={styles.input} placeholder="Descripción" />
           <TextInput style={styles.input} placeholder="Link a video" />
@@ -65,18 +93,20 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
             style={styles.swiperContainer}
             showsButtons={false}
             showsPagination={false}
-            loadMinimalSize={2}
-            loadMinimalLoaderColor="transparent"
-          >
+            loadMinimalSize={2}>
             {images.length === 0 ? (
               <View style={styles.slide}>
-                <Text style={styles.noImageText}>No hay imágenes seleccionadas</Text>
+                <Text style={styles.noImageText}>
+                  No hay imágenes seleccionadas
+                </Text>
               </View>
             ) : (
               images.map((image, index) => (
                 <View key={index} style={styles.slide}>
-                  <Image source={{ uri: image }} style={styles.selectedImage} />
-                  <TouchableOpacity style={styles.deleteButton} onPress={() => removeImage(index)}>
+                  <Image source={{uri: image}} style={styles.selectedImage} />
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => removeImage(index)}>
                     <Text style={styles.deleteButtonText}>X</Text>
                   </TouchableOpacity>
                 </View>
@@ -86,14 +116,13 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
 
           <SmallButton text="Seleccionar Imagen" onPress={openGallery} />
         </View>
-
       </ScrollView>
 
       {!isKeyboardOpen && (
         <ProgressBar totalSteps={4} currentStep={currentStep} />
       )}
 
-      <View style={{ height: 30 }} />
+      <View style={{height: 30}} />
 
       <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
     </KeyboardAvoidingView>
@@ -154,6 +183,3 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen1;
-
-
-

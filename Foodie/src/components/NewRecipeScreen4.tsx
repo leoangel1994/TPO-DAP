@@ -5,12 +5,12 @@ import { PrimaryButton } from './PrimaryButton';
 import ProgressBar from './ProgressBar'; 
 import { Screens } from '../navigation/RootNavigator';
 
-const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }) => {
-  const handleTagSelect = (tag) => {
+const TagsDropdown = ({ availableTags, selectedTags, onTagSelect } : any) => {
+  const handleTagSelect = (tag : any) => {
     if (!selectedTags.includes(tag)) {
       onTagSelect([...selectedTags, tag]);
     } else {
-      const updatedTags = selectedTags.filter((selectedTag) => selectedTag !== tag);
+      const updatedTags = selectedTags.filter((selectedTag : any) => selectedTag !== tag);
       onTagSelect(updatedTags);
     }
   };
@@ -18,7 +18,7 @@ const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }) => {
   return (
     <View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {availableTags.map((tag, index) => (
+        {availableTags.map((tag :any, index:any) => (
           <TouchableOpacity
             key={index}
             style={[
@@ -37,7 +37,7 @@ const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }) => {
   );
 };
 
-export const NewRecipeScreen4 = ({ navigation }) => {
+export const NewRecipeScreen4 = ({ navigation } : any) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const availableTags = [
     'Veganas',
@@ -51,7 +51,7 @@ export const NewRecipeScreen4 = ({ navigation }) => {
     'Antiinflamatoria'
   ];
 
-  const handleTagSelect = (tags) => {
+  const handleTagSelect = (tags : any) => {
     setSelectedTags(tags);
   };
 
