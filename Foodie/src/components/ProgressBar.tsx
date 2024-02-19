@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 'auto',
   },
   progressBar: {
     flexDirection: 'row',

@@ -93,7 +93,7 @@ export const NewRecipeScreen1 = ({ navigation }: { navigation: any }) => {
         <ProgressBar totalSteps={4} currentStep={currentStep} />
       )}
 
-      <View style={{ height: 25 }} />
+      <View style={{ height: 30 }} />
 
       <PrimaryButton text="Siguiente" onPress={navigateToNextScreen} />
     </KeyboardAvoidingView>

@@ -79,7 +79,7 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
 
       {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={2} />}
 
-      <View style={{ height: 25 }} />
+      <View style={{ height: 15 }} />
 
       <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe3)} />
     </ScrollView>
@@ -89,9 +89,8 @@ export const NewRecipeScreen2 = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    alignItems: 'center',  // Alinea el ProgressBar al centro horizontalmente
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
     backgroundColor: Theme.colors.PRIMARY_1,
   },
   background: {

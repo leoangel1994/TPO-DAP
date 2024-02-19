@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
-import ProgressBar from './ProgressBar';  // Asegúrate de importar ProgressBar desde la ruta correcta
+import ProgressBar from './ProgressBar'; 
+import { Screens } from '../navigation/RootNavigator';
 
 const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }) => {
   const handleTagSelect = (tag) => {

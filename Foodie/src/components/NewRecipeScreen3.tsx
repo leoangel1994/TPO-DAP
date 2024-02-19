@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 import { PrimaryButton } from './PrimaryButton';
-import ProgressBar from './ProgressBar'; // Import the ProgressBar component
+import ProgressBar from './ProgressBar'; // Importa el componente ProgressBar
 import { Screens } from '../navigation/RootNavigator';
 
-export const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
+const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   const [steps, setSteps] = useState<string[]>(['']);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -49,7 +49,7 @@ export const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={{ padding: 30 }}>
+        <View style={styles.contentContainer}>
           <Text style={styles.titleText}>Pasos</Text>
           <Text style={styles.subTitleText}>Contanos paso a paso como se hace</Text>
 
@@ -66,14 +66,12 @@ export const NewRecipeScreen3 = ({ navigation }: { navigation: any }) => {
           <TouchableOpacity style={styles.addButton} onPress={addStep}>
             <Text style={{ fontSize: 20, color: 'white' }}>+</Text>
           </TouchableOpacity>
-
-          {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={3} />}
         </View>
-      </ScrollView>
 
-      <View style={styles.footer}>
-        <PrimaryButton text="Siguiente" onPress={handleNext} />
-      </View>
+        {!isKeyboardOpen && <ProgressBar totalSteps={4} currentStep={2} />}
+
+        <PrimaryButton text="Siguiente" onPress={() => navigation.navigate(Screens.NewRecipe4)} />
+      </ScrollView>
     </View>
   );
 };
@@ -86,6 +84,9 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
+  },
+  contentContainer: {
+    padding: 30,
   },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
@@ -102,9 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 8,
-  },
-  footer: {
-    justifyContent: 'flex-end',
   },
 });
 
