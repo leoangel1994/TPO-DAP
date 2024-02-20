@@ -25,11 +25,23 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
   const route: any = useRoute(); // For searches received from Landing Screen
   const [portions, setPortions] = useState(0);
   const [preparationTime, setPreparationTime] = useState('');
-  const [ingredients, setIngredients] = useState<IngredienteForm[]>([]);
+  const [ingredients, setIngredients] = useState<IngredienteForm[]>([{name: "", quantity: ""}]);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const addIngredient = () => {
     setIngredients([...ingredients, {name: '', quantity: ''}]);
+  };
+
+  const removeIngredient = () => {
+    let ingredientes_copy = [...ingredients];
+    ingredientes_copy.pop();
+    setIngredients(ingredientes_copy);
+  };
+
+  const validateIngredients = () => {
+    let any_empty = ingredients.some((ingredient : IngredienteForm) => {return ingredient.name.length == 0 || ingredient.quantity.length == 0})
+    console.log("ANY EMPTY", any_empty)
+    return !any_empty && ingredients.length > 0;
   };
 
   const handleIngredientNameChange = (text: string, index: number) => {
@@ -111,7 +123,7 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
                 {index === 0 && <Text style={styles.subTitleText}>Nombre</Text>}
                 <TextInput
                   style={styles.input}
-                  placeholder="Nombre del Ingrediente"
+                  placeholder="Ingrediente"
                   value={ingredient.name}
                   onChangeText={text => handleIngredientNameChange(text, index)}
                 />
@@ -131,9 +143,16 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
               </View>
             </View>
           ))}
-          <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
-            <Text style={styles.addButtonText}>+</Text>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.minusButton}
+              onPress={removeIngredient}>
+              <Text style={styles.addButtonText}>-</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
       <View style={{height: 160}}>
@@ -143,12 +162,12 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
         <PrimaryButton
           text="Siguiente"
           backgroundColor={
-            portions && preparationTime && ingredients.length > 0
+            portions && preparationTime && validateIngredients()
               ? Theme.colors.SECONDARY_2
               : Theme.colors.NEUTRAL_3
           }
           onPress={() => {
-            if (portions && preparationTime && ingredients.length > 0)
+            if (portions && preparationTime && validateIngredients())
               navigateToNextScreen();
           }}
         />
@@ -179,6 +198,17 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: Theme.colors.SECONDARY_2,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 8,
+    marginRight: 16,
+  },
+  minusButton: {
+    backgroundColor: Theme.colors.DANGER,
     width: 40,
     height: 40,
     borderRadius: 20,
