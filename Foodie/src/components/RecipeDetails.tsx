@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
 
@@ -17,6 +17,8 @@ const fake_profile = {
 };
 
 const RecipeDetailsScreen = () => {
+  const [activeMenu, setActiveMenu] = useState('Datos');
+
   return (
     <ScrollView style={styles.background}>
       {/* Sección 1 - Titulo e Iconos */}
@@ -26,7 +28,6 @@ const RecipeDetailsScreen = () => {
 
         {/* Contenedor para Porciones y Tiempo */}
         <View style={styles.infoContainer}>
-
           {/* Porciones */}
           <View style={styles.iconContainer}>
             <Image source={PorcionesIcon} style={styles.icon} />
@@ -63,9 +64,42 @@ const RecipeDetailsScreen = () => {
 
       {/* Sección 4 - Rating */}
       <View style={styles.ratingSection}>
-        <Text style={styles.authorName}>"Rating - TO DO"</Text>
+        <Text style={styles.ratingText}>La evaluación de Recetas estará disponible pronto!</Text>
+      </View>
 
-        {/* Contenido adicional, si es necesario */}
+      {/* Sección 5 - Menú Horizontal */}
+      <View style={styles.menuSection}>
+        <TouchableOpacity
+          style={[
+            styles.menuOption,
+            { backgroundColor: activeMenu === 'Datos' ? '#F8A82E' : '#797979' },
+          ]}
+          onPress={() => setActiveMenu('Datos')}>
+          <Text style={[styles.subTitleText, { color: activeMenu === 'Datos' ? 'white' : 'white' }]}>
+            Datos
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.menuOption,
+            { backgroundColor: activeMenu === 'Pasos' ? '#F8A82E' : '#797979' },
+          ]}
+          onPress={() => setActiveMenu('Pasos')}>
+          <Text style={[styles.subTitleText, { color: activeMenu === 'Pasos' ? 'white' : 'white' }]}>
+            Pasos
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.menuOption,
+            { backgroundColor: activeMenu === 'Ingredientes' ? '#F8A82E' : '#797979' },
+          ]}
+          onPress={() => setActiveMenu('Ingredientes')}>
+          <Text
+            style={[styles.subTitleText, { color: activeMenu === 'Ingredientes' ? 'white' : 'white' }]}>
+            Ingredientes
+          </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -98,6 +132,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
   },
+  ratingText: {
+      fontSize: 16,
+      color: 'black',
+    },
   buttonSection: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -139,21 +177,26 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fontFamily.REGULAR,
   },
   ratingSection: {
-      backgroundColor: 'white',
-      borderRadius: 15,
-      padding: 40,
-      marginTop: 30,
-      marginLeft: 15,
-      marginRight: 15,
-    },
-  additionalSection: {
-    // Agrega estilos adicionales si es necesario
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 40,
+    marginTop: 30,
+    marginLeft: 15,
+    marginRight: 15,
   },
+  menuSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  menuOption: {
+    borderRadius: 15,
+    padding: 10,
+    alignItems: 'center',
+    width: '30%',
+  },
+
 });
 
 export default RecipeDetailsScreen;
-
-
-
-
 
