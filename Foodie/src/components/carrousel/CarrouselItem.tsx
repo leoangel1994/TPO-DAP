@@ -23,18 +23,25 @@ const CarouselCardItem = ({item, index, navigation}: CarrouselItemProps) => {
   return (
     <View style={styles.container} key={index}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(Screens.RecipeDetails, {recipeId: item._id, userId: item.profileId})}>
+        onPress={() =>
+          navigation.navigate(Screens.RecipeDetails, {
+            recipeId: item._id,
+            userId: item.profileId,
+          })
+        }>
         {item.images && item.images.length > 0 && item.images[0].url ? (
-          <Image source={{uri: item.images[0].url, scale: 1}} style={styles.image} />
+          <Image
+            source={{uri: item.images[0].url, scale: 1}}
+            style={styles.image}
+          />
         ) : (
           <></>
         )}
       </TouchableOpacity>
       <Text style={styles.header}>{item.title}</Text>
-      <View style={styles.textRow}>
-        <Text style={styles.timeText}>{item.preparationTime}</Text>
-        <Text style={styles.portionText}>{item.portions} Porciones</Text>
-      </View>
+      <Text style={styles.timeText}>
+        {item.preparationTime} - {item.portions} Porciones
+      </Text>
       <View style={styles.tagsRow}>
         {item.tags.length > 0 ? (
           <Text style={styles.tag}>{item.tags[0]}</Text>
@@ -89,7 +96,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fontFamily.REGULAR,
     fontSize: Theme.fontSize.CARD_SUBTITLE,
     marginLeft: 24,
-    width: '33%',
+    width: '100%',
     textAlign: 'left',
     marginRight: 'auto',
     paddingTop: 4,
