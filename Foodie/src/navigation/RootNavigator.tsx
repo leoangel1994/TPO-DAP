@@ -192,7 +192,7 @@ const RootNavigator = () => {
             name={Screens.RecipeDetails}
             component={RecipeDetailsScreen}
             options={{
-              title: 'Detales Receta',
+              title: 'Detalles Receta',
               headerShown: true,
               headerStyle: {
                 backgroundColor: Theme.colors.SECONDARY_3,

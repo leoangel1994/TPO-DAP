@@ -32,7 +32,7 @@ const RecipeDetailsScreen = () => {
     { name: 'Arroz', quantity: '300g' },
     { name: 'Pollo', quantity: '200g' },
   ]);
-  
+
   return (
     <ScrollView style={styles.background}>
       {/* Sección 1 - Titulo e Iconos */}
@@ -342,7 +342,7 @@ stepsSection: {
     alignItems: 'center',
   },
   carouselImage: {
-    width: '100%',
+    width: '90%',
     height: '100%',
     borderRadius: 10,
   },
