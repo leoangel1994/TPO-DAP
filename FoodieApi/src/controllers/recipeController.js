@@ -44,6 +44,23 @@ exports.getRecipeById = async (req, res) => {
     }
 }
 
+exports.getUserRecipes = async (req, res) => {
+  try {
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+
+    const recipes = await recipeService.getUserRecipes(userId);
+
+    if (recipes == null){
+      res.status(404).json({ error: 'Recipes for user not found' });
+      return;
+    } 
+    res.json(recipes);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 exports.createRecipe = async (req, res) => {
   try {
     const userId = getProfileId(req);

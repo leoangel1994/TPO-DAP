@@ -97,3 +97,13 @@ exports.createRecipe = async (profileId, body) => {
         console.log(err);  
     }
 };
+
+exports.getUserRecipes = async (userId) => {
+    try {
+        let recipes = await Recipe.find({profileId: userId});
+        return recipes;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
+}

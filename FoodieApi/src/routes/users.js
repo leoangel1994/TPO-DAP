@@ -35,7 +35,7 @@ router.post('/logout', auth.authenticateToken, authController.logout);
 router.post('/refreshToken', authController.refreshToken);
 
 //Obtener recetas creadas por el usuario logueado
-router.get('/recipes/:recipeId', auth.authenticateToken, recipeController.getRecipeById);
+router.get('/recipes', auth.authenticateToken, recipeController.getUserRecipes);
 
 //subir imagen de perfil del usuario logueado
 router.post('/image', filesController.uploadProfileImage);
