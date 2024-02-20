@@ -18,18 +18,18 @@ import {useRoute} from '@react-navigation/native';
 
 interface IngredienteForm {
   name: string;
-  quantity: string;
+  amount: string;
 }
 
 export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
   const route: any = useRoute(); // For searches received from Landing Screen
   const [portions, setPortions] = useState(0);
   const [preparationTime, setPreparationTime] = useState('');
-  const [ingredients, setIngredients] = useState<IngredienteForm[]>([{name: "", quantity: ""}]);
+  const [ingredients, setIngredients] = useState<IngredienteForm[]>([{name: "", amount: ""}]);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const addIngredient = () => {
-    setIngredients([...ingredients, {name: '', quantity: ''}]);
+    setIngredients([...ingredients, {name: '', amount: ''}]);
   };
 
   const removeIngredient = () => {
@@ -39,7 +39,7 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
   };
 
   const validateIngredients = () => {
-    let any_empty = ingredients.some((ingredient : IngredienteForm) => {return ingredient.name.length == 0 || ingredient.quantity.length == 0})
+    let any_empty = ingredients.some((ingredient : IngredienteForm) => {return ingredient.name.length == 0 || ingredient.amount.length == 0})
     return !any_empty && ingredients.length > 0;
   };
 
@@ -51,7 +51,7 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
 
   const handleIngredientQuantityChange = (text: string, index: number) => {
     const updatedIngredients = [...ingredients];
-    updatedIngredients[index].quantity = text;
+    updatedIngredients[index].amount = text;
     setIngredients(updatedIngredients);
   };
 
@@ -134,7 +134,7 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
                 <TextInput
                   style={styles.input}
                   placeholder="Cantidad"
-                  value={ingredient.quantity}
+                  value={ingredient.amount}
                   onChangeText={text =>
                     handleIngredientQuantityChange(text, index)
                   }
