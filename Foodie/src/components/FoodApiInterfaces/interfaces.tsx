@@ -5,12 +5,6 @@ export interface RecipeNutritionalProperties {
   totalFat: number;
 }
 
-export interface RecipeSteps {
-  calories: number;
-  proteins: number;
-  totalFat: number;
-}
-
 export interface RecipeIngredients {
   name: string;
   amount: string;
@@ -30,7 +24,7 @@ export interface Recipe {
     description: string;
     preparationTime: string;
     portions: number;
-    steps: RecipeSteps[];
+    steps: string[];
     youtubeLink: string;
     profileId: string;
     tags: string[];
