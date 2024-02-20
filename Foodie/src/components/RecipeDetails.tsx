@@ -111,22 +111,21 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             showsButtons={true}
             showsPagination={true}
             activeDotColor={Theme.colors.SECONDARY_1}>
-            {/* You can replace 'placeholder.jpg' with your actual image URLs */}
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://via.placeholder.com/300'}}
+                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
                 style={styles.carouselImage}
               />
             </View>
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://via.placeholder.com/300'}}
+                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
                 style={styles.carouselImage}
               />
             </View>
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://via.placeholder.com/300'}}
+                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
                 style={styles.carouselImage}
               />
             </View>
@@ -359,12 +358,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+    padding: 10,
   },
   menuOption: {
     borderRadius: 15,
     padding: 10,
     alignItems: 'center',
     width: '30%',
+    height: 45,
   },
   dataSection: {
     padding: 20,
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fontFamily.REGULAR,
   },
   carouselSection: {
-    height: 200, // Adjust the height as needed
+    height: 300, // Adjust the height as needed
   },
   carouselContainer: {
     flex: 1,
