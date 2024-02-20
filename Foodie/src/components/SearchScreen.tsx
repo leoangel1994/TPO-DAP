@@ -99,7 +99,12 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
       {searchResultRecipesListData.length != 0 ? (
         <RecipesFlatList
           dataList={searchResultRecipesListData}
-          onNextPress={() => navigation.navigate(Screens.RecipeDetails)}
+          onNextPress={(recipeId: string, userId: string) =>
+            navigation.navigate(Screens.RecipeDetails, {
+              recipeId: recipeId,
+              userId: userId,
+            })
+          }
         />
       ) : (
         <Text>Cargando...</Text>

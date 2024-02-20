@@ -51,7 +51,12 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
       {recipesListData.length != 0 ? (
         <RecipesFlatList
           dataList={recipesListData}
-          onNextPress={() => navigation.navigate(Screens.RecipeDetails)}
+          onNextPress={(recipeId: string, userId: string) =>
+            navigation.navigate(Screens.RecipeDetails, {
+              recipeId: recipeId,
+              userId: userId,
+            })
+          }
         />
       ) : (
         <Text>Cargando...</Text>

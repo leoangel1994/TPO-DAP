@@ -23,7 +23,7 @@ const CarouselCardItem = ({item, index, navigation}: CarrouselItemProps) => {
   return (
     <View style={styles.container} key={index}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(Screens.RecipeDetails)}>
+        onPress={() => navigation.navigate(Screens.RecipeDetails, {recipeId: item._id, userId: item.profileId})}>
         {item.images && item.images.length > 0 && item.images[0].url ? (
           <Image source={{uri: item.images[0].url, scale: 1}} style={styles.image} />
         ) : (

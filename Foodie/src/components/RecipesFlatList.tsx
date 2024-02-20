@@ -12,12 +12,12 @@ import {Recipe} from './FoodApiInterfaces/interfaces';
 
 interface RecipesListItemProps {
   data: Recipe;
-  onNextPress: (recipeId: string) => void;
+  onNextPress: (recipeId: string, userId: string) => void;
 }
 
 interface RecipesListProps {
   dataList: Recipe[];
-  onNextPress: (recipeId: string) => void;
+  onNextPress: (recipeId: string, userId: string) => void;
 }
 
 const Item = ({data, onNextPress}: RecipesListItemProps) => (
@@ -35,7 +35,7 @@ const Item = ({data, onNextPress}: RecipesListItemProps) => (
         <Text style={styles.listDescriptionText}>{data.description}</Text>
         <Pressable
           style={styles.nextPressable}
-          onPress={() => onNextPress(data._id)}>
+          onPress={() => onNextPress(data._id, data.profileId)}>
           <Text style={styles.nextArrow}>{'>>'}</Text>
         </Pressable>
       </View>
