@@ -14,7 +14,7 @@ import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import mime from "mime";
+import mime from 'mime';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -99,52 +99,62 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
       accessToken = 'Bearer ' + parsedSession.accessToken;
     }
 
-       
     let imgData = new FormData();
-    route.params.step1.images.forEach((img:string) => {
-      const newImageUri =  "file:///" + img.split("file:/").join("");
-      imgData.append('image',
-      {
-         uri: newImageUri,
-         type: mime.getType(newImageUri),
-         name:newImageUri.split("/").pop(),
+    route.params.step1.images.forEach((img: string) => {
+      const newImageUri = 'file:///' + img.split('file:/').join('');
+      imgData.append('image', {
+        uri: newImageUri,
+        type: mime.getType(newImageUri),
+        name: newImageUri.split('/').pop(),
       });
       console.log(newImageUri);
     });
-    
-    axios.post('http://15.228.167.207:3000/recipes',
-    {
-      title: route.params.step1.title,
-      description: route.params.step1.description,
-      youtubeLink: route.params.step1.videoLink,
-      ingredients: route.params.step2.ingredients,
-      portions: route.params.step2.portions,
-      preparationTime: route.params.step2.preparationTime,
-      steps: route.params.step3.steps,
-      nutritionalProperties:{
-        calories: calories,
-        proteins: proteins,
-        totalFat: totalFat
-      },
-      tags: selectedTags
-    },
-    {
-      headers: {
-        'Authorization': accessToken
-      }
-    })
-  .then(response => 
-      axios.post('http://15.228.167.207:3000/recipes/'+response.data._id+'/image',
-      imgData,
-      {
-        headers: {
-          'Authorization': accessToken,
-          'Content-Type': 'multipart/form-data'
-        }
-      }))
-  .catch((error) => {console.log(error)});
-  
-  navigateToNextScreen();
+
+    axios
+      .post(
+        'http://15.228.167.207:3000/recipes',
+        {
+          title: route.params.step1.title,
+          description: route.params.step1.description,
+          youtubeLink: route.params.step1.videoLink,
+          ingredients: route.params.step2.ingredients,
+          portions: route.params.step2.portions,
+          preparationTime: route.params.step2.preparationTime,
+          steps: route.params.step3.steps,
+          nutritionalProperties: {
+            calories: calories,
+            proteins: proteins,
+            totalFat: totalFat,
+          },
+          tags: selectedTags,
+        },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        },
+      )
+      .then(response =>
+        axios.post(
+          'http://15.228.167.207:3000/recipes/' + response.data._id + '/image',
+          imgData,
+          {
+            headers: {
+              Authorization: accessToken,
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        ),
+      )
+      .catch(error => {
+        navigation.navigate(Screens.ErrorScreen, {
+          errorCode: '3',
+          errorMessage: 'Error al dar de recetas del usuario',
+          nextScreen: Screens.Landing,
+        });
+      });
+
+    navigateToNextScreen();
   };
 
   const navigateToNextScreen = () => {
