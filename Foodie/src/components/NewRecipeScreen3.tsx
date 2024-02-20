@@ -25,6 +25,21 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
     setSteps([...steps, '']);
   };
 
+  const removeStep = () => {
+    let steps_copy = [...steps];
+    steps_copy.pop();
+    setSteps(steps_copy);
+  };
+
+  const validateSteps = () => {
+    return (
+      steps.length > 0 &&
+      !steps.some((step: string) => {
+        return step.length == 0;
+      })
+    );
+  };
+
   const updateStep = (index: number, text: string) => {
     const newSteps = [...steps];
     newSteps[index] = text;
@@ -86,9 +101,14 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
             />
           ))}
 
-          <TouchableOpacity style={styles.addButton} onPress={addStep}>
-            <Text style={{fontSize: 20, color: 'white'}}>+</Text>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.addButton} onPress={addStep}>
+              <Text style={{fontSize: 20, color: 'white'}}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.minusButton} onPress={removeStep}>
+              <Text style={{fontSize: 20, color: 'white'}}>-</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
       <View style={{height: 160}}>
@@ -97,12 +117,12 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
         <PrimaryButton
           text="Siguiente"
           backgroundColor={
-            steps[0] && steps[0].length > 0
+            validateSteps()
               ? Theme.colors.SECONDARY_2
               : Theme.colors.NEUTRAL_3
           }
           onPress={() => {
-            if (steps[0] && steps[0].length > 0) navigateToNextScreen();
+            if (validateSteps()) navigateToNextScreen();
           }}
         />
       </View>
@@ -132,6 +152,17 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: Theme.colors.SECONDARY_2,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 8,
+    marginRight: 16,
+  },
+  minusButton: {
+    backgroundColor: Theme.colors.DANGER,
     width: 40,
     height: 40,
     borderRadius: 20,

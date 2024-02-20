@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -85,17 +85,17 @@ async function Signin(setloggedIn: any, setUserName: any) {
 const LoginScreen = ({navigation}: {navigation: any}) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userName, setUserName] = useState('');
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchLogInData = async () => {
       GoogleConfigure();
       await GoogleSignin.signInSilently();
       let isSignedIn = await GoogleSignin.isSignedIn();
       if (isSignedIn){
-        navigation.navigate(Screens.TabNavigator);
-      }
+        const token = await GoogleSignin.getTokens();
+        await getAuthData(token.idToken, setUserName);
+        navigation.navigate(Screens.TabNavigator);}
     };
-    fetchLogInData().catch(console.error);
-    console.log('useLayoutEffect');
+    fetchLogInData().catch((error: Error) => {console.log(error); setloggedIn(false);});
     }, []);
   return (
     <View style={styles.background}>
@@ -111,6 +111,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
             onPress={async () => {
               await Signin(setloggedIn, setUserName);
             }}
+            disabled={loggedIn}
           />
         )}
          {loggedIn && <PrimaryButton
