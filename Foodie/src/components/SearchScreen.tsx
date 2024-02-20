@@ -52,9 +52,9 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
       })
       .catch(() => {
         navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '3',
-          errorMessage: 'Error al obtener recetas del usuario',
-          nextScreen: Screens.Profile,
+          errorCode: '6',
+          errorMessage: 'Error al obtener recetas',
+          nextScreen: Screens.Landing,
         });
       });
   };

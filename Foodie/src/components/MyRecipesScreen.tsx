@@ -8,9 +8,11 @@ import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const MyRecipesScreen = ({navigation}: {navigation: any}) => {
+  const [mensajeCargando, setMensajeCargando] = useState('Sin Recetas cargadas');
   const [recipesListData, setRecipesListData] = useState<Recipe[]>([]);
 
   const getRecipesListData = async () => {
+    setMensajeCargando('Cargando...');
     let session = await EncryptedStorage.getItem('user_session');
     let accessToken = '';
     if (session !== undefined) {
@@ -29,6 +31,8 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
         const item_data: Recipe[] = response.data;
         setRecipesListData(item_data);
         console.log('GET: OK');
+        if(item_data.length == 0)
+          setMensajeCargando('Sin Recetas cargadas');
       })
       .catch(() => {
         navigation.navigate(Screens.ErrorScreen, {
@@ -59,7 +63,7 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
           }
         />
       ) : (
-        <Text>Cargando...</Text>
+        <Text style={{...styles.subTitleText, marginLeft: 'auto', marginRight: 'auto', paddingTop: '30%'}}>{mensajeCargando}</Text>
       )}
     </View>
   );
