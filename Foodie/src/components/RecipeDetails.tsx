@@ -19,7 +19,7 @@ import {useRoute} from '@react-navigation/native';
 const TiempoIcon = require('../../assets/img/Tiempo.png');
 const PorcionesIcon = require('../../assets/img/Porciones.png');
 const ShareIcon = require('../../assets/img/Share.png');
-const StarIcon = require('../../assets/img/Star 1.png');
+const StarIcon = require('../../assets/img/Star.png');
 
 const fake_profile = {
   picture:
