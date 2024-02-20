@@ -9,11 +9,12 @@ import axios from 'axios';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
-async function RetrieveUserSession() {
+async function RetrieveUserSession(setUserName: any) {
   try {
     const session = await EncryptedStorage.getItem('user_session');
     if (session !== undefined) {
-      console.log("SESSION FROM LANDING:" + session);
+      const parsedSession = JSON.parse(session?.toString() ?? '');
+      setUserName(parsedSession.username);
     }
     return session;
   } catch (error) {
@@ -35,10 +36,10 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
     false,
     false,
   ]);
+  const [userName, setUserName] = useState('');
   const [carrouselData, setCarrouselData] = useState<Recipe[]>([]);
 
   const getCarrouselData = () => {
-    RetrieveUserSession();
     axios
       //.get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
       .get('http://15.228.167.207:3000/recipes/carousel')
@@ -58,12 +59,13 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
 
   useEffect(() => {
     getCarrouselData();
+    RetrieveUserSession(setUserName);
   }, []);
 
   return (
     <View style={styles.background}>
       <View style={styles.mainContainer}>
-        <Text style={styles.titleText}>Hola ~Usuario~</Text>
+        <Text style={styles.titleText}>Hola {userName}</Text>
         <Text style={styles.subTitleText}>¿Qué vas a preparar hoy?</Text>
         <View style={styles.searchContainer}>
           <TextInput
