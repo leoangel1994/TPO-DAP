@@ -62,8 +62,8 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
 
   const [selectedTags, setSelectedTags] = useState([]);
   const availableTags = [
-    'Veganas',
-    'Aptas Celiacos',
+    'Vegana',
+    'Apta Celiacos',
     'Rápida Preparación',
     'Estimula el Sistema Inmune',
     'Vegetarianas',

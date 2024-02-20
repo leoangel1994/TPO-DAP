@@ -9,8 +9,7 @@ const ShareIcon = require('../../assets/img/Share.png');
 const StarIcon = require('../../assets/img/Star 1.png');
 
 const fake_profile = {
-  picture:
-    'https://img.asmedia.epimg.net/resizer/YSEO6kkVnSsaaG3stkWsOkaizvY=/644x362/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/EE5Z5V4DD5MLHMGVBQNDWFAO4Y.jpg',
+  picture: 'https://img.asmedia.epimg.net/resizer/YSEO6kkVnSsaaG3stkWsOkaizvY=/644x362/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/EE5Z5V4DD5MLHMGVBQNDWFAO4Y.jpg',
   fullName: 'Jerome Nigel McElroy',
   gmail: 'chef@google.com',
   appName: 'chefApp#1245 ',
@@ -18,6 +17,10 @@ const fake_profile = {
 
 const RecipeDetailsScreen = () => {
   const [activeMenu, setActiveMenu] = useState('Datos');
+  const [calories, setCalories] = useState(0);
+  const [proteins, setProteins] = useState(0);
+  const [totalFat, setTotalFat] = useState(0);
+  const [selectedTags, setSelectedTags] = useState(['Vegana', 'Apta Celiacos', 'Estimula el Sistema Inmune']); // Ejemplo con 3 tags
 
   return (
     <ScrollView style={styles.background}>
@@ -64,7 +67,7 @@ const RecipeDetailsScreen = () => {
 
       {/* Sección 4 - Rating */}
       <View style={styles.ratingSection}>
-        <Text style={styles.ratingText}>La evaluación de Recetas estará disponible pronto!</Text>
+        <Text style={styles.ratingText}>Pronto vas a poder calificar Recetas!</Text>
       </View>
 
       {/* Sección 5 - Menú Horizontal */}
@@ -101,9 +104,32 @@ const RecipeDetailsScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Contenido de 'Datos' */}
+      {activeMenu === 'Datos' && (
+        <View style={styles.dataSection}>
+          <Text style={styles.dataValue}>{calories} Calorías</Text>
+
+          <Text style={styles.dataValue}>{proteins}g Proteínas</Text>
+
+          <Text style={styles.dataValue}>{totalFat}g Carbohidratos</Text>
+
+          <View style={styles.tagsSection}>
+            {selectedTags.map((tag, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.tag, { backgroundColor: '#F8A82E' }]}
+              >
+                <Text style={{ color: 'black', fontFamily: Theme.fontFamily.REGULAR }}>{tag}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   background: {
@@ -135,6 +161,7 @@ const styles = StyleSheet.create({
   ratingText: {
       fontSize: 16,
       color: 'black',
+      fontFamily: Theme.fontFamily.REGULAR
     },
   buttonSection: {
     flexDirection: 'row',
@@ -175,6 +202,7 @@ const styles = StyleSheet.create({
   authorName: {
     fontSize: 18,
     fontFamily: Theme.fontFamily.REGULAR,
+    color: 'black',
   },
   ratingSection: {
     backgroundColor: 'white',
@@ -195,7 +223,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '30%',
   },
-
+  dataSection: {
+    padding: 20,
+    marginTop: 20,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
+  },
+  dataValue: {
+    fontSize: 16,
+    color: 'black',
+    fontFamily: Theme.fontFamily.REGULAR,
+    marginTop: 5,
+  },
+  tagsSection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+    flexWrap: 'wrap',
+  },
+  tag: {
+    backgroundColor: '#F8A82E',
+    borderRadius: 15,
+    padding: 8,
+    margin: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default RecipeDetailsScreen;
