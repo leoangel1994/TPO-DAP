@@ -5,20 +5,37 @@ import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const MyRecipesScreen = ({navigation}: {navigation: any}) => {
   const [recipesListData, setRecipesListData] = useState<Recipe[]>([]);
 
-  const getRecipesListData = () => {
+  const getRecipesListData = async () => {
+    let session = await EncryptedStorage.getItem('user_session');
+    let accessToken = '';
+    if (session !== undefined) {
+      const parsedSession = JSON.parse(session?.toString() ?? '');
+      accessToken = 'Bearer ' + parsedSession.accessToken;
+    }
+
     axios
-      .get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
+      //.get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
+      .get('http://15.228.167.207:3000/users/recipes', {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
       .then(response => {
         const item_data: Recipe[] = response.data;
         setRecipesListData(item_data);
         console.log('GET: OK');
       })
       .catch(() => {
-        console.log('TODO: Pantalla manejo de error');
+        navigation.navigate(Screens.ErrorScreen, {
+          errorCode: '2',
+          errorMessage: 'Error al obtener recetas del usuario',
+          nextScreen: Screens.Profile,
+        });
       });
   };
 
