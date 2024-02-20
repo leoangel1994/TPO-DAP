@@ -15,7 +15,7 @@ const RecipeSchema = new Schema({
   preparationTime: { type: String, default: '', trim: true, maxlength: 400 },
   portions: { type: Number, min: 0, },
   steps: [String],
-  images: [{url:String, imageId:String}],
+  images: {type: [{url:String, imageId:String}], get: defaulImgIfEmpty},
   youtubeLink: { type: String, default: '' },
   profileId: String,
   tags: [String],
@@ -26,8 +26,14 @@ const RecipeSchema = new Schema({
     totalFat: Number
   }, 
   createdAt: { type: Date, default: Date.now }
-});
+},{ toJSON: { getters: true } });
 
+function defaulImgIfEmpty(images){
+  if(images.length == 0){
+    return [{url: 'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg', imageId: 'dish-image-no.jpg'}];
+  }
+  return images;
+}
 /**
  * Validations
  */
