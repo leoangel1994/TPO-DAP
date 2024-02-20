@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
+import Swiper from 'react-native-swiper';
 
 // Ajusta la ruta de tus archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
@@ -21,6 +22,12 @@ const RecipeDetailsScreen = () => {
   const [proteins, setProteins] = useState(0);
   const [totalFat, setTotalFat] = useState(0);
   const [selectedTags, setSelectedTags] = useState(['Vegana', 'Apta Celiacos', 'Estimula el Sistema Inmune']); // Ejemplo con 3 tags
+  const [recipeSteps, setRecipeSteps] = useState([
+    'Paso 1: Preparar los ingredientes.',
+    'Paso 2: Cocinar el arroz.',
+    'Paso 3: Añadir el pollo y mezclar.',
+    // Agrega más pasos según sea necesario
+  ]);
 
   return (
     <ScrollView style={styles.background}>
@@ -53,6 +60,35 @@ const RecipeDetailsScreen = () => {
             <Image source={ShareIcon} style={styles.buttonIcon} />
           </TouchableOpacity>
         </View>
+      </View>
+
+      {/* Carousel Section */}
+      <View style={styles.carouselSection}>
+        <Swiper
+          style={styles.carouselContainer}
+          showsButtons={true}
+          showsPagination={true}
+          activeDotColor="#F8A82E">
+          {/* You can replace 'placeholder.jpg' with your actual image URLs */}
+          <View style={styles.slide}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/300' }}
+              style={styles.carouselImage}
+            />
+          </View>
+          <View style={styles.slide}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/300' }}
+              style={styles.carouselImage}
+            />
+          </View>
+          <View style={styles.slide}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/300' }}
+              style={styles.carouselImage}
+            />
+          </View>
+        </Swiper>
       </View>
 
       {/* Sección 3 - Autor */}
@@ -105,21 +141,26 @@ const RecipeDetailsScreen = () => {
         </TouchableOpacity>
       </View>
 
+      {/* Contenido de 'Pasos' */}
+      {activeMenu === 'Pasos' && (
+        <View style={styles.stepsSection}>
+          {recipeSteps.map((step, index) => (
+            <View key={index} style={[styles.stepBox, { opacity: 0.8 }]}>
+              <Text style={styles.stepText}>{step}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
       {/* Contenido de 'Datos' */}
       {activeMenu === 'Datos' && (
         <View style={styles.dataSection}>
           <Text style={styles.dataValue}>{calories} Calorías</Text>
-
           <Text style={styles.dataValue}>{proteins}g Proteínas</Text>
-
           <Text style={styles.dataValue}>{totalFat}g Carbohidratos</Text>
-
           <View style={styles.tagsSection}>
             {selectedTags.map((tag, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.tag, { backgroundColor: '#F8A82E' }]}
-              >
+              <TouchableOpacity key={index} style={[styles.tag, { backgroundColor: '#F8A82E' }]}>
                 <Text style={{ color: 'black', fontFamily: Theme.fontFamily.REGULAR }}>{tag}</Text>
               </TouchableOpacity>
             ))}
@@ -129,7 +170,6 @@ const RecipeDetailsScreen = () => {
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   background: {
@@ -159,10 +199,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   ratingText: {
-      fontSize: 16,
-      color: 'black',
-      fontFamily: Theme.fontFamily.REGULAR
-    },
+    fontSize: 16,
+    color: 'black',
+    fontFamily: Theme.fontFamily.REGULAR,
+  },
   buttonSection: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -252,7 +292,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+stepsSection: {
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
+  },
+  stepBox: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 15,
+    marginVertical: 10,
+    opacity: 0.8, // Editable opacity value (between 0 and 1)
+  },
+  stepText: {
+    fontSize: 16,
+    color: 'black',
+    fontFamily: Theme.fontFamily.REGULAR,
+  },
+  carouselSection: {
+    height: 200, // Adjust the height as needed
+  },
+  carouselContainer: {
+    flex: 1,
+    marginBottom: 20,
+  },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  carouselImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
 });
 
 export default RecipeDetailsScreen;
-
