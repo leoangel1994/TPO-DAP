@@ -40,7 +40,6 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
 
   const validateIngredients = () => {
     let any_empty = ingredients.some((ingredient : IngredienteForm) => {return ingredient.name.length == 0 || ingredient.quantity.length == 0})
-    console.log("ANY EMPTY", any_empty)
     return !any_empty && ingredients.length > 0;
   };
 
