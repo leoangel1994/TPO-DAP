@@ -1,13 +1,12 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { CommonStyle, Theme } from '../../Theme';
-import { PrimaryButton } from './PrimaryButton';
 
 // Ajusta la ruta de tus archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
 const PorcionesIcon = require('../../assets/img/Porciones.png');
 const ShareIcon = require('../../assets/img/Share.png');
-const Star1 = require('../../assets/img/Star 1.png');
+const StarIcon = require('../../assets/img/Star 1.png');
 
 const RecipeDetailsScreen = () => {
   return (
@@ -19,7 +18,6 @@ const RecipeDetailsScreen = () => {
 
         {/* Contenedor para Porciones y Tiempo */}
         <View style={styles.infoContainer}>
-
           {/* Icono y texto para "Porciones" */}
           <View style={styles.iconContainer}>
             <Image source={PorcionesIcon} style={styles.icon} />
@@ -31,21 +29,17 @@ const RecipeDetailsScreen = () => {
             <Image source={TiempoIcon} style={styles.icon} />
             <Text style={styles.infoText}>10 minutos</Text>
           </View>
-
         </View>
 
-      </View>
-
-      {/* Sección 2 - Botones de Compartir y Favorito */}
-      <View style={styles.buttonSection}>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#F8A82E' }]}>
-          {/* Puedes agregar un icono aquí */}
-          <Text style={styles.buttonText}>Compartir</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#797979' }]}>
-          {/* Puedes agregar un icono aquí */}
-          <Text style={[styles.buttonText, { color: 'white' }]}>Favorito</Text>
-        </TouchableOpacity>
+        {/* Sección 2 - Botones de Compartir y Favorito */}
+        <View style={styles.buttonSection}>
+          <TouchableOpacity style={styles.roundButton}>
+            <Image source={ShareIcon} style={styles.buttonIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.roundButton}>
+            <Image source={StarIcon} style={styles.buttonIcon} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Sección 3 - Contenido adicional si es necesario */}
@@ -67,13 +61,12 @@ const styles = StyleSheet.create({
   subTitleText: CommonStyle.subTitleText,
   infoContainer: {
     flexDirection: 'row',
-    justifyContent: 'start',
+    justifyContent: 'space-between',
     marginTop: 8,
   },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 20,
   },
   icon: {
     width: 20,
@@ -85,18 +78,21 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 20,
-  },
-  button: {
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    flexDirection: 'row', // Cambiado a 'column'
     alignItems: 'center',
+    marginTop: 20,
+    justifyContent: 'space-around'
   },
-  buttonText: {
-    fontSize: 16,
+  roundButton: {
+    borderRadius: 50, // Hace que el botón sea redondo
+    backgroundColor: '#F8A82E',
+    padding: 15,
+    marginVertical: 10,
+  },
+  buttonIcon: {
+    width: 20,
+    height: 20,
+    tintColor: 'white', // Ajusta el color del icono según tus necesidades
   },
   additionalSection: {
     // Agrega estilos adicionales si es necesario
@@ -104,7 +100,6 @@ const styles = StyleSheet.create({
 });
 
 export default RecipeDetailsScreen;
-
 
 
 
