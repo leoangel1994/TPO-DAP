@@ -28,7 +28,11 @@ const RecipeDetailsScreen = () => {
     'Paso 3: Añadir el pollo y mezclar.',
     // Agrega más pasos según sea necesario
   ]);
-
+  const [ingredients, setIngredients] = useState([
+    { name: 'Arroz', quantity: '300g' },
+    { name: 'Pollo', quantity: '200g' },
+  ]);
+  
   return (
     <ScrollView style={styles.background}>
       {/* Sección 1 - Titulo e Iconos */}
@@ -165,6 +169,18 @@ const RecipeDetailsScreen = () => {
               </TouchableOpacity>
             ))}
           </View>
+        </View>
+      )}
+
+      {/* Contenido de 'Ingredientes' */}
+      {activeMenu === 'Ingredientes' && (
+        <View style={styles.ingredientsSection}>
+          {ingredients.map((ingredient, index) => (
+            <View key={index} style={styles.ingredientBox}>
+              <Text style={styles.ingredientText}>{ingredient.name}</Text>
+              <Text style={styles.quantityText}>{ingredient.quantity}</Text>
+            </View>
+          ))}
         </View>
       )}
     </ScrollView>
@@ -330,6 +346,34 @@ stepsSection: {
     height: '100%',
     borderRadius: 10,
   },
+  ingredientsSection: {
+      marginTop: 20,
+      padding: 20,
+      backgroundColor: 'white',
+      borderRadius: 15,
+      marginLeft: 15,
+      marginRight: 15,
+      marginBottom: 15,
+    },
+    ingredientBox: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: '#FFFFFF',
+      borderRadius: 15,
+      padding: 15,
+      marginVertical: 10,
+      opacity: 0.8,
+    },
+    ingredientText: {
+      fontSize: 16,
+      color: 'black',
+      fontFamily: Theme.fontFamily.REGULAR,
+    },
+    quantityText: {
+      fontSize: 16,
+      color: 'black',
+      fontFamily: Theme.fontFamily.REGULAR,
+    },
 });
 
 export default RecipeDetailsScreen;
