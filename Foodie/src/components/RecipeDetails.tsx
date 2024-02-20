@@ -73,9 +73,9 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
       <ScrollView style={styles.background}>
         {/* Sección 1 - Titulo e Iconos */}
         <View style={styles.section}>
-          <Text style={styles.titleText}>Arroz</Text>
+          <Text style={styles.titleText}>{recipeDetail.title}</Text>
           <Text style={styles.subTitleText}>
-            Mi receta de Arroz con Pollo para compartir.
+          {recipeDetail.description}
           </Text>
 
           {/* Contenedor para Porciones y Tiempo */}
@@ -83,13 +83,13 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             {/* Porciones */}
             <View style={styles.iconContainer}>
               <Image source={PorcionesIcon} style={styles.icon} />
-              <Text style={styles.infoText}>4 porciones</Text>
+              <Text style={styles.infoText}>{recipeDetail.portions}</Text>
             </View>
 
             {/* Tiempo */}
             <View style={styles.iconContainer}>
               <Image source={TiempoIcon} style={styles.icon} />
-              <Text style={styles.infoText}>10 minutos</Text>
+              <Text style={styles.infoText}>{recipeDetail.preparationTime}</Text>
             </View>
           </View>
 
