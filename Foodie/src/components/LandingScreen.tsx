@@ -5,22 +5,9 @@ import Icon from 'react-native-ico-material-design';
 import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
-import axios from 'axios';
 import {Recipe} from './FoodApiInterfaces/interfaces';
-import EncryptedStorage from 'react-native-encrypted-storage';
-
-async function RetrieveUserSession(setUserName: any) {
-  try {
-    const session = await EncryptedStorage.getItem('user_session');
-    if (session !== undefined) {
-      const parsedSession = JSON.parse(session?.toString() ?? '');
-      setUserName(parsedSession.username);
-    }
-    return session;
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { getUserSession } from '../api/ApiUser';
+import { getRecipesForCarousel } from '../api/ApiRecipes';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,11 +27,9 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
   const [carrouselData, setCarrouselData] = useState<Recipe[]>([]);
 
   const getCarrouselData = () => {
-    axios
-      //.get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
-      .get('http://15.228.167.207:3000/recipes/carousel')
-      .then(response => {
-        const item_data: Recipe[] = response.data;
+    getRecipesForCarousel()
+      .then(recipes => {
+        const item_data: Recipe[] = recipes;
         setCarrouselData(item_data);
         console.log('GET: OK');
       })
@@ -57,9 +42,15 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       });
   };
 
+  const getUsername = () => {
+    getUserSession().then((session: any) => {
+      setUserName(session.username);
+    });
+  }
+
   useEffect(() => {
     getCarrouselData();
-    RetrieveUserSession(setUserName);
+    getUsername();
   }, []);
 
   return (

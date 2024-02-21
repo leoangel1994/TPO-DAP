@@ -4,29 +4,15 @@ import RecipesFlatList from './RecipesFlatList';
 import {Screens} from '../navigation/RootNavigator';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
-import EncryptedStorage from 'react-native-encrypted-storage';
+import {getRecipesForLoggedUser} from '../api/ApiRecipes';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
 
   const getRecipesListData = async () => {
-    let session = await EncryptedStorage.getItem('user_session');
-    let accessToken = '';
-    if (session !== undefined) {
-      const parsedSession = JSON.parse(session?.toString() ?? '');
-      accessToken = 'Bearer ' + parsedSession.accessToken;
-    }
-
-    axios
-      //.get('https://run.mocky.io/v3/fcd45b41-ff58-43f9-88b5-bba61ade04d6')
-      .get('http://15.228.167.207:3000/users/recipes', {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then(response => {
-        const item_data: Recipe[] = response.data;
+    getRecipesForLoggedUser()
+      .then(recipes => {
+        const item_data: Recipe[] = recipes;
         setFavRecipesListData(item_data);
         console.log('GET: OK');
       })

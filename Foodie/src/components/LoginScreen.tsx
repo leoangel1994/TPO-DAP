@@ -7,48 +7,18 @@ import {
   statusCodes
 } from '@react-native-google-signin/google-signin';
 import {Screens} from '../navigation/RootNavigator';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import axios from 'axios';
 import {PrimaryButton} from './PrimaryButton';
+import {userLogin, storeUserSession} from '../api/ApiUser';
 
-async function StoreUserSession(accessToken :string, refreshToken: string, setUserName: any) {
-  axios
-    .get('http://15.228.167.207:3000/users',
-    {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      } 
-    })
-    .then(response => {
-      EncryptedStorage.setItem(
-        'user_session',
-        JSON.stringify({
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          username: response.data.userName,
-          profileId: response.data.profileId,
-        }),
-      );
-      setUserName(response.data.userName);
-    })
-    .catch((error) => {
-      console.log('ERROR: ' + error);
-    });
-}
 
-async function getAuthData(idtoken: string, setUserName: any) {
-  let bearertoken = 'Bearer ' + idtoken;
-  console.log(bearertoken);
-  axios
-    .post('http://15.228.167.207:3000/users/login',{},
-    {
-      headers: {
-        'Authorization': bearertoken
-      } 
-    }
-    )
-    .then(response => {    
-      StoreUserSession(response.data.accessToken, response.data.refreshToken, setUserName);})
+
+async function GetAuthData(idtoken: string, setUserName: any) {
+  userLogin(idtoken)
+    .then((response: any) => 
+      { return storeUserSession(response.accessToken, response.refreshToken);})
+    .then((session: any) => 
+      { console.log(session);
+        setUserName(session.username);})
     .catch((error) => {
       console.log('ERROR: ' + error);
     });
@@ -66,7 +36,7 @@ async function Signin(setloggedIn: any, setUserName: any) {
   try {
       const userInfo = await GoogleSignin.signIn();
       const token = await GoogleSignin.getTokens();
-      await getAuthData(token.idToken, setUserName);
+      await GetAuthData(token.idToken, setUserName);
 
       setloggedIn(true);
     } catch (error: any) {
@@ -92,7 +62,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       let isSignedIn = await GoogleSignin.isSignedIn();
       if (isSignedIn){
         const token = await GoogleSignin.getTokens();
-        await getAuthData(token.idToken, setUserName);
+        await GetAuthData(token.idToken, setUserName);
         navigation.navigate(Screens.TabNavigator);}
     };
     fetchLogInData().catch((error: Error) => {console.log(error); setloggedIn(false);});
