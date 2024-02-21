@@ -18,16 +18,16 @@ exports.getFavoriteRecipes = async (profileId) => {
 }
 
 // Get recipe by ID
-exports.getRecipesByFilters = async (tags, ingredients, title) => {
+exports.getRecipesByFilters = async (tags, search) => {
     try {
-        console.log(tags, ingredients, title)
+        console.log(tags, search)
         let tagsFilters = tags == null ? [] : tags.split(',');
-        let ingredientsFilters = ingredients == null || ingredients == undefined ? [] : ingredients.split(',');
+        let searchFilters = search == null ? [] : [search];
         let recipes = await Recipe
         .find({$or:[
             {tags: {$in:tagsFilters}},
-            {'ingredients.name': {$in:ingredientsFilters}},
-            {title: { $regex: '.*' + title + '.*' }}
+            {'ingredients.name': {$in:searchFilters}},
+            {title: { $regex: '.*' + search + '.*' }}
         ]
         });
         return recipes;

@@ -4,7 +4,7 @@ const getProfileId = require('../utils/jwtHelper').getProfileId;
 
 exports.getRecipesByFilters = async (req, res) => {
   try {
-    const recipes = await recipeService.getRecipesByFilters(req.query.tags, req.query.ingredients, req.query.title);
+    const recipes = await recipeService.getRecipesByFilters(req.query.tags, req.query.search);
     if (recipes == null){
       res.status(404).json({ error: 'Recipes not found' });
       return;

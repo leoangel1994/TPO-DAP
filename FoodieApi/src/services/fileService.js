@@ -27,7 +27,6 @@ exports.parsefile = async (req, fileName) => {
 
         form.on('data', data => {
             if (data.name === "complete") {
-                // let statuscode = data.value['$metadata']?.httpStatusCode || 200;
                 resolve(data.value);
             }
         })
