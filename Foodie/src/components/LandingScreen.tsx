@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 import {Recipe} from './FoodApiInterfaces/interfaces';
-import { getUserSession } from '../api/ApiUser';
+import { getUserSession } from '../api/ApiManager';
 import { getRecipesForCarousel } from '../api/ApiRecipes';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
@@ -43,9 +43,10 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
   };
 
   const getUsername = () => {
-    getUserSession().then((session: any) => {
-      setUserName(session.username);
-    });
+    getUserSession()
+      .then((session: any) => {
+        setUserName(session.username);
+      }).catch((error) => {console.log(error);});
   }
 
   useEffect(() => {

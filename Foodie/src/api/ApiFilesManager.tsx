@@ -1,14 +1,15 @@
 import ApiManager from "./ApiManager";
-import {getUserSession} from "./ApiUser";
+import {getUserSession} from "./ApiManager";
 import mime from 'mime';
 
 async function post(url: string, data: any) 
 {
     try 
     {
+        let apiManager = await ApiManager();
         let session: any = await getUserSession();
         let accessToken = 'Bearer ' + session.accessToken;
-        const result = await ApiManager.post(url,data,{
+        const result = await apiManager.post(url,data,{
             headers: {
                 Authorization: accessToken,
                 ResponseType: "json",

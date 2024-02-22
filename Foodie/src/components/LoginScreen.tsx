@@ -8,20 +8,16 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {Screens} from '../navigation/RootNavigator';
 import {PrimaryButton} from './PrimaryButton';
-import {userLogin, storeUserSession} from '../api/ApiUser';
+import {userLogin, storeUserSession} from '../api/ApiManager';
 
 
 
 async function GetAuthData(idtoken: string, setUserName: any) {
-  userLogin(idtoken)
-    .then((response: any) => 
-      { return storeUserSession(response.accessToken, response.refreshToken);})
-    .then((session: any) => 
-      { console.log(session);
-        setUserName(session.username);})
-    .catch((error) => {
-      console.log('ERROR: ' + error);
-    });
+  try {
+    let user: any = await userLogin(idtoken);
+    let session: any = await storeUserSession(user.accessToken, user.refreshToken);
+    await setUserName(session.username);
+  } catch (error) {console.log(error);}
 };
 
 function GoogleConfigure(){
