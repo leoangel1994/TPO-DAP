@@ -7,7 +7,31 @@ import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
-import { getRecipesForLoggedUser } from '../api/ApiRecipes';
+import { getRecipesByFilters } from '../api/ApiRecipes';
+
+function mapTagsFilters(filters: string[]) {
+  if(filters == undefined || filters.length == 0) return [];
+  console.log(filters);
+  let filterNames: string[] = [
+    'Rápida preparación',
+    'Vegetarianas',
+    'Veganas',
+    'Aptas celiacos',
+    'Estimula el sistema inmune',
+    'Promueve la flora intestinal',
+    'Antiinflamatoria',
+    'Baja en sodio',
+    'Baja carbohidratos',
+  ];
+  let selectedFilters: string[] = [];
+
+  for (let i = 0; i < filters.length; i++) {
+    if (filters[i] as unknown == true) {
+      selectedFilters.push(filterNames[i]);
+    }
+  }
+  return selectedFilters;
+}
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,10 +53,11 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   const [searchResultRecipesListData, setSearchResultRecipesListData] =
     useState<Recipe[]>([]);
 
-  const getRecipesListData = async () => {
-    getRecipesForLoggedUser()
+  const getRecipesListData = async (tags: string[], searchText: string) => {
+    let mappedFilters = mapTagsFilters(tags);
+    getRecipesByFilters(mappedFilters, searchText)
       .then(recipes => {
-        const item_data: Recipe[] = recipes;
+        const item_data: Recipe[] = recipes ?? [];
         setSearchResultRecipesListData(item_data);
         console.log('GET: OK');
       })
@@ -52,7 +77,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         : [false, false, false, false, false, false, false, false, false],
     );
     setSearchText(route.params?.searchedText ?? '');
-    getRecipesListData(); // TODO: pasar filtros y texto...
+    getRecipesListData(route.params?.filtersApplied, route.params?.searchedText);
   }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
@@ -65,7 +90,11 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             defaultValue={searchText}
             placeholder="Hoy quiero..."
             onSubmitEditing={() => {
-              navigation.navigate(Screens.Search);
+              navigation.navigate(Screens.Search, {
+                searchedText: searchText,
+                filtersApplied: [...filters],
+              });
+
             }}></TextInput>
           <View style={styles.searchButtonContainer}>
             <Pressable

@@ -12,17 +12,19 @@ async function getBearerToken(){
     }
 }
 
-async function get(url: string) 
+async function get(url: string, params: any = {}) 
 {
     try 
     {
         let accessToken = await getBearerToken();
         const result = await ApiManager.get(url,{
-        headers: {
-            Authorization: accessToken, 
-            ResponseType: "json"},
-          }
-        );
+            headers: {
+                Authorization: accessToken, 
+                ResponseType: "json",
+                CacheControl: "no-cache"
+            },
+            params
+        });
         return result.data;
     }catch (error) 
     {
@@ -63,3 +65,18 @@ export const getRecipesForCarousel = async () =>
 export const postRecipe = async (recipe: any) =>
     await post('/recipes', recipe)
         .catch((error) => { console.error("Error: ", error) });
+
+export const getRecipesByFilters = async (tags: string[], text: string) => 
+{
+    let params = {
+        tags: tags.join(","),
+        search: text
+    };
+    try{
+        return await get('/recipes', params);
+    }
+    catch (error){
+        console.log("Error: ", error);
+    }
+}
+   
