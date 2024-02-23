@@ -12,7 +12,8 @@ import Swiper from 'react-native-swiper';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
-import { getRecipeById } from '../api/ApiRecipes';
+import {getRecipeById} from '../api/ApiRecipes';
+import onRecipeShare from './RecipeShare';
 
 // Ajusta la ruta de tus archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
@@ -34,7 +35,7 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
 
   const getRecipeDetail = async (recipeId: string) => {
-      getRecipeById(recipeId)
+    getRecipeById(recipeId)
       .then(recipe => {
         console.log(recipe);
         const item_data: Recipe = recipe;
@@ -61,9 +62,7 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
         {/* Sección 1 - Titulo e Iconos */}
         <View style={styles.section}>
           <Text style={styles.titleText}>{recipeDetail.title}</Text>
-          <Text style={styles.subTitleText}>
-          {recipeDetail.description}
-          </Text>
+          <Text style={styles.subTitleText}>{recipeDetail.description}</Text>
 
           {/* Contenedor para Porciones y Tiempo */}
           <View style={styles.infoContainer}>
@@ -76,7 +75,9 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             {/* Tiempo */}
             <View style={styles.iconContainer}>
               <Image source={TiempoIcon} style={styles.icon} />
-              <Text style={styles.infoText}>{recipeDetail.preparationTime}</Text>
+              <Text style={styles.infoText}>
+                {recipeDetail.preparationTime}
+              </Text>
             </View>
           </View>
 
@@ -85,7 +86,11 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             <TouchableOpacity style={styles.roundButton}>
               <Image source={StarIcon} style={styles.buttonIcon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.roundButton}>
+            <TouchableOpacity
+              style={styles.roundButton}
+              onPress={() => {
+                onRecipeShare(navigation, recipeDetail);
+              }}>
               <Image source={ShareIcon} style={styles.buttonIcon} />
             </TouchableOpacity>
           </View>
@@ -100,19 +105,25 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             activeDotColor={Theme.colors.SECONDARY_1}>
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
+                source={{
+                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
+                }}
                 style={styles.carouselImage}
               />
             </View>
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
+                source={{
+                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
+                }}
                 style={styles.carouselImage}
               />
             </View>
             <View style={styles.slide}>
               <Image
-                source={{uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900'}}
+                source={{
+                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
+                }}
                 style={styles.carouselImage}
               />
             </View>
@@ -205,7 +216,10 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
           <View style={styles.stepsSection}>
             {recipeDetail?.steps?.map((step, index) => (
               <View key={index} style={[styles.stepBox, {opacity: 0.8}]}>
-                <Text style={styles.stepText}>{index+1}{"."} {step}</Text>
+                <Text style={styles.stepText}>
+                  {index + 1}
+                  {'.'} {step}
+                </Text>
               </View>
             ))}
           </View>
@@ -249,7 +263,10 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
           <View style={styles.ingredientsSection}>
             {recipeDetail?.ingredients?.map((ingredient, index) => (
               <View key={index} style={styles.ingredientBox}>
-                <Text style={styles.ingredientText}>{index+1}{"."} {ingredient.name}</Text>
+                <Text style={styles.ingredientText}>
+                  {index + 1}
+                  {'.'} {ingredient.name}
+                </Text>
                 <Text style={styles.quantityText}>{ingredient.amount}</Text>
               </View>
             ))}
