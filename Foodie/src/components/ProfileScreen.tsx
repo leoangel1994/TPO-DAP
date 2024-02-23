@@ -3,27 +3,41 @@ import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {Screens} from '../navigation/RootNavigator';
 import { userLogout } from '../api/ApiManager';
-
-const fake_profile = {
-  picture:
-    'https://img.asmedia.epimg.net/resizer/YSEO6kkVnSsaaG3stkWsOkaizvY=/644x362/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/EE5Z5V4DD5MLHMGVBQNDWFAO4Y.jpg',
-  fullName: 'Jerome Nigel McElroy',
-  gmail: 'chef@google.com',
-  appName: 'chefApp#1245 ',
-};
+import { getUser } from '../api/ApiUser';
+import { User } from './FoodApiInterfaces/interfaces';
+import { useEffect, useState } from 'react';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
+  const [userData, setUserData] = useState<User>();
+  const getUserData = async () => {
+    getUser()
+      .then(user => {
+        const user_data: User = user;
+        setUserData(user_data);
+      })
+      .catch(() => {
+        navigation.navigate(Screens.ErrorScreen, {
+          errorCode: '2',
+          errorMessage: 'Error al obtener datos del usuario',
+          nextScreen: Screens.Profile,
+        });
+      });
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);  
+
   return (
     <View style={styles.background}>
       <View style={styles.mainContainer}>
         <Text style={styles.titleText}>Mi perfil</Text>
         <Image
-          source={{uri: fake_profile.picture}}
+          source={{uri: userData?.photo ?? 'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg'}}
           style={styles.profileImage}
         />
-        <Text style={styles.subTitleText}>{fake_profile.fullName}</Text>
-        <Text style={styles.subTitleText}>{fake_profile.gmail}</Text>
-        <Text style={styles.subTitleText}>{fake_profile.appName}</Text>
+        <Text style={styles.subTitleText}>{(userData?.name ?? '') +' '+ (userData?.familyName ?? '')}</Text>
+        <Text style={styles.subTitleText}>{userData?.email ?? ''}</Text>
+        <Text style={styles.subTitleText}>{userData?.userName ?? ''}</Text>
       </View>
       <PrimaryButton
         text="Mis Recetas"

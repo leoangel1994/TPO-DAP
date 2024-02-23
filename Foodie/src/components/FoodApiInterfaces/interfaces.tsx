@@ -33,3 +33,13 @@ export interface Recipe {
     createdAt: string;
     __v: number;
 }
+
+export interface User {
+    _id: string;
+    profileId: string;
+    userName: string;
+    name: string;
+    familyName: string;
+    email: string;
+    photo: string;
+}

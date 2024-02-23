@@ -25,7 +25,7 @@ async function post(url: string, data: any)
     }
 }
 
-export const postRecipeImages = async (recipeId: string, images: string[]) => {
+const imgForm = async (recipeId: string, images: string[]) => {
 let imgData: FormData = new FormData();
     images.forEach((img: string) => {
       const newImageUri = 'file:///' + img.split('file:/').join('');
@@ -34,9 +34,28 @@ let imgData: FormData = new FormData();
         type: mime.getType(newImageUri),
         name: newImageUri.split('/').pop(),
       });
-      console.log(newImageUri);
     });
-console.log(imgData);
-console.log('/recipes/' + recipeId + '/image');
-await post('/recipes/' + recipeId + '/image', imgData);
+    return imgData;
+}
+
+export const postRecipeImages = async (recipeId: string, images: string[]) => 
+{
+    let imgData = await imgForm(recipeId, images);
+    try {
+        return await post('/recipes/' + recipeId + '/image', imgData);
+    }catch (error) 
+    {
+        console.error("Error: ", error);
+    }
+}
+
+export const postProfileImages = async (recipeId: string, images: string[]) => 
+{
+    let imgData = await imgForm(recipeId, images);
+    try {
+        return await post('/users/image', imgData);
+    }catch (error) 
+    {
+        console.error("Error: ", error);
+    }
 }
