@@ -9,6 +9,7 @@ import {
 import {Screens} from '../navigation/RootNavigator';
 import {PrimaryButton} from './PrimaryButton';
 import {userLogin, storeUserSession} from '../api/ApiManager';
+import { useIsFocused } from '@react-navigation/native';
 
 
 
@@ -51,7 +52,9 @@ async function Signin(setloggedIn: any, setUserName: any) {
 const LoginScreen = ({navigation}: {navigation: any}) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userName, setUserName] = useState('');
+  const isFocused = useIsFocused();
   useEffect(() => {
+    if (isFocused) {setloggedIn(false); setUserName('');};
     const fetchLogInData = async () => {
       GoogleConfigure();
       await GoogleSignin.signInSilently();
@@ -61,8 +64,9 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
         await GetAuthData(token.idToken, setUserName);
         navigation.navigate(Screens.TabNavigator);}
     };
+    
     fetchLogInData().catch((error: Error) => {console.log(error); setloggedIn(false);});
-    }, []);
+    }, [isFocused]);
   return (
     <View style={styles.background}>
       <ScrollView style={styles.mainContainer}>

@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {Screens} from '../navigation/RootNavigator';
+import { userLogout } from '../api/ApiManager';
 
 const fake_profile = {
   picture:
@@ -34,7 +35,12 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
         }></PrimaryButton>
       <PrimaryButton
         text="Cerrar Sesión"
-        onPress={() => navigation.navigate(Screens.Login)}></PrimaryButton>
+        onPress={async () => {
+          (await userLogout()) ? 
+            navigation.navigate(Screens.Login)
+            : null
+            }
+          }></PrimaryButton>
       <PrimaryButton
         backgroundColor={Theme.colors.DANGER}
         text="Eliminar Cuenta"

@@ -4,6 +4,7 @@ import  base64   from "react-native-base64";
 global.atob = base64.decode;
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const baseUrl = "http://15.228.167.207:3000";
 const ApiManager = async () => {
@@ -63,6 +64,23 @@ const userLogin = async (idToken: string) => {
         {
             headers: { Authorization: 'Bearer ' + idToken } 
         });
+        return result.data;
+    }catch (error) 
+    {
+        console.error("Error: ", error);
+    }
+};
+
+const userLogout = async () => {
+    try 
+    {
+        let apiManager = await ApiManager();
+        const result = await apiManager.post(`${baseUrl}/users/logout`,{});
+        if (result.status === 204) {
+            await EncryptedStorage.removeItem('user_session');
+            await GoogleSignin.signOut();                
+            return true;
+        }
         return result.data;
     }catch (error) 
     {
@@ -147,5 +165,5 @@ const deleteResource = async (url: string) =>
 export default ApiManager;
 export {getUserSession};
 export {storeUserSession};
-export {userLogin};
+export {userLogin, userLogout};
 export {get, post, put, deleteResource};
