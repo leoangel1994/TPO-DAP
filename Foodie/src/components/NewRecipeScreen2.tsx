@@ -25,21 +25,25 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
   const route: any = useRoute(); // For searches received from Landing Screen
   const [portions, setPortions] = useState(0);
   const [preparationTime, setPreparationTime] = useState('');
-  const [ingredients, setIngredients] = useState<IngredienteForm[]>([{name: "", amount: ""}]);
+  const [ingredients, setIngredients] = useState<IngredienteForm[]>([
+    {name: '', amount: ''},
+  ]);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const addIngredient = () => {
     setIngredients([...ingredients, {name: '', amount: ''}]);
   };
 
-  const removeIngredient = () => {
+  const removeIngredient = (index: number) => {
     let ingredientes_copy = [...ingredients];
-    ingredientes_copy.pop();
+    ingredientes_copy.splice(index, 1)
     setIngredients(ingredientes_copy);
   };
 
   const validateIngredients = () => {
-    let any_empty = ingredients.some((ingredient : IngredienteForm) => {return ingredient.name.length == 0 || ingredient.amount.length == 0})
+    let any_empty = ingredients.some((ingredient: IngredienteForm) => {
+      return ingredient.name.length == 0 || ingredient.amount.length == 0;
+    });
     return !any_empty && ingredients.length > 0;
   };
 
@@ -109,17 +113,38 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
           />
           <Text style={{...styles.titleText, marginTop: 32}}>Ingredientes</Text>
 
+          <View
+            style={{
+              marginTop: 8,
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              maxHeight: 28,
+            }}>
+            <View style={{width: '45%'}}>
+              {ingredients.length !== 0 && (
+                <Text style={styles.subTitleText}>Nombre</Text>
+              )}
+            </View>
+            <View style={{width: '35%'}}>
+              {ingredients.length !== 0 && (
+                <Text style={styles.subTitleText}>Cantidad</Text>
+              )}
+            </View>
+            <View style={{width: '10%'}}></View>
+          </View>
+
           {ingredients.map((ingredient, index) => (
             <View
               key={index}
               style={{
-                marginTop: 8,
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                height: 72,
+                maxHeight: 72,
               }}>
-              <View style={{width: '55%'}}>
-                {index === 0 && <Text style={styles.subTitleText}>Nombre</Text>}
+              <View style={{width: '45%'}}>
                 <TextInput
                   style={styles.input}
                   placeholder="Ingrediente"
@@ -128,9 +153,6 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
                 />
               </View>
               <View style={{width: '35%'}}>
-                {index === 0 && (
-                  <Text style={styles.subTitleText}>Cantidad</Text>
-                )}
                 <TextInput
                   style={styles.input}
                   placeholder="Cantidad"
@@ -140,18 +162,20 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
                   }
                 />
               </View>
+              <View style={{width: '10%'}}>
+                <TouchableOpacity
+                  style={styles.minusButton}
+                  onPress={() => {
+                    removeIngredient(index);
+                  }}>
+                  <Text style={styles.addButtonText}>-</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ))}
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.minusButton}
-              onPress={removeIngredient}>
-              <Text style={styles.addButtonText}>-</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <View style={{height: 160}}>
@@ -203,8 +227,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 8,
-    marginRight: 16,
   },
   minusButton: {
     backgroundColor: Theme.colors.DANGER,
@@ -214,7 +236,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 8,
+    marginBottom: 'auto',
+    marginTop: 'auto',
   },
   addButtonText: {
     color: Theme.colors.NEUTRAL_4,
