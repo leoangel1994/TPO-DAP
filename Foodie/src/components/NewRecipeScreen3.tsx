@@ -25,9 +25,9 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
     setSteps([...steps, '']);
   };
 
-  const removeStep = () => {
+  const removeStep = (index: number) => {
     let steps_copy = [...steps];
-    steps_copy.pop();
+    steps_copy.splice(index, 1)
     setSteps(steps_copy);
   };
 
@@ -92,23 +92,36 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
           </Text>
 
           {steps.map((step, index) => (
-            <TextInput
+            <View
               key={index}
-              style={styles.input}
-              placeholder={`Paso ${index + 1}`}
-              value={step}
-              onChangeText={text => updateStep(index, text)}
-            />
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                height: 72,
+                maxHeight: 72,
+              }}>
+              <View style={{width: '85%'}}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={`Paso ${index + 1}`}
+                  value={step}
+                  onChangeText={text => updateStep(index, text)}
+                />
+              </View>
+              <View style={{width: '10%'}}>
+                <TouchableOpacity
+                  style={styles.minusButton}
+                  onPress={() => removeStep(index)}>
+                  <Text style={{fontSize: 20, color: 'white'}}>-</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           ))}
 
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.addButton} onPress={addStep}>
-              <Text style={{fontSize: 20, color: 'white'}}>+</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.minusButton} onPress={removeStep}>
-              <Text style={{fontSize: 20, color: 'white'}}>-</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.addButton} onPress={addStep}>
+            <Text style={{fontSize: 20, color: 'white'}}>+</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <View style={{height: 160}}>
@@ -117,9 +130,7 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
         <PrimaryButton
           text="Siguiente"
           backgroundColor={
-            validateSteps()
-              ? Theme.colors.SECONDARY_2
-              : Theme.colors.NEUTRAL_3
+            validateSteps() ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3
           }
           onPress={() => {
             if (validateSteps()) navigateToNextScreen();
@@ -159,7 +170,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 8,
-    marginRight: 16,
   },
   minusButton: {
     backgroundColor: Theme.colors.DANGER,
@@ -169,7 +179,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 8,
+    marginBottom: 'auto',
+    marginTop: 'auto',
   },
 });
 
