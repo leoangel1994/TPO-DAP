@@ -14,6 +14,7 @@ import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
 import {getRecipeById} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
+import Icon from 'react-native-ico-material-design';
 
 // Ajusta la ruta de tus archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
@@ -85,6 +86,19 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
           <View style={styles.buttonSection}>
             <TouchableOpacity style={styles.roundButton}>
               <Image source={StarIcon} style={styles.buttonIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.roundButton}
+              onPress={() => {
+                navigation.navigate(Screens.EditRecipe1, {...recipeDetail});
+              }}>
+              <Icon
+                style={{marginLeft: 'auto', marginRight: 'auto'}}
+                name="create-new-pencil-button"
+                height={24}
+                width={24}
+                color={Theme.colors.NEUTRAL_4}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.roundButton}
