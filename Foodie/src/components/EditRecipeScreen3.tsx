@@ -1,38 +1,194 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
+import ProgressBar from './ProgressBar'; // Importa el componente ProgressBar
 import {Screens} from '../navigation/RootNavigator';
+import {useRoute} from '@react-navigation/native';
+import {Recipe} from './FoodApiInterfaces/interfaces';
 
-export const EditRecipeScreen3 = ({navigation}: {navigation: any}) => {
+const EditRecipeScreen3 = ({navigation}: {navigation: any}) => {
+  const route: any = useRoute();
+  const [steps, setSteps] = useState<string[]>(['']);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  const addStep = () => {
+    setSteps([...steps, '']);
+  };
+
+  const removeStep = (index: number) => {
+    let steps_copy = [...steps];
+    steps_copy.splice(index, 1);
+    setSteps(steps_copy);
+  };
+
+  const validateSteps = () => {
+    return (
+      steps.length > 0 &&
+      !steps.some((step: string) => {
+        return step.length == 0;
+      })
+    );
+  };
+
+  const updateStep = (index: number, text: string) => {
+    const newSteps = [...steps];
+    newSteps[index] = text;
+    setSteps(newSteps);
+  };
+
+  const navigateToNextScreen = () => {
+    navigation.navigate(Screens.EditRecipe4, {
+      recipe: route.params.recipe,
+      imagesForDeletion: route.params.imagesForDeletion,
+      step1: route.params.step1,
+      step2: route.params.step2,
+      step3: {
+        steps: steps,
+      },
+    });
+  };
+
+  const handleKeyboardDidShow = () => {
+    setIsKeyboardOpen(true);
+  };
+
+  const handleKeyboardDidHide = () => {
+    setIsKeyboardOpen(false);
+  };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      handleKeyboardDidShow,
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      handleKeyboardDidHide,
+    );
+
+    // initial values from recipe
+    const recipe: Recipe = route.params.recipe;
+    setSteps(recipe.steps);
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, [route.params?.recipe]);
+
   return (
-    <View style={styles.background}>
-      <View style={styles.mainContainer}>
-        <Text style={styles.titleText}>Pasos</Text>
-        <Text style={styles.subTitleText}>
-          Contanos paso a paso como se hace
-        </Text>
-        <TextInput style={styles.input} placeholder="Paso 1"></TextInput>
-        <PrimaryButton // cambiar a un componente que sea boton redondo +...
-          text="+"
-          onPress={() =>
-            console.log('yo agrego un TextInput arriba. ok.')
-          }></PrimaryButton>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.background}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.titleText}>Pasos</Text>
+          <Text style={styles.subTitleText}>
+            Contanos paso a paso como se hace
+          </Text>
+
+          {steps.map((step, index) => (
+            <View
+              key={index}
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                height: 72,
+                maxHeight: 72,
+              }}>
+              <View style={{width: '85%'}}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={`Paso ${index + 1}`}
+                  value={step}
+                  onChangeText={text => updateStep(index, text)}
+                />
+              </View>
+              <View style={{width: '10%'}}>
+                <TouchableOpacity
+                  style={styles.minusButton}
+                  onPress={() => removeStep(index)}>
+                  <Text style={{fontSize: 20, color: 'white'}}>-</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity style={styles.addButton} onPress={addStep}>
+            <Text style={{fontSize: 20, color: 'white'}}>+</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <View style={{height: 160}}>
+        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
+        <View style={{height: 36}} />
+        <PrimaryButton
+          text="Siguiente"
+          backgroundColor={
+            validateSteps() ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3
+          }
+          onPress={() => {
+            if (validateSteps()) navigateToNextScreen();
+          }}
+        />
       </View>
-      <PrimaryButton
-        text="Siguiente"
-        onPress={() =>
-          navigation.navigate(Screens.EditRecipe4)
-        }></PrimaryButton>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  background: CommonStyle.background,
-  mainContainer: CommonStyle.mainContainer,
+  background: {
+    backgroundColor: Theme.colors.PRIMARY_1,
+    flex: 1,
+  },
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  content: {
+    padding: 30,
+    minWidth: '100%',
+  },
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
-  input: CommonStyle.input,
+  input: {
+    ...CommonStyle.input,
+    marginBottom: 8,
+  },
+  addButton: {
+    backgroundColor: Theme.colors.SECONDARY_2,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 8,
+  },
+  minusButton: {
+    backgroundColor: Theme.colors.DANGER,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginBottom: 'auto',
+    marginTop: 'auto',
+  },
 });
 
 export default EditRecipeScreen3;
