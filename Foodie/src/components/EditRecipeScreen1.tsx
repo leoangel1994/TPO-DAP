@@ -135,7 +135,7 @@ export const EditRecipeScreen1 = ({navigation}: {navigation: any}) => {
       style={styles.background}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.titleText}>Nueva Receta</Text>
+          <Text style={styles.titleText}>Editar Receta</Text>
           <Text style={styles.subTitleText}>
             Información principal sobre tu receta
           </Text>
