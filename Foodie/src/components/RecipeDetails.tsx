@@ -90,7 +90,7 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
             <TouchableOpacity
               style={styles.roundButton}
               onPress={() => {
-                navigation.navigate(Screens.EditRecipe1, {...recipeDetail});
+                navigation.navigate(Screens.EditRecipe1, {"recipe": {...recipeDetail}});
               }}>
               <Icon
                 style={{marginLeft: 'auto', marginRight: 'auto'}}
