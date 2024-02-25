@@ -30,34 +30,29 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const [recipeDetail, setRecipeDetail] = useState<Recipe>();
   const route: any = useRoute();
 
-  const getRecipeDetail = async (recipeId: string) => {
-    getRecipeById(recipeId)
-      .then(recipe => {
-        console.log("GET Recipe: OK");
-        const itemData: Recipe = recipe;
-        setRecipeDetail(itemData);
+const getRecipeDetail = async (recipeId: string) => {
+  try {
+    const recipe = await getRecipeById(recipeId);
+    console.log("GET Recipe: OK", recipe);
+    const itemData: Recipe = recipe;
+    setRecipeDetail(itemData);
 
-        // Obtener información del creador de la receta
-        if (itemData.profileId) {
-          getUser(itemData.profileId)
-            .then(user => {
-              console.log('GET User: OK');
-              const creatorData: User = user;
-              setCreatorData(creatorData);
-            })
-            .catch(() => {
-              console.error('Error al obtener detalle de la receta');
-            });
-        }
-      })
-      .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '7',
-          errorMessage: 'Error al obtener detalle de la receta',
-          nextScreen: Screens.Landing,
-        });
-      });
-  };
+    // Obtener información del creador de la receta
+    if (itemData.profileId) {
+      const user = await getUser(itemData.profileId);
+      console.log('GET User: OK');
+      const creatorData: User = user;
+      setCreatorData(creatorData);
+    }
+  } catch (error) {
+    console.error('Error al obtener detalle de la receta', error);
+    navigation.navigate(Screens.ErrorScreen, {
+      errorCode: '7',
+      errorMessage: 'Error al obtener detalle de la receta',
+      nextScreen: Screens.Landing,
+    });
+  }
+};
 
   useEffect(() => {
     getRecipeDetail(route.params?.recipeId);
@@ -117,37 +112,26 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
         </View>
 
         {/* Carousel Section */}
+        {/* Carousel Section */}
         <View style={styles.carouselSection}>
-          <Swiper
-            style={styles.carouselContainer}
-            showsButtons={true}
-            showsPagination={true}
-            activeDotColor={Theme.colors.SECONDARY_1}>
-            <View style={styles.slide}>
-              <Image
-                source={{
-                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
-                }}
-                style={styles.carouselImage}
-              />
-            </View>
-            <View style={styles.slide}>
-              <Image
-                source={{
-                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
-                }}
-                style={styles.carouselImage}
-              />
-            </View>
-            <View style={styles.slide}>
-              <Image
-                source={{
-                  uri: 'https://pbs.twimg.com/media/FJ22y35XIAE9X4c?format=png&name=900x900',
-                }}
-                style={styles.carouselImage}
-              />
-            </View>
-          </Swiper>
+          {recipeDetail.images && recipeDetail.images.length > 0 ? (
+            <Swiper
+              style={styles.carouselContainer}
+              showsButtons={true}
+              showsPagination={true}
+              activeDotColor={Theme.colors.SECONDARY}>
+              {recipeDetail.images.map((image, index) => (
+                <View key={index} style={styles.slide}>
+                  <Image
+                    source={{uri: image.url}}
+                    style={styles.carouselImage}
+                  />
+                </View>
+              ))}
+            </Swiper>
+          ) : (
+            <Text>No images available</Text>
+          )}
         </View>
 
         {/* Sección 3 - Autor */}

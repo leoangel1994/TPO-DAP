@@ -1,6 +1,6 @@
 import {get, post, put, deleteResource} from "./ApiManager";
 
-export const getUser = async () => 
+export const getUser = async () =>
     await get("/users/")
             .catch((error) => { console.error("Error: ", error) });
 
