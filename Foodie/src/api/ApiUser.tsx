@@ -5,7 +5,7 @@ export const getUser = async () =>
             .catch((error) => { console.error("Error: ", error) });
 
 export const getUserById = async (profileId: string) => 
-    await get("/users/"+profileId)
+    await get("/users/profile/"+profileId)
         .catch((error) => { console.error("Error: ", error) });
 
 export const putUser = async (userData: any) =>
