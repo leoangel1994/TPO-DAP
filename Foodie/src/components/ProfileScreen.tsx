@@ -6,14 +6,16 @@ import {userLogout} from '../api/ApiManager';
 import {getUser} from '../api/ApiUser';
 import {User} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
+  const route: any = useRoute();
   const [userData, setUserData] = useState<User>();
   const getUserData = async () => {
     getUser()
       .then(user => {
+        console.log("GET OK")
         const user_data: User = user;
-        console.log(user_data);
         setUserData(user_data);
       })
       .catch(() => {
@@ -25,8 +27,8 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
       });
   };
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (route?.params?.reload ?? true) getUserData();
+  }, [route]);
 
   return (
     <View style={styles.background}>
@@ -67,7 +69,7 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
           <PrimaryButton
             text="Editar Perfil"
             onPress={() =>
-              navigation.navigate(Screens.EditProfile)
+              navigation.navigate(Screens.EditProfile, {profileInfo: userData})
             }></PrimaryButton>
           <PrimaryButton
             text="Cerrar Sesión"
