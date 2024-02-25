@@ -15,22 +15,17 @@ import {useRoute} from '@react-navigation/native';
 import {getRecipeById} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
+import {getUser} from '../api/ApiUser';
 
-// Ajusta la ruta de tus archivos PNG
+
+// Archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
 const PorcionesIcon = require('../../assets/img/Porciones.png');
 const ShareIcon = require('../../assets/img/Share.png');
 const StarIcon = require('../../assets/img/Star.png');
 
-const fake_profile = {
-  picture:
-    'https://img.asmedia.epimg.net/resizer/YSEO6kkVnSsaaG3stkWsOkaizvY=/644x362/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/EE5Z5V4DD5MLHMGVBQNDWFAO4Y.jpg',
-  fullName: 'Jerome Nigel McElroy',
-  gmail: 'chef@google.com',
-  appName: 'chefApp#1245 ',
-};
-
 const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
+  const [creator_data, setCreatorData] = useState<User>();
   const [activeMenu, setActiveMenu] = useState('Datos');
   const [recipeDetail, setRecipeDetail] = useState<Recipe>();
   const route: any = useRoute();
@@ -38,11 +33,22 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const getRecipeDetail = async (recipeId: string) => {
     getRecipeById(recipeId)
       .then(recipe => {
-        console.log(recipe);
-        const item_data: Recipe = recipe;
-        setRecipeDetail(item_data);
-        console.log(item_data);
-        console.log('GET: OK');
+        console.log("GET Recipe: OK");
+        const itemData: Recipe = recipe;
+        setRecipeDetail(itemData);
+
+        // Obtener información del creador de la receta
+        if (itemData.profileId) {
+          getUser(itemData.profileId)
+            .then(user => {
+              console.log('GET User: OK');
+              const creatorData: User = user;
+              setCreatorData(creatorData);
+            })
+            .catch(() => {
+              console.error('Error al obtener detalle de la receta');
+            });
+        }
       })
       .catch(() => {
         navigation.navigate(Screens.ErrorScreen, {
@@ -148,11 +154,17 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
         <View style={styles.authorSection}>
           <View style={styles.authorContainer}>
             <Image
-              source={{uri: fake_profile.picture}}
+              source={{
+                uri:
+                  creator_data?.photo ??
+                  'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg',
+              }}
               style={styles.authorImage}
             />
             <View style={styles.authorInfo}>
-              <Text style={styles.authorName}>{fake_profile.fullName}</Text>
+              <Text style={styles.authorName}>
+                {(creator_data?.name ?? '') + ' ' + (creator_data?.familyName ?? '')}
+              </Text>
             </View>
           </View>
         </View>
