@@ -4,17 +4,49 @@ const mongoose = require('mongoose');
 
 // Save recipe to favorites
 exports.saveRecipeToFavorites = async (profileId, recipeId) => {
-    // Implement the logic to save a recipe to favorites
+    try {
+        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId, favorite: false});
+        if (recipe == null) return null;
+        let favorite = recipe.favorite;
+        let newFavorite = !favorite;
+        recipe.favorite = newFavorite;
+        await recipe.save();
+        return recipe;
+
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+
 }
 
 // Remove recipe from favorites
 exports.removeRecipeFromFavorites = async (profileId, recipeId) => {
-    // Implement the logic to remove a recipe from favorites
+    try {
+        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId, favorite: true});
+        if (recipe == null) return null;
+        recipe.favorite = false;
+        await recipe.save();
+        return recipe;
+    }
+    catch (err) {
+        console.log(err);
+    }
+
 }
 
 // Get favorite recipes by user ID
 exports.getFavoriteRecipes = async (profileId) => {
-    // Implement the logic to get favorite recipes by user ID
+    
+    try {
+        let recipes = await Recipe.find({profileId: profileId, favorite: true});
+        return recipes;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
 }
 
 // Get recipe by ID
@@ -41,6 +73,17 @@ exports.getRecipesForCarousel = async () => {
     try {
         let recipes = await Recipe
         .find({}).limit(10);
+        return recipes;
+    } 
+    catch (err) {
+        console.log(err);  
+    }
+}
+
+exports.getRecipesForCarouselByRating = async () => {
+    try {
+        let recipes = await Recipe
+        .find({}).sort({rating: -1}).limit(10);
         return recipes;
     } 
     catch (err) {
@@ -83,7 +126,20 @@ exports.deleteRecipeById = async (profileId, recipeId) => {
 
 // Rate a recipe by Id
 exports.rateRecipeById = async (profileId, recipeId, rate) => {
-    //implement recipe rating logic
+  
+    try {
+        let recipe = await Recipe.findOne({_id: recipeId});
+        if (recipe == null) return null;
+        let rating = recipe.rating;
+        let newRating = (rating + rate) / 2;
+        recipe.rating = newRating;
+        await recipe.save();
+        return recipe;
+
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 exports.createRecipe = async (profileId, body) => {
