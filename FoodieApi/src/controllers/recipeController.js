@@ -30,6 +30,22 @@ exports.getRecipesForCarousel = async (req, res) => {
     }
 }
 
+exports.getRecipesForCarouselByRating = async (req, res) => {
+  try {
+    const recipes = await recipeService.getRecipesForCarouselByRating();
+
+    if (recipes == null){
+      res.status(404).json({ error: 'Recipes not found' });
+      return;
+    } 
+    res.json(recipes);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
 exports.getRecipeById = async (req, res) => {
   try {
     const recipe = await recipeService.getRecipeById(req.params.id);
