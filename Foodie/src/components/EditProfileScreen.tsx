@@ -14,6 +14,9 @@ import {putUser} from '../api/ApiUser';
 import {User} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import Icon from 'react-native-ico-material-design';
+import {postProfileImages} from '../api/ApiFilesManager';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -58,6 +61,7 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
 const EditProfileScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
   const [userData, setUserData] = useState<User>();
+  const [newImage, setNewImage] = useState<string>();
   const availableTags = [
     'Vegana',
     'Apta Celiacos',
@@ -70,12 +74,47 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
     'Antiinflamatoria',
   ];
 
+  const openGallery = async () => {
+    try {
+      const result = await launchImageLibrary({mediaType: 'photo'});
+      if (
+        result.assets &&
+        result.assets.length > 0 &&
+        result.assets[0].uri &&
+        result.assets[0].uri.length > 0
+      ) {
+        setNewImage(result.assets[0].uri);
+      }
+    } catch (err) {
+      navigation.navigate(Screens.ErrorScreen, {
+        errorCode: '10',
+        errorMessage: 'Error al cargar imagen',
+        nextScreen: Screens.Profile,
+      });
+    }
+  };
+
   const editarPerfil = async () => {
     //console.log({...userData})
     putUser({...userData})
       .then(() => {
-        console.log("UPDATE OK")
-        navigation.navigate(Screens.Profile, {reload: true});
+        console.log('UPDATE OK');
+        if (newImage) {
+          postProfileImages('unused?', [newImage])
+            .then(() => {
+              console.log('POST IMAGE OK');
+              navigation.navigate(Screens.Profile, {reload: true});
+            })
+            .catch(() => {
+              navigation.navigate(Screens.ErrorScreen, {
+                errorCode: '11',
+                errorMessage: 'Error al actualizar imagen del usuario',
+                nextScreen: Screens.Profile,
+              });
+            });
+        } else {
+          navigation.navigate(Screens.Profile, {reload: true});
+        }
       })
       .catch(() => {
         navigation.navigate(Screens.ErrorScreen, {
@@ -96,14 +135,29 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
         <Text style={styles.titleText}>Editar perfil</Text>
         {userData ? (
           <>
-            <Image
-              source={{
-                uri:
-                  userData.photo ??
-                  'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg',
-              }}
-              style={styles.profileImage}
-            />
+            <View>
+              <Image
+                source={{
+                  uri:
+                    (newImage?.length ?? 0) > 0
+                      ? newImage
+                      : userData.photo ??
+                        'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg',
+                }}
+                style={styles.profileImage}
+              />
+              <TouchableOpacity
+                style={{position: 'absolute', left: '65%', top: '75%'}}
+                onPress={openGallery}>
+                <Icon
+                  style={{marginLeft: 'auto', marginRight: 'auto'}}
+                  name="create-new-pencil-button"
+                  height={24}
+                  width={24}
+                  color={Theme.colors.NEUTRAL_4}
+                />
+              </TouchableOpacity>
+            </View>
             <Text style={styles.profileText}>
               {(userData?.name ?? '') + ' ' + (userData?.familyName ?? '')}
             </Text>
