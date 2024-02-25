@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', auth.authenticateToken, userController.getUserById);
 
 //Obtener datos del perfil del usuario logueado por id
-router.get('/:id', auth.authenticateToken, userController.getUserById);
+router.get('/profile/:id', auth.authenticateToken, userController.getUserById);
 
 //Editar los datos del perfil del usuario logueado
 router.put('/', auth.authenticateToken, userController.updateUserById);
