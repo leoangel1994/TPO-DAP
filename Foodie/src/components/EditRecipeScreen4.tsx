@@ -13,7 +13,7 @@ import ProgressBar from './ProgressBar';
 import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
 import {postRecipeImages} from '../api/ApiFilesManager';
-import {postRecipe} from '../api/ApiRecipes';
+import {putRecipe} from '../api/ApiRecipes';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
@@ -88,6 +88,7 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
       portions: route.params.step2.portions,
       preparationTime: route.params.step2.preparationTime,
       steps: route.params.step3.steps,
+      images:route.params.step1.images.filter((img: any) => !img.isNew && !img.url.includes('dish-image-no.jpg')),
       nutritionalProperties: {
         calories: calories,
         proteins: proteins,
@@ -95,20 +96,16 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
       },
       tags: selectedTags,
     };
-    // route.params.imagesForDeletion // array con las imagenes que ya no estan asociadas a las recetas
-    /* //TODO(Ivo): PUT/PATCH de receta. POST Imagenes nuevas, DELETE imagenes viejas. ignorar las que ya estan subidas...
-    postRecipe(editRecipe)
-      .then(recipe => postRecipeImages(recipe._id, route.params.step1.images))
-      .catch(error => {
-        console.log(error);
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '3',
-          errorMessage: 'Error al crear receta, intente nuevamente',
-          nextScreen: Screens.Landing,
-        });
-      });
-      */
-
+    try {
+      let recipe = await putRecipe(route.params.recipe._id, editRecipe);
+    
+      let newImages = route.params.step1.images.filter((img: any) => img.isNew);
+      if (newImages.length > 0){
+        await postRecipeImages(recipe._id, newImages.map((img: any) => img.url));
+      }
+    }catch (error) {
+      console.error("Error: ", error);
+    }
     navigateToNextScreen();
   };
 

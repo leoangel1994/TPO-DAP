@@ -94,18 +94,21 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
       },
       tags: selectedTags,
     };
-    postRecipe(newRecipe)
-      .then(recipe =>
-        postRecipeImages(recipe._id, route.params.step1.images))
-      .catch(error => {
-        console.log(error);
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '3',
-          errorMessage: 'Error al crear receta, intente nuevamente',
-          nextScreen: Screens.Landing,
-        });
-      });
+    try {
+      let recipe = await postRecipe(newRecipe);
 
+      if (route.params.step1.images.length > 0){
+        await postRecipeImages(recipe._id, route.params.step1.images);
+      }
+    }catch (error) 
+    {
+      console.log(error);
+      navigation.navigate(Screens.ErrorScreen, {
+        errorCode: '3',
+        errorMessage: 'Error al crear receta, intente nuevamente',
+        nextScreen: Screens.Landing,
+      });
+    }
     navigateToNextScreen();
   };
 
