@@ -2,12 +2,12 @@ const userService = require('../services/userService');
 const getProfileId = require('../utils/jwtHelper').getProfileId;
 
 exports.getUserById = async (req, res) => {
-  // Implement logic to get a user by ID
   try {
     //Get user from token
-    const userId = getProfileId(req);
-    if (userId == null) return res.sendStatus(401);
-    
+    const authUserId = getProfileId(req);
+    if (authUserId == null) return res.sendStatus(401);
+   
+    let userId =  (req.params.id == null) ? authUserId : req.params.id;
     const user = await userService.getUserById(userId);
     if (user == null){
       res.status(404).json({ error: 'User not found' });
