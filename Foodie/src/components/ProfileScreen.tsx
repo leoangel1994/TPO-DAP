@@ -1,11 +1,11 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import {PrimaryButton} from './PrimaryButton';
 import {Screens} from '../navigation/RootNavigator';
-import { userLogout } from '../api/ApiManager';
-import { getUser } from '../api/ApiUser';
-import { User } from './FoodApiInterfaces/interfaces';
-import { useEffect, useState } from 'react';
+import {userLogout} from '../api/ApiManager';
+import {getUser} from '../api/ApiUser';
+import {User} from './FoodApiInterfaces/interfaces';
+import {useEffect, useState} from 'react';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
   const [userData, setUserData] = useState<User>();
@@ -13,6 +13,7 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
     getUser()
       .then(user => {
         const user_data: User = user;
+        console.log(user_data);
         setUserData(user_data);
       })
       .catch(() => {
@@ -25,42 +26,57 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
   };
   useEffect(() => {
     getUserData();
-  }, []);  
+  }, []);
 
   return (
     <View style={styles.background}>
-      <View style={styles.mainContainer}>
+      <ScrollView style={styles.mainContainer}>
         <Text style={styles.titleText}>Mi perfil</Text>
         <Image
-          source={{uri: userData?.photo ?? 'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg'}}
+          source={{
+            uri:
+              userData?.photo ??
+              'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg',
+          }}
           style={styles.profileImage}
         />
-        <Text style={styles.subTitleText}>{(userData?.name ?? '') +' '+ (userData?.familyName ?? '')}</Text>
-        <Text style={styles.subTitleText}>{userData?.email ?? ''}</Text>
-        <Text style={styles.subTitleText}>{userData?.userName ?? ''}</Text>
-      </View>
-      <PrimaryButton
-        text="Mis Recetas"
-        onPress={() => navigation.navigate(Screens.MyRecipes)}></PrimaryButton>
-      <PrimaryButton
-        text="Editar Perfil"
-        onPress={() =>
-          navigation.navigate(Screens.EditProfile)
-        }></PrimaryButton>
-      <PrimaryButton
-        text="Cerrar Sesión"
-        onPress={async () => {
-          (await userLogout()) ? 
-            navigation.navigate(Screens.Login)
-            : null
-            }
-          }></PrimaryButton>
-      <PrimaryButton
-        backgroundColor={Theme.colors.DANGER}
-        text="Eliminar Cuenta"
-        onPress={() =>
-          navigation.navigate(Screens.EditProfile)
-        }></PrimaryButton>
+        <Text style={styles.profileText}>
+          {(userData?.name ?? '') + ' ' + (userData?.familyName ?? '')}
+        </Text>
+        <Text style={styles.profileText}>{userData?.email ?? ''}</Text>
+        <Text style={styles.profileText}>{userData?.userName ?? ''}</Text>
+        <View style={{margin: 16}}></View>
+        <Text style={styles.subTitleText}>Mis preferencias</Text>
+        <View style={styles.tagsRow}>
+          {(userData?.preferences?.length ?? 0) > 0 ? (
+            userData?.preferences?.map((step, index) => (
+              <Text key={index} style={styles.tag}>
+                {userData?.preferences[index]}
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.profileText}>No tenés preferencias</Text>
+          )}
+        </View>
+        <View style={{marginTop: 32, marginBottom: 64}}>
+          <PrimaryButton
+            text="Mis Recetas"
+            onPress={() =>
+              navigation.navigate(Screens.MyRecipes)
+            }></PrimaryButton>
+          <PrimaryButton
+            text="Editar Perfil"
+            onPress={() =>
+              navigation.navigate(Screens.EditProfile)
+            }></PrimaryButton>
+          <PrimaryButton
+            text="Cerrar Sesión"
+            backgroundColor={Theme.colors.DANGER}
+            onPress={async () => {
+              (await userLogout()) ? navigation.navigate(Screens.Login) : null;
+            }}></PrimaryButton>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -85,17 +101,26 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 24,
   },
-  subTitleText: {
+  subTitleText: CommonStyle.subTitleText,
+  profileText: {
     ...CommonStyle.subTitleText,
     fontFamily: Theme.fontFamily.REGULAR,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  buttonPosition: {
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: 32,
+  tagsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  tag: {
+    color: Theme.colors.NEUTRAL_1,
+    fontFamily: Theme.fontFamily.REGULAR,
+    fontSize: Theme.fontSize.LIST_ITEM_TEXT,
+    padding: 4,
+    marginBottom: 4,
+    borderRadius: 10,
+    backgroundColor: Theme.colors.SECONDARY_2,
+    marginRight: 4,
   },
 });
 
