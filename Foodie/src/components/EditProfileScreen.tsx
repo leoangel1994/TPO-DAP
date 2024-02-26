@@ -17,7 +17,7 @@ import {useRoute} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-ico-material-design';
 import {postProfileImages} from '../api/ApiFilesManager';
-import { ERROR_PROFILE_IMAGE_LOAD, ErrorNavigate } from './Error/ErrorCodes';
+import { ERROR_PROFILE_IMAGE_OPEN_GALLERY, ERROR_PROFILE_IMAGE_POST, ERROR_PROFILE_USER_PUT, ErrorNavigate } from './Error/ErrorCodes';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -87,7 +87,7 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
         setNewImage(result.assets[0].uri);
       }
     } catch (err) {
-      ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_LOAD);
+      ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_OPEN_GALLERY);
     }
   };
 
@@ -103,22 +103,14 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
               navigation.navigate(Screens.Profile, {reload: true});
             })
             .catch(() => {
-              navigation.navigate(Screens.ErrorScreen, {
-                errorCode: '11',
-                errorMessage: 'Error al actualizar imagen del usuario',
-                nextScreen: Screens.Profile,
-              });
+              ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_POST)
             });
         } else {
           navigation.navigate(Screens.Profile, {reload: true});
         }
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '10',
-          errorMessage: 'Error al actualizar datos del usuario',
-          nextScreen: Screens.Profile,
-        });
+        ErrorNavigate(navigation, ERROR_PROFILE_USER_PUT)
       });
   };
 

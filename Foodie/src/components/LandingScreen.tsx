@@ -8,6 +8,7 @@ import ModalFiltros from './FiltersModal';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import { getUserSession } from '../api/ApiManager';
 import { getRecipesForCarousel } from '../api/ApiRecipes';
+import { ERROR_CARROUSEL_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -34,11 +35,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '1',
-          errorMessage: 'Error al cargar el carrousel',
-          nextScreen: Screens.Login,
-        });
+        ErrorNavigate(navigation, ERROR_CARROUSEL_GET)
       });
   };
 

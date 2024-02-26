@@ -7,10 +7,11 @@ import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
-import { getRecipesByFilters } from '../api/ApiRecipes';
+import {getRecipesByFilters} from '../api/ApiRecipes';
+import {ERROR_SEARCH_GET, ErrorNavigate} from './Error/ErrorCodes';
 
 function mapTagsFilters(filters: string[]) {
-  if(filters == undefined || filters.length == 0) return [];
+  if (filters == undefined || filters.length == 0) return [];
   console.log(filters);
   let filterNames: string[] = [
     'Rápida preparación',
@@ -26,7 +27,7 @@ function mapTagsFilters(filters: string[]) {
   let selectedFilters: string[] = [];
 
   for (let i = 0; i < filters.length; i++) {
-    if (filters[i] as unknown == true) {
+    if ((filters[i] as unknown) == true) {
       selectedFilters.push(filterNames[i]);
     }
   }
@@ -62,11 +63,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '6',
-          errorMessage: 'Error al obtener recetas',
-          nextScreen: Screens.Landing,
-        });
+        ErrorNavigate(navigation, ERROR_SEARCH_GET);
       });
   };
 
@@ -77,7 +74,10 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         : [false, false, false, false, false, false, false, false, false],
     );
     setSearchText(route.params?.searchedText ?? '');
-    getRecipesListData(route.params?.filtersApplied, route.params?.searchedText);
+    getRecipesListData(
+      route.params?.filtersApplied,
+      route.params?.searchedText,
+    );
   }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
@@ -94,7 +94,6 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
                 searchedText: searchText,
                 filtersApplied: [...filters],
               });
-
             }}></TextInput>
           <View style={styles.searchButtonContainer}>
             <Pressable

@@ -1,6 +1,7 @@
 import {Share} from 'react-native';
 import {Screens} from '../navigation/RootNavigator';
 import {Recipe} from './FoodApiInterfaces/interfaces';
+import { ERROR_SHARE, ErrorNavigate } from './Error/ErrorCodes';
 
 const onRecipeShare = async (navigation: any, recipe: Recipe) => {
   try {
@@ -32,11 +33,7 @@ Encontrá más recetas como esta en Foodie!
       // dismissed
     }
   } catch (error) {
-    navigation.navigate(Screens.ErrorScreen, {
-      errorCode: '9',
-      errorMessage: 'Error al intentar compartir la receta',
-      nextScreen: Screens.Landing,
-    });
+    ErrorNavigate(navigation, ERROR_SHARE)
   }
 };
 

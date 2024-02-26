@@ -12,8 +12,9 @@ import {PrimaryButton} from './PrimaryButton';
 import ProgressBar from './ProgressBar';
 import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
-import { postRecipeImages } from '../api/ApiFilesManager';
-import { postRecipe } from '../api/ApiRecipes';
+import {postRecipeImages} from '../api/ApiFilesManager';
+import {postRecipe} from '../api/ApiRecipes';
+import {ERROR_RECETA_POST, ErrorNavigate} from './Error/ErrorCodes';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -38,13 +39,15 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
               {
                 backgroundColor: selectedTags.includes(tag)
                   ? Theme.colors.SECONDARY_2
-                  :Theme.colors.NEUTRAL_4,
+                  : Theme.colors.NEUTRAL_4,
               },
             ]}
             onPress={() => handleTagSelect(tag)}>
             <Text
               style={{
-                color: selectedTags.includes(tag) ? Theme.colors.NEUTRAL_1 : Theme.colors.NEUTRAL_1,
+                color: selectedTags.includes(tag)
+                  ? Theme.colors.NEUTRAL_1
+                  : Theme.colors.NEUTRAL_1,
               }}>
               {tag}
             </Text>
@@ -97,17 +100,12 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
     try {
       let recipe = await postRecipe(newRecipe);
 
-      if (route.params.step1.images.length > 0){
+      if (route.params.step1.images.length > 0) {
         await postRecipeImages(recipe._id, route.params.step1.images);
       }
-    }catch (error) 
-    {
+    } catch (error) {
       console.log(error);
-      navigation.navigate(Screens.ErrorScreen, {
-        errorCode: '3',
-        errorMessage: 'Error al crear receta, intente nuevamente',
-        nextScreen: Screens.Landing,
-      });
+      ErrorNavigate(navigation, ERROR_RECETA_POST);
     }
     navigateToNextScreen();
   };

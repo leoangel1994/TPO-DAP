@@ -5,6 +5,7 @@ import {Screens} from '../navigation/RootNavigator';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {getRecipesForLoggedUser} from '../api/ApiRecipes';
+import { ERROR_FAVORITES_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
@@ -17,11 +18,7 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '3',
-          errorMessage: 'Error al obtener recetas del usuario',
-          nextScreen: Screens.Profile,
-        });
+        ErrorNavigate(navigation, ERROR_FAVORITES_GET)
       });
   };
 

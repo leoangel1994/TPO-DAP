@@ -5,6 +5,7 @@ import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import { getRecipesForLoggedUser } from '../api/ApiRecipes';
+import { ERROR_MY_RECIPES_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 const MyRecipesScreen = ({navigation}: {navigation: any}) => {
   const [mensajeCargando, setMensajeCargando] = useState('Sin Recetas cargadas');
@@ -21,11 +22,7 @@ const MyRecipesScreen = ({navigation}: {navigation: any}) => {
           setMensajeCargando('Sin Recetas cargadas');
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '2',
-          errorMessage: 'Error al obtener recetas del usuario',
-          nextScreen: Screens.Profile,
-        });
+        ErrorNavigate(navigation, ERROR_MY_RECIPES_GET)
       });
   };
 

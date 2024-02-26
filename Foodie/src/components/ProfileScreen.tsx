@@ -7,6 +7,7 @@ import {getUser} from '../api/ApiUser';
 import {User} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
+import {ERROR_USER_DATA_GET, ErrorNavigate} from './Error/ErrorCodes';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
@@ -14,16 +15,12 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
   const getUserData = async () => {
     getUser()
       .then(user => {
-        console.log("GET OK")
+        console.log('GET OK');
         const user_data: User = user;
         setUserData(user_data);
       })
       .catch(() => {
-        navigation.navigate(Screens.ErrorScreen, {
-          errorCode: '2',
-          errorMessage: 'Error al obtener datos del usuario',
-          nextScreen: Screens.Profile,
-        });
+        ErrorNavigate(navigation, ERROR_USER_DATA_GET);
       });
   };
   useEffect(() => {
