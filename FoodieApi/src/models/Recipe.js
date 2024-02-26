@@ -25,12 +25,18 @@ const RecipeSchema = new Schema({
     proteins: Number,
     totalFat: Number
   }, 
-  createdAt: { type: Date, default: Date.now }
-},{ toJSON: { getters: true } });
+  rating: [{
+    rate: { type: Number, min: 0, max: 5, default: 0 },
+    userId: { type: String }
+  }],
+    createdAt: { type: Date, default: Date.now }
+  },{ toJSON: { getters: true } });
 
-function defaulImgIfEmpty(images){
-  if(images.length == 0){
-    return [{url: 'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg', imageId: 'dish-image-no.jpg'}];
+  function defaulImgIfEmpty(images){
+    if(images.length == 0){
+      return [{url: 'https://godelyg3bucket.s3.sa-east-1.amazonaws.com/dish-image-no.jpg', imageId: 'dish-image-no.jpg'}];
+    }
+    return images;
   }
   return images;
 }

@@ -1,8 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+
 /**
  * User Schema
  */
+const FavoriteSchema = new Schema({
+    recipeId: Schema.ObjectId,
+    profileId: String,
+    title: String,
+    image: String,
+    createdAt: { type: Date, default: Date.now }
+    
+});
+})
+
 const UserSchema = new Schema({
     profileId: String,
     userName: String,
@@ -10,6 +22,7 @@ const UserSchema = new Schema({
     familyName: String,
     email: String,
     photo: String,
+    favorites: [FavoriteSchema],
     createdAt: { type: Date, default: Date.now },
     preferences: [String],
     accessToken: String,
