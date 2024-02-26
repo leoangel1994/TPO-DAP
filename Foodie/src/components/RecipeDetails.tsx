@@ -16,6 +16,7 @@ import {getRecipeById} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById} from '../api/ApiUser';
+import { AirbnbRating } from 'react-native-ratings';
 
 
 // Archivos PNG
@@ -155,9 +156,17 @@ const getRecipeDetail = async (recipeId: string) => {
 
         {/* Sección 4 - Rating */}
         <View style={styles.ratingSection}>
-          <Text style={styles.ratingText}>
-            Pronto vas a poder calificar Recetas!
-          </Text>
+          <AirbnbRating
+            count={5} // Número de estrellas
+            reviews={['Terrible', 'Malo', 'Normal', 'Bueno', 'Excelente']}
+            defaultRating={recipeDetail?.currentRating} // Puedes establecer la nota actual aquí
+            size={30}
+            onFinishRating={(rating) => {
+              // Aquí puedes manejar la lógica cuando el usuario termine de calificar
+              console.log('Calificación:', rating);
+              // También puedes enviar la calificación al backend si es necesario
+            }}
+          />
         </View>
 
         {/* Sección 5 - Menú Horizontal */}
@@ -364,7 +373,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 15,
     padding: 40,
-    marginTop: 30,
+    marginTop: 25,
     marginLeft: 15,
     marginRight: 15,
   },
