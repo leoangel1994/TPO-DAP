@@ -113,7 +113,6 @@ const getRecipeDetail = async (recipeId: string) => {
         </View>
 
         {/* Carousel Section */}
-        {/* Carousel Section */}
         <View style={styles.carouselSection}>
           {recipeDetail.images && recipeDetail.images.length > 0 ? (
             <Swiper

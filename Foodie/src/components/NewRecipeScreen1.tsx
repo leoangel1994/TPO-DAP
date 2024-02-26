@@ -100,10 +100,11 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.background}>
-      <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.background}
+      >
         <View style={styles.content}>
           <Text style={styles.titleText}>Nueva Receta</Text>
           <Text style={styles.subTitleText}>
@@ -112,13 +113,13 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
           <TextInput
             style={styles.input}
             placeholder="Título"
-            onChangeText={newText => setTitleText(newText)}
+            onChangeText={(newText) => setTitleText(newText)}
           />
           <TextInput
             style={styles.input}
             placeholder="Descripción"
             multiline={true}
-            onChangeText={newText => setDescriptionText(newText)}
+            onChangeText={(newText) => setDescriptionText(newText)}
           />
           <TextInput
             style={[
@@ -129,7 +130,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
                 },
             ]}
             placeholder="Link a video"
-            onChangeText={newText => {
+            onChangeText={(newText) => {
               if (regexValidateUrl(newText)) {
                 setVideoLinkText(newText);
                 setIsValidLink(true);
@@ -146,18 +147,22 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             showsButtons={true}
             showsPagination={true}
             key={images.length}
-            activeDotColor={Theme.colors.SECONDARY_1}>
+            activeDotColor={Theme.colors.SECONDARY_1}
+          >
             {images.length === 0 ? (
               <View style={styles.slide}>
-                <Text style={styles.noImageText}>No hay imágenes cargadas</Text>
+                <Text style={styles.noImageText}>
+                  No hay imágenes cargadas
+                </Text>
               </View>
             ) : (
               images.map((image, index) => (
                 <View key={index} style={styles.slide}>
-                  <Image source={{uri: image}} style={styles.selectedImage} />
+                  <Image source={{ uri: image }} style={styles.selectedImage} />
                   <TouchableOpacity
                     style={styles.deleteButton}
-                    onPress={() => removeImage(index)}>
+                    onPress={() => removeImage(index)}
+                  >
                     <Text style={styles.deleteButtonText}>X</Text>
                   </TouchableOpacity>
                 </View>
@@ -165,9 +170,9 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             )}
           </Swiper>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
 
-      <View style={{height: 160}}>
+      <View style={{backgroundColor: Theme.colors.PRIMARY_1, height: 160 }}>
         {!isKeyboardOpen && <ProgressBar currentStep={1} />}
         <View style={{height: 36}} />
         <PrimaryButton
@@ -183,7 +188,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
           }}
         />
       </View>
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

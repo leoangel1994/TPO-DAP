@@ -80,65 +80,71 @@ const NewRecipeScreen3 = ({navigation}: {navigation: any}) => {
     };
   }, []);
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.background}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.titleText}>Pasos</Text>
-          <Text style={styles.subTitleText}>
-            Contanos paso a paso como se hace
-          </Text>
+return (
+  <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={styles.background}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.titleText}>Pasos</Text>
+        <Text style={styles.subTitleText}>
+          Contanos paso a paso como se hace
+        </Text>
 
-          {steps.map((step, index) => (
-            <View
-              key={index}
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                height: 72,
-                maxHeight: 72,
-              }}>
-              <View style={{width: '85%'}}>
-                <TextInput
-                  style={styles.input}
-                  placeholder={`Paso ${index + 1}`}
-                  value={step}
-                  onChangeText={text => updateStep(index, text)}
-                />
-              </View>
-              <View style={{width: '10%'}}>
-                <TouchableOpacity
-                  style={styles.minusButton}
-                  onPress={() => removeStep(index)}>
-                  <Text style={{fontSize: 20, color: 'white'}}>-</Text>
-                </TouchableOpacity>
-              </View>
+        {steps.map((step, index) => (
+          <View
+            key={index}
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              height: 72,
+              maxHeight: 72,
+            }}>
+            <View style={{width: '85%'}}>
+              <TextInput
+                style={styles.input}
+                placeholder={`Paso ${index + 1}`}
+                value={step}
+                onChangeText={(text) => updateStep(index, text)}
+              />
             </View>
-          ))}
+            <View style={{width: '10%'}}>
+              <TouchableOpacity
+                style={styles.minusButton}
+                onPress={() => removeStep(index)}>
+                <Text style={{fontSize: 20, color: 'white'}}>-</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
 
-          <TouchableOpacity style={styles.addButton} onPress={addStep}>
-            <Text style={{fontSize: 20, color: 'white'}}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <View style={{height: 160}}>
-        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
-        <View style={{height: 36}} />
-        <PrimaryButton
-          text="Siguiente"
-          backgroundColor={
-            validateSteps() ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_3
-          }
-          onPress={() => {
-            if (validateSteps()) navigateToNextScreen();
-          }}
-        />
+        <TouchableOpacity style={styles.addButton} onPress={addStep}>
+          <Text style={{fontSize: 20, color: 'white'}}>+</Text>
+        </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
-  );
+
+      <View style={{ height: 160 }}>
+        {!isKeyboardOpen && <ProgressBar currentStep={3} />}
+        <View style={{ height: 36 }} />
+
+        {!isKeyboardOpen && (
+          <PrimaryButton
+            text="Siguiente"
+            backgroundColor={
+              validateSteps()
+                ? Theme.colors.SECONDARY_2
+                : Theme.colors.NEUTRAL_3
+            }
+            onPress={() => {
+              if (validateSteps()) navigateToNextScreen();
+            }}
+          />
+        )}
+      </View>
+    </ScrollView>
+  </KeyboardAvoidingView>
+);
 };
 
 const styles = StyleSheet.create({

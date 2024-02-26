@@ -90,97 +90,97 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
     };
   }, []);
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.background}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.titleText}>Preparación</Text>
-          <TextInput
-            keyboardType="numeric"
-            style={styles.input}
-            placeholder="Cantidad de Platos"
-            onChangeText={newText => {
-              newText.replace(/[^0-9]/, '');
-              setPortions(Number.parseInt(newText));
-            }}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Tiempo de preparación"
-            onChangeText={newText => setPreparationTime(newText)}
-          />
-          <Text style={{...styles.titleText, marginTop: 32}}>Ingredientes</Text>
+return (
+  <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={styles.background}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.titleText}>Preparación</Text>
+        <TextInput
+          keyboardType="numeric"
+          style={styles.input}
+          placeholder="Cantidad de Platos"
+          onChangeText={newText => {
+            newText = newText.replace(/[^0-9]/g, '');
+            setPortions(Number.parseInt(newText));
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Tiempo de preparación"
+          onChangeText={newText => setPreparationTime(newText)}
+        />
+        <Text style={{ ...styles.titleText, marginTop: 32 }}>Ingredientes</Text>
 
+        <View
+          style={{
+            marginTop: 8,
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            maxHeight: 28,
+          }}>
+          <View style={{ width: '45%' }}>
+            {ingredients.length !== 0 && (
+              <Text style={styles.subTitleText}>Nombre</Text>
+            )}
+          </View>
+          <View style={{ width: '35%' }}>
+            {ingredients.length !== 0 && (
+              <Text style={styles.subTitleText}>Cantidad</Text>
+            )}
+          </View>
+          <View style={{ width: '10%' }}></View>
+        </View>
+
+        {ingredients.map((ingredient, index) => (
           <View
+            key={ingredient.id} // Use a unique identifier if available
             style={{
-              marginTop: 8,
               flex: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
-              maxHeight: 28,
+              height: 72,
+              maxHeight: 72,
             }}>
-            <View style={{width: '45%'}}>
-              {ingredients.length !== 0 && (
-                <Text style={styles.subTitleText}>Nombre</Text>
-              )}
+            <View style={{ width: '45%' }}>
+              <TextInput
+                style={styles.input}
+                placeholder="Ingrediente"
+                value={ingredient.name}
+                onChangeText={text => handleIngredientNameChange(text, index)}
+              />
             </View>
-            <View style={{width: '35%'}}>
-              {ingredients.length !== 0 && (
-                <Text style={styles.subTitleText}>Cantidad</Text>
-              )}
+            <View style={{ width: '35%' }}>
+              <TextInput
+                style={styles.input}
+                placeholder="Cantidad"
+                value={ingredient.amount}
+                onChangeText={text =>
+                  handleIngredientQuantityChange(text, index)
+                }
+              />
             </View>
-            <View style={{width: '10%'}}></View>
+            <View style={{ width: '10%' }}>
+              <TouchableOpacity
+                style={styles.minusButton}
+                onPress={() => {
+                  removeIngredient(index);
+                }}>
+                <Text style={styles.addButtonText}>-</Text>
+              </TouchableOpacity>
+            </View>
           </View>
+        ))}
+        <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
 
-          {ingredients.map((ingredient, index) => (
-            <View
-              key={index}
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                height: 72,
-                maxHeight: 72,
-              }}>
-              <View style={{width: '45%'}}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Ingrediente"
-                  value={ingredient.name}
-                  onChangeText={text => handleIngredientNameChange(text, index)}
-                />
-              </View>
-              <View style={{width: '35%'}}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Cantidad"
-                  value={ingredient.amount}
-                  onChangeText={text =>
-                    handleIngredientQuantityChange(text, index)
-                  }
-                />
-              </View>
-              <View style={{width: '10%'}}>
-                <TouchableOpacity
-                  style={styles.minusButton}
-                  onPress={() => {
-                    removeIngredient(index);
-                  }}>
-                  <Text style={styles.addButtonText}>-</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))}
-          <TouchableOpacity style={styles.addButton} onPress={addIngredient}>
-            <Text style={styles.addButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <View style={{height: 160}}>
+      <View style={{ height: 160 }}>
         {!isKeyboardOpen && <ProgressBar currentStep={2} />}
-        <View style={{height: 36}} />
+        <View style={{ height: 36 }} />
 
         <PrimaryButton
           text="Siguiente"
@@ -195,9 +195,11 @@ export const NewRecipeScreen2 = ({navigation}: {navigation: any}) => {
           }}
         />
       </View>
-    </KeyboardAvoidingView>
-  );
+    </ScrollView>
+  </KeyboardAvoidingView>
+);
 };
+
 
 const styles = StyleSheet.create({
   background: {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react'; // Import useEffect
 import {
   ScrollView,
   StyleSheet,
@@ -6,17 +6,19 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
-import {CommonStyle, Theme} from '../../Theme';
-import {PrimaryButton} from './PrimaryButton';
+import { CommonStyle, Theme } from '../../Theme';
+import { PrimaryButton } from './PrimaryButton';
 import ProgressBar from './ProgressBar';
-import {Screens} from '../navigation/RootNavigator';
-import {useRoute} from '@react-navigation/native';
-import {postRecipeImages} from '../api/ApiFilesManager';
-import {postRecipe} from '../api/ApiRecipes';
-import {ERROR_RECETA_POST, ErrorNavigate} from './Error/ErrorCodes';
+import { Screens } from '../navigation/RootNavigator';
+import { useRoute } from '@react-navigation/native';
+import { postRecipeImages } from '../api/ApiFilesManager';
+import { postRecipe } from '../api/ApiRecipes';
+import { ERROR_RECETA_POST, ErrorNavigate } from './Error/ErrorCodes';
 
-const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
+const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }: any) => {
   const handleTagSelect = (tag: any) => {
     if (!selectedTags.includes(tag)) {
       onTagSelect([...selectedTags, tag]);
@@ -30,7 +32,7 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
 
   return (
     <View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 16}}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 16 }}>
         {availableTags.map((tag: any, index: any) => (
           <TouchableOpacity
             key={index}
@@ -58,7 +60,7 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   );
 };
 
-export const NewRecipeScreen4 = ({navigation}: any) => {
+export const NewRecipeScreen4 = ({ navigation }: any) => {
   const route: any = useRoute();
 
   const [calories, setCalories] = useState(0);
@@ -81,6 +83,31 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
   const handleTagSelect = (tags: any) => {
     setSelectedTags(tags);
   };
+
+  const [isKeyboardActive, setIsKeyboardActive] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsKeyboardActive(true);
+      },
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsKeyboardActive(false);
+      },
+    );
+
+    // Limpia los listeners cuando el componente se desmonta
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   const submitFormNewRecipe = async () => {
     let newRecipe = {
       title: route.params.step1.title,
@@ -127,7 +154,7 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
             style={styles.input}
             placeholder="Cantidad de calorías"
             keyboardType="numeric"
-            onChangeText={newText => {
+            onChangeText={(newText) => {
               newText.replace(/[^0-9]/, '');
               setCalories(Number.parseInt(newText));
             }}
@@ -136,7 +163,7 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
             style={styles.input}
             placeholder="Cantidad de proteínas"
             keyboardType="numeric"
-            onChangeText={newText => {
+            onChangeText={(newText) => {
               newText.replace(/[^0-9]/, '');
               setProteins(Number.parseInt(newText));
             }}
@@ -145,7 +172,7 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
             style={styles.input}
             placeholder="Cantidad de grasas totales"
             keyboardType="numeric"
-            onChangeText={newText => {
+            onChangeText={(newText) => {
               newText.replace(/[^0-9]/, '');
               setTotalFat(Number.parseInt(newText));
             }}
@@ -158,21 +185,23 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
           />
         </View>
       </ScrollView>
-      <View style={{height: 160}}>
-        <ProgressBar currentStep={4} />
-        <View style={{height: 36}} />
-        <PrimaryButton
-          text="Finalizar"
-          backgroundColor={
-            calories && proteins && totalFat
-              ? Theme.colors.SECONDARY_2
-              : Theme.colors.NEUTRAL_3
-          }
-          onPress={() => {
-            if (calories && proteins && totalFat) submitFormNewRecipe();
-          }}
-        />
-      </View>
+      {!isKeyboardActive && (
+        <View style={{ height: 160 }}>
+          <ProgressBar currentStep={4} />
+          <View style={{ height: 36 }} />
+          <PrimaryButton
+            text="Finalizar"
+            backgroundColor={
+              calories && proteins && totalFat
+                ? Theme.colors.SECONDARY_2
+                : Theme.colors.NEUTRAL_3
+            }
+            onPress={() => {
+              if (calories && proteins && totalFat) submitFormNewRecipe();
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -207,3 +236,4 @@ const styles = StyleSheet.create({
 });
 
 export default NewRecipeScreen4;
+
