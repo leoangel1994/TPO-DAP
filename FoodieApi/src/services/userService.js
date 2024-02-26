@@ -37,3 +37,53 @@ exports.deleteUserById = async (id) => {
     
 
 }
+
+// Save favorite recipe
+
+exports.saveFavoriteRecipe = async (userId, recipeId) => {
+    try {
+        let user = await User.findOne({profileId: userId});
+        if (!user) {
+            throw new Error('User not found');
+        }
+        user.favoriteRecipes.push(recipeId);
+        await user.save();
+        return user;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Remove favorite recipe
+
+exports.removeFavoriteRecipe = async (userId, recipeId) => {
+    try {
+        let user = await User.findOne({profileId: userId});
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const index = user.favoriteRecipes.indexOf(recipeId);
+        if (index > -1) {
+            user.favoriteRecipes.splice(index, 1);
+        }
+        await user.save();
+        return user;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Get favorite recipes
+
+exports.getFavoriteRecipes = async (userId) => {
+    try {
+        let user = await User.findOne({profileId: userId});
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user.favoriteRecipes;
+    } catch (err) {
+        console.log(err);
+    }
+}
+

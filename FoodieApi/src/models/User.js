@@ -13,7 +13,7 @@ const FavoriteSchema = new Schema({
     createdAt: { type: Date, default: Date.now }
     
 });
-})
+
 
 const UserSchema = new Schema({
     profileId: String,

@@ -41,3 +41,51 @@ exports.deleteUserById = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
       }
 }
+
+exports.saveFavoriteRecipe = async (req, res) => {
+    try {
+        const userId = getProfileId(req);
+        if (userId == null) return res.sendStatus(401);
+
+        const recipeId = req.body.recipeId;
+        if (!recipeId) return res.status(400).json({ error: 'Recipe ID is required' });
+
+        const user = await userService.saveFavoriteRecipe(userId, recipeId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.removeFavoriteRecipe = async (req, res) => {
+    try {
+        const userId = getProfileId(req);
+        if (userId == null) return res.sendStatus(401);
+
+        const recipeId = req.body.recipeId;
+        if (!recipeId) return res.status(400).json({ error: 'Recipe ID is required' });
+
+        const user = await userService.removeFavoriteRecipe(userId, recipeId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getFavoriteRecipes = async (req, res) => {
+  try {
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+
+    const recipes = await userService.getFavoriteRecipes(userId);
+    if (!recipes) return res.status(404).json({ error: 'Recipes not found' });
+
+    res.json(recipes);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
