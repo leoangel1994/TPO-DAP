@@ -40,14 +40,14 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
               styles.selectedTag,
               {
                 backgroundColor: selectedTags.includes(tag)
-                  ? '#F8A82E'
-                  : '#FFFFFF',
+                  ? Theme.colors.SECONDARY_2
+                  :Theme.colors.NEUTRAL_4,
               },
             ]}
             onPress={() => handleTagSelect(tag)}>
             <Text
               style={{
-                color: selectedTags.includes(tag) ? '#000000' : '#000000',
+                color: selectedTags.includes(tag) ? Theme.colors.NEUTRAL_1 : Theme.colors.NEUTRAL_1,
               }}>
               {tag}
             </Text>

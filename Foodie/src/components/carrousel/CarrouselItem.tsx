@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: ITEM_WIDTH,
     paddingBottom: 40,
-    shadowColor: '#000',
+    shadowColor: Theme.colors.NEUTRAL_1,
     shadowOffset: {
       width: 0,
       height: 3,
