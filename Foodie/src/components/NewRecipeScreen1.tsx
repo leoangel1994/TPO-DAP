@@ -131,7 +131,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
             ]}
             placeholder="Link a video"
             onChangeText={(newText) => {
-              if (regexValidateUrl(newText)) {
+              if (newText.length === 0 || regexValidateUrl(newText)) {
                 setVideoLinkText(newText);
                 setIsValidLink(true);
               } else {
