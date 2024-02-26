@@ -17,6 +17,7 @@ import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById} from '../api/ApiUser';
 import { AirbnbRating } from 'react-native-ratings';
+import { ERROR_RECIPE_DETAIL_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 
 // Archivos PNG
@@ -47,11 +48,7 @@ const getRecipeDetail = async (recipeId: string) => {
     }
   } catch (error) {
     console.error('Error al obtener detalle de la receta', error);
-    navigation.navigate(Screens.ErrorScreen, {
-      errorCode: '7',
-      errorMessage: 'Error al obtener detalle de la receta',
-      nextScreen: Screens.Landing,
-    });
+    ErrorNavigate(navigation, ERROR_RECIPE_DETAIL_GET)
   }
 };
 
