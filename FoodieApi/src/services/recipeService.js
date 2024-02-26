@@ -2,53 +2,6 @@
 const Recipe = require('../models/Recipe');
 const mongoose = require('mongoose');
 
-// Save recipe to favorites
-exports.saveRecipeToFavorites = async (profileId, recipeId) => {
-    try {
-        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId, favorite: false});
-        if (recipe == null) return null;
-        let favorite = recipe.favorite;
-        let newFavorite = !favorite;
-        recipe.favorite = newFavorite;
-        await recipe.save();
-        return recipe;
-
-
-    }
-    catch (err) {
-        console.log(err);
-    }
-
-
-}
-
-// Remove recipe from favorites
-exports.removeRecipeFromFavorites = async (profileId, recipeId) => {
-    try {
-        let recipe = await Recipe.findOne({_id: recipeId, profileId: profileId, favorite: true});
-        if (recipe == null) return null;
-        recipe.favorite = false;
-        await recipe.save();
-        return recipe;
-    }
-    catch (err) {
-        console.log(err);
-    }
-
-}
-
-// Get favorite recipes by user ID
-exports.getFavoriteRecipes = async (profileId) => {
-    
-    try {
-        let recipes = await Recipe.find({profileId: profileId, favorite: true});
-        return recipes;
-    } 
-    catch (err) {
-        console.log(err);  
-    }
-}
-
 // Get recipe by ID
 exports.getRecipesByFilters = async (tags, search) => {
     try {
@@ -91,16 +44,26 @@ exports.getRecipesForCarouselByRating = async () => {
     }
 }
 
+
 // Get recipe by ID
 exports.getRecipeById = async (recipeId) => {
     try {
         let recipe = await Recipe.findOne({_id: recipeId});
+        if (!recipe) {
+            throw new Error("Recipe not found");
+        }
+
+        // Calculate the average rating
+        let totalRating = recipe.ratings.reduce((total, rating) => total + rating.rate, 0);
+        recipe.rating = totalRating / recipe.ratings.length;
+
         return recipe;
     } 
     catch (err) {
         console.log(err);  
     }
 }
+
 
 // Update recipe by ID
 exports.updateRecipeById = async (profileId, recipeId, body) => {
@@ -125,23 +88,36 @@ exports.deleteRecipeById = async (profileId, recipeId) => {
 }
 
 // Rate a recipe by Id
-exports.rateRecipeById = async (profileId, recipeId, rate) => {
-  
+
+exports.rateRecipe = async (userId, recipeId, rate) => {
+    if (rate < 0 || rate > 5) {
+        throw new Error("La calificacion debe ser entre 0 y 5");
+    }
+
     try {
         let recipe = await Recipe.findOne({_id: recipeId});
-        if (recipe == null) return null;
-        let rating = recipe.rating;
-        let newRating = (rating + rate) / 2;
-        recipe.rating = newRating;
+        if (!recipe) {
+            throw new Error("Recipe not found");
+        }
+
+        // Add the rating and userId to the ratings array
+        recipe.ratings.push({userId, rate});
+
+        // Recalculate the average rating
+        let totalRating = recipe.ratings.reduce((total, rating) => total + rating.rate, 0);
+        recipe.rating = totalRating / recipe.ratings.length;
+
         await recipe.save();
         return recipe;
-
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 }
 
+
+
+
+// Create a recipe
 exports.createRecipe = async (profileId, body) => {
     body.profileId = profileId;
     const recipe = new Recipe(body);
@@ -154,6 +130,7 @@ exports.createRecipe = async (profileId, body) => {
     }
 };
 
+// Get user recipes
 exports.getUserRecipes = async (userId) => {
     try {
         let recipes = await Recipe.find({profileId: userId});

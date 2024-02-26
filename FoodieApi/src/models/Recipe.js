@@ -38,8 +38,6 @@ const RecipeSchema = new Schema({
     }
     return images;
   }
-  return images;
-}
 /**
  * Validations
  */

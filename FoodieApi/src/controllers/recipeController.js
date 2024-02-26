@@ -125,48 +125,34 @@ exports.deleteRecipeById = async (req, res) => {
     }
 }
 
-exports.rateRecipeById = async (req, res) => {
-  const userId = getProfileId(req);
-    if (userId == null) return res.sendStatus(401);
+exports.rateRecipe = async (req, res) => {
   try {
-    const recipe = await recipeService.rateRecipeById(userId, req.params.recipeId, req.body);
+    const userId = getProfileId(req);
+    if (userId == null) return res.sendStatus(401);
+
+    const { rating } = req.body;
+    if (rating < 0 || rating > 5) {
+      return res.status(400).json({ error: 'La calificacion debe ser entre 0 y 5' });
+    }
+
+    const recipe = await recipeService.rateRecipe(userId, req.params.id, rating);
+
+    if (recipe == null){
+      res.status(404).json({ error: 'Recipe not found' });
+      return;
+    } 
     res.json(recipe);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
-exports.saveRecipeToFavorites = async (req, res) => {
-  const userId = getProfileId(req);
-  if (userId == null) return res.sendStatus(401);
-    try {
-        const recipe = await recipeService.saveRecipeToFavorites(userId, req.body);
-        res.json(recipe);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-}
 
-exports.removeRecipeFromFavorites = async (req, res) => {
-  const userId = getProfileId(req);
-  if (userId == null) return res.sendStatus(401);
-    try {
-        const recipe = await recipeService.removeRecipeFromFavorites(userId, req.params.recipeId);
-        res.json(recipe);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-}
 
-exports.getFavoriteRecipes = async (req, res) => {
-    try {
-      const userId = getProfileId(req);
-      if (userId == null) return res.sendStatus(401);
-      
-      const recipe = await recipeService.getFavoriteRecipes(userId);
-      res.json(recipe);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-}
+
+
+
+
+
 
