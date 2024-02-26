@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: Theme.colors.PRIMARY_1,
   },
   content: {
     padding: 30,

@@ -136,7 +136,7 @@ return (
 
         {ingredients.map((ingredient, index) => (
           <View
-            key={ingredient.id} // Use a unique identifier if available
+            key={index} // Use a unique identifier if available
             style={{
               flex: 1,
               flexDirection: 'row',
