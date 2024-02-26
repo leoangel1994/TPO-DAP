@@ -1,6 +1,6 @@
 // Import User model
 const User = require('../models/User');
-const auth = require('../services/authService');
+const Recipe = require('../models/Recipe');
 
 // Get user by ID
 exports.getUserById = async (profileId) => {
@@ -38,17 +38,20 @@ exports.deleteUserById = async (id) => {
 
 }
 
-// Save favorite recipe
-
+// Save favourite recipe
 exports.saveFavoriteRecipe = async (userId, recipeId) => {
     try {
         let user = await User.findOne({profileId: userId});
         if (!user) {
             throw new Error('User not found');
         }
-        user.favoriteRecipes.push(recipeId);
-        await user.save();
-        return user;
+        if (!user.favourites.includes(recipeId)) {
+            user.favourites.push(recipeId);
+            await user.save();
+        }
+        let recipes = await Recipe
+        .find({_id : {$in:user.favourites}});
+        return recipes;
     } catch (err) {
         console.log(err);
     }
@@ -62,12 +65,13 @@ exports.removeFavoriteRecipe = async (userId, recipeId) => {
         if (!user) {
             throw new Error('User not found');
         }
-        const index = user.favoriteRecipes.indexOf(recipeId);
-        if (index > -1) {
-            user.favoriteRecipes.splice(index, 1);
-        }
+        let newFavourites = user.favourites.filter(fav => fav != recipeId);
+        user.favourites = newFavourites;
         await user.save();
-        return user;
+
+        let recipes = await Recipe
+        .find({_id : {$in:user.favourites}});
+        return recipes;
     } catch (err) {
         console.log(err);
     }
@@ -81,7 +85,9 @@ exports.getFavoriteRecipes = async (userId) => {
         if (!user) {
             throw new Error('User not found');
         }
-        return user.favoriteRecipes;
+        let recipes = await Recipe
+        .find({_id : {$in:user.favourites}});
+        return recipes;
     } catch (err) {
         console.log(err);
     }

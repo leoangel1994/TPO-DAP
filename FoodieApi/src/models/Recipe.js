@@ -25,10 +25,11 @@ const RecipeSchema = new Schema({
     proteins: Number,
     totalFat: Number
   }, 
-  rating: [{
+  ratings: [{
     rate: { type: Number, min: 0, max: 5, default: 0 },
     userId: { type: String }
   }],
+  rating: Number,
     createdAt: { type: Date, default: Date.now }
   },{ toJSON: { getters: true } });
 

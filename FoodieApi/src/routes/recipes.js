@@ -23,7 +23,7 @@ router.put('/:id', auth.authenticateToken, recipeController.updateRecipeById);
 router.delete('/:id', auth.authenticateToken, recipeController.deleteRecipeById);
 
 //Permitir que los usuarios califiquen las recetas para el id:' + req.params.id
-router.post('/:id/rating', auth.authenticateToken, recipeController.rateRecipeById);
+router.post('/:id/rating', auth.authenticateToken, recipeController.rateRecipe);
 
 //Permitir que los usuarios suban fotos a las recetas para el id:' + req.params.id
 router.post('/:id/image', auth.authenticateToken, filesController.uploadRecipeImage);

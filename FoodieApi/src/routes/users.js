@@ -20,13 +20,13 @@ router.delete('/', auth.authenticateToken, userController.deleteUserById);
 
 //User Favourites
 //Guarda una receta en favoritos para el user id: ' + req.params.userId
-router.post('/favourites/', auth.authenticateToken, recipeController.saveRecipeToFavorites);
+router.post('/favourites/:recipeId', auth.authenticateToken, userController.saveFavoriteRecipe);
 
 //Eliminar receta guardada en favoritos para el user id:' + req.params.userId
-router.delete('/favourites/:recipeId', auth.authenticateToken, recipeController.removeRecipeFromFavorites);
+router.delete('/favourites/:recipeId', auth.authenticateToken, userController.removeFavoriteRecipe);
 
 //'Muestra una lista de recetas favoritas para el user id: ' + req.params.userId
-router.get('/favourites', auth.authenticateToken, recipeController.getFavoriteRecipes);
+router.get('/favourites', auth.authenticateToken, userController.getFavoriteRecipes);
 
 //Iniciar sesión
 router.post('/login', authController.login);

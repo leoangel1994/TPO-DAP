@@ -47,7 +47,7 @@ exports.saveFavoriteRecipe = async (req, res) => {
         const userId = getProfileId(req);
         if (userId == null) return res.sendStatus(401);
 
-        const recipeId = req.body.recipeId;
+        const recipeId = req.params.recipeId;
         if (!recipeId) return res.status(400).json({ error: 'Recipe ID is required' });
 
         const user = await userService.saveFavoriteRecipe(userId, recipeId);
@@ -64,7 +64,7 @@ exports.removeFavoriteRecipe = async (req, res) => {
         const userId = getProfileId(req);
         if (userId == null) return res.sendStatus(401);
 
-        const recipeId = req.body.recipeId;
+        const recipeId = req.params.recipeId;
         if (!recipeId) return res.status(400).json({ error: 'Recipe ID is required' });
 
         const user = await userService.removeFavoriteRecipe(userId, recipeId);
