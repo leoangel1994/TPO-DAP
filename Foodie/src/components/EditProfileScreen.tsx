@@ -17,6 +17,7 @@ import {useRoute} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-ico-material-design';
 import {postProfileImages} from '../api/ApiFilesManager';
+import { ERROR_PROFILE_IMAGE_LOAD, ErrorNavigate } from './Error/ErrorCodes';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -86,11 +87,7 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
         setNewImage(result.assets[0].uri);
       }
     } catch (err) {
-      navigation.navigate(Screens.ErrorScreen, {
-        errorCode: '10',
-        errorMessage: 'Error al cargar imagen',
-        nextScreen: Screens.Profile,
-      });
+      ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_LOAD);
     }
   };
 
