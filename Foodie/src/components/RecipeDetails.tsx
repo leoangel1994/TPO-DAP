@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {CommonStyle, Theme} from '../../Theme';
 import Swiper from 'react-native-swiper';
-import {Recipe} from './FoodApiInterfaces/interfaces';
+import {Recipe, User} from './FoodApiInterfaces/interfaces';
 import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
 import {getRecipeById} from '../api/ApiRecipes';
@@ -119,7 +119,7 @@ const getRecipeDetail = async (recipeId: string) => {
               style={styles.carouselContainer}
               showsButtons={true}
               showsPagination={true}
-              activeDotColor={Theme.colors.SECONDARY}>
+              activeDotColor={Theme.colors.SECONDARY_2}>
               {recipeDetail.images.map((image, index) => (
                 <View key={index} style={styles.slide}>
                   <Image
