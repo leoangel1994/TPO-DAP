@@ -15,7 +15,7 @@ import {useRoute} from '@react-navigation/native';
 import {getRecipeById} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
-import {getUser} from '../api/ApiUser';
+import {getUser, getUserById} from '../api/ApiUser';
 
 
 // Archivos PNG
@@ -39,7 +39,7 @@ const getRecipeDetail = async (recipeId: string) => {
 
     // Obtener información del creador de la receta
     if (itemData.profileId) {
-      const user = await getUser(itemData.profileId);
+      const user = await getUserById(itemData.profileId);
       console.log('GET User: OK');
       const creatorData: User = user;
       setCreatorData(creatorData);
