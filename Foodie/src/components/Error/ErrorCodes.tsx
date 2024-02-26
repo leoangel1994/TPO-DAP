@@ -54,7 +54,7 @@ export const ERROR_FAVORITES_GET: FoodieError = {
   nextScreen: Screens.Landing,
 };
 
-export const ERROR_RECETA_POST: FoodieError = {
+export const ERROR_RECIPE_POST: FoodieError = {
   errorCode: '8',
   errorMessage: 'Error al crear receta, intentá nuevamente más tarde.',
   nextScreen: Screens.Landing,
@@ -76,4 +76,22 @@ export const ERROR_RECIPE_DETAIL_GET: FoodieError = {
   errorCode: '11',
   errorMessage: 'Error al obtener detalle de la receta',
   nextScreen: Screens.Landing,
+};
+
+export const ERROR_RECIPE_IMAGE_POST: FoodieError = {
+  errorCode: '12',
+  errorMessage: 'Error al intentar subir la imagen de la receta.',
+  nextScreen: Screens.Landing,
+};
+
+export const ERROR_RECIPE_PUT: FoodieError = {
+  errorCode: '13',
+  errorMessage: 'Error al actualizar receta, intentá nuevamente más tarde.',
+  nextScreen: Screens.Landing,
+};
+
+export const ERROR_RECIPE_IMAGE_POST_2: FoodieError = {
+  errorCode: '14',
+  errorMessage: 'Error al intentar la imagen de la receta.',
+  nextScreen: Screens.Profile,
 };

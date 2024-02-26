@@ -15,6 +15,11 @@ import {useRoute} from '@react-navigation/native';
 import {postRecipeImages} from '../api/ApiFilesManager';
 import {putRecipe} from '../api/ApiRecipes';
 import {Recipe} from './FoodApiInterfaces/interfaces';
+import {
+  ERROR_RECIPE_IMAGE_POST_2,
+  ERROR_RECIPE_PUT,
+  ErrorNavigate,
+} from './Error/ErrorCodes';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -39,13 +44,15 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
               {
                 backgroundColor: selectedTags.includes(tag)
                   ? Theme.colors.SECONDARY_2
-                  :Theme.colors.NEUTRAL_4,
+                  : Theme.colors.NEUTRAL_4,
               },
             ]}
             onPress={() => handleTagSelect(tag)}>
             <Text
               style={{
-                color: selectedTags.includes(tag) ? Theme.colors.NEUTRAL_1 : Theme.colors.NEUTRAL_1,
+                color: selectedTags.includes(tag)
+                  ? Theme.colors.NEUTRAL_1
+                  : Theme.colors.NEUTRAL_1,
               }}>
               {tag}
             </Text>
@@ -88,7 +95,9 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
       portions: route.params.step2.portions,
       preparationTime: route.params.step2.preparationTime,
       steps: route.params.step3.steps,
-      images:route.params.step1.images.filter((img: any) => !img.isNew && !img.url.includes('dish-image-no.jpg')),
+      images: route.params.step1.images.filter(
+        (img: any) => !img.isNew && !img.url.includes('dish-image-no.jpg'),
+      ),
       nutritionalProperties: {
         calories: calories,
         proteins: proteins,
@@ -98,13 +107,22 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
     };
     try {
       let recipe = await putRecipe(route.params.recipe._id, editRecipe);
-    
+
       let newImages = route.params.step1.images.filter((img: any) => img.isNew);
-      if (newImages.length > 0){
-        await postRecipeImages(recipe._id, newImages.map((img: any) => img.url));
+      if (newImages.length > 0) {
+        try {
+          await postRecipeImages(
+            recipe._id,
+            newImages.map((img: any) => img.url),
+          );
+        } catch (error) {
+          console.log(error);
+          ErrorNavigate(navigation, ERROR_RECIPE_IMAGE_POST_2);
+        }
       }
-    }catch (error) {
-      console.error("Error: ", error);
+    } catch (error) {
+      ErrorNavigate(navigation, ERROR_RECIPE_PUT);
+      console.error('Error: ', error);
     }
     navigateToNextScreen();
   };

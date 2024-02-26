@@ -16,7 +16,7 @@ import { Screens } from '../navigation/RootNavigator';
 import { useRoute } from '@react-navigation/native';
 import { postRecipeImages } from '../api/ApiFilesManager';
 import { postRecipe } from '../api/ApiRecipes';
-import { ERROR_RECETA_POST, ErrorNavigate } from './Error/ErrorCodes';
+import { ERROR_RECIPE_IMAGE_POST, ERROR_RECIPE_POST, ErrorNavigate } from './Error/ErrorCodes';
 
 const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }: any) => {
   const handleTagSelect = (tag: any) => {
@@ -128,11 +128,16 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
       let recipe = await postRecipe(newRecipe);
 
       if (route.params.step1.images.length > 0) {
-        await postRecipeImages(recipe._id, route.params.step1.images);
+        try {
+          await postRecipeImages(recipe._id, route.params.step1.images);
+        } catch (error) {
+          console.log(error);
+          ErrorNavigate(navigation, ERROR_RECIPE_IMAGE_POST);
+        }
       }
     } catch (error) {
       console.log(error);
-      ErrorNavigate(navigation, ERROR_RECETA_POST);
+      ErrorNavigate(navigation, ERROR_RECIPE_POST);
     }
     navigateToNextScreen();
   };
