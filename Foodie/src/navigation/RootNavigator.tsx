@@ -25,7 +25,7 @@ import ErrorScreen from '../components/Error/ErrorScreen';
 
 export const Screens = {
   Login: 'Login',
-  ErrorScreen: "Error",
+  ErrorScreen: 'Error',
   TabNavigator: 'TabNavigator', // Tabs
   Landing: 'Landing',
   Search: 'Search',
@@ -61,6 +61,7 @@ const TabNavigator = () => {
         tabBarStyle: {backgroundColor: Theme.colors.SECONDARY_3},
         tabBarInactiveTintColor: Theme.colors.PRIMARY_1,
         tabBarActiveTintColor: Theme.colors.PRIMARY_2,
+        unmountOnBlur: true,
       }}>
       <Tab.Screen
         name={Screens.Landing}
@@ -93,8 +94,7 @@ const TabNavigator = () => {
         options={{
           title: '',
           tabBarIcon: ({size, color}) => (
-            <View
-              style={styles.plusButton}>
+            <View style={styles.plusButton}>
               <Icon
                 name="add-plus-button"
                 height={size}
