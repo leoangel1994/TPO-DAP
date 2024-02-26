@@ -40,13 +40,15 @@ let imgData: FormData = new FormData();
 
 export const postRecipeImages = async (recipeId: string, images: string[]) => 
 {
-    let imgData = await imgForm(recipeId, images);
-    try {
-        return await post('/recipes/' + recipeId + '/image', imgData);
-    }catch (error) 
-    {
-        console.error("Error: ", error);
-    }
+    images.forEach(async (img: string) => {
+        let imgData = await imgForm(recipeId, [img]);
+        try {
+            return await post('/recipes/' + recipeId + '/image', imgData);
+        }catch (error) 
+        {
+            console.error("Error: ", error);
+        }
+    });
 }
 
 export const postProfileImages = async (recipeId: string, images: string[]) => 
