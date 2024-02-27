@@ -67,7 +67,6 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
       },
     );
 
-    // Limpia los listeners cuando el componente se desmonta
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -101,7 +100,7 @@ const submitFormNewRecipe = async () => {
       }
     }
 
-    toggleSuccessModal(); // Mostrar modal de éxito
+    toggleSuccessModal(); // Este muestra el modal de éxito
   } catch (error) {
     console.log(error);
     ErrorNavigate(navigation, ERROR_RECIPE_POST);
@@ -109,7 +108,7 @@ const submitFormNewRecipe = async () => {
 };
 
 const navigateToNextScreen = () => {
-  toggleSuccessModal(); // Ocultar modal de éxito antes de navegar
+  toggleSuccessModal(); // Este oculta el modal de éxito
   navigation.navigate(Screens.Landing);
 };
 
@@ -197,7 +196,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: Theme.colors.PRIMARY_1,
     flex: 1,
-    justifyContent: 'space-between', // Asegúrate de que el contenido se distribuya verticalmente
+    justifyContent: 'space-between', //
     alignItems: 'center',
   },
   container: {
