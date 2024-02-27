@@ -31,30 +31,24 @@ function GoogleConfigure() {
 async function Signin(setloggedIn: any, setUserName: any) {
   GoogleConfigure();
 
-  try {
-    const userInfo = await GoogleSignin.signIn();
-    const token = await GoogleSignin.getTokens();
-    await GetAuthData(token.idToken, setUserName);
+  const userInfo = await GoogleSignin.signIn();
+  const token = await GoogleSignin.getTokens();
+  await GetAuthData(token.idToken, setUserName);
 
-    setloggedIn(true);
-  } catch (error: any) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      console.log(error + ' SIGN_IN_CANCELLED'); // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      console.log(error + ' IN_PROGRESS'); // operation (e.g. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      console.log(error + ' PLAY_SERVICES_NOT_AVAILABLE'); // play services not available or outdated
-    } else {
-      console.log(error); // some other error happened
-    }
-  }
+  setloggedIn(true);
 }
 
 const LoginScreen = ({navigation}: {navigation: any}) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const isFocused = useIsFocused();
+  const [onlyOneTime, setOnlyOneTime] = useState(false);
+
   useEffect(() => {
+    if (onlyOneTime) {
+      return;
+    }
+    setOnlyOneTime(true);
     if (isFocused) {
       setloggedIn(false);
       setUserName('');
@@ -70,10 +64,15 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       }
     };
 
-    fetchLogInData().catch((error: Error) => {
-      ErrorNavigate(navigation, ERROR_LOGIN);
-      setloggedIn(false);
-    });
+    fetchLogInData()
+      .then(() => {
+        console.log('OK');
+      })
+      .catch((error: Error) => {
+        console.log(error);
+        ErrorNavigate(navigation, ERROR_LOGIN);
+        setloggedIn(false);
+      });
   }, [isFocused]);
   return (
     <View style={styles.background}>
@@ -86,8 +85,14 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
           <GoogleSigninButton
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Light}
-            onPress={async () => {
-              await Signin(setloggedIn, setUserName);
+            onPress={() => {
+              Signin(setloggedIn, setUserName)
+                .then(() => console.log('OK'))
+                .catch((e: any) => {
+                  console.log(e);
+                  ErrorNavigate(navigation, ERROR_LOGIN);
+                  setloggedIn(false);
+                });
             }}
             disabled={loggedIn}
           />
