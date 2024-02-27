@@ -130,7 +130,9 @@ const getRecipeDetail = async (recipeId: string) => {
             <View style={styles.iconContainer}>
               <Image source={StarIcon} style={styles.icon} />
               <Text style={styles.infoText}>
-                {recipeDetail.rating}
+                {
+                  recipeDetail.rating ? Math.floor(recipeDetail.rating) : 'N/A'
+                }
               </Text>
             </View>
           </View>
@@ -172,9 +174,10 @@ const getRecipeDetail = async (recipeId: string) => {
         <View style={styles.carouselSection}>
           {recipeDetail.images && recipeDetail.images.length > 0 ? (
             <Swiper
-              style={styles.carouselContainer}
+              style={styles.swiperContainer}
               showsButtons={true}
               showsPagination={true}
+              key={recipeDetail.images.length}
               activeDotColor={Theme.colors.SECONDARY_2}>
               {recipeDetail.images.map((image, index) => (
                 <View key={index} style={styles.slide}>
@@ -423,6 +426,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginLeft: 15,
     marginRight: 15,
+    marginTop: 25,
   },
   authorContainer: {
     flexDirection: 'row',
@@ -515,9 +519,8 @@ const styles = StyleSheet.create({
   carouselSection: {
     height: 300, // Adjust the height as needed
   },
-  carouselContainer: {
-    flex: 1,
-    marginBottom: 20,
+  swiperContainer: {
+    height: '100%',
   },
   slide: {
     flex: 1,
