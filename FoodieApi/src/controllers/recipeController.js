@@ -130,7 +130,7 @@ exports.rateRecipe = async (req, res) => {
     const userId = getProfileId(req);
     if (userId == null) return res.sendStatus(401);
 
-    const { rating } = req.body;
+    const rating = req.body.rating;
     if (rating < 0 || rating > 5) {
       return res.status(400).json({ error: 'La calificacion debe ser entre 0 y 5' });
     }

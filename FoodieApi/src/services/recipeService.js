@@ -44,7 +44,6 @@ exports.getRecipesForCarouselByRating = async () => {
     }
 }
 
-
 // Get recipe by ID
 exports.getRecipeById = async (recipeId) => {
     try {
@@ -63,7 +62,6 @@ exports.getRecipeById = async (recipeId) => {
         console.log(err);  
     }
 }
-
 
 // Update recipe by ID
 exports.updateRecipeById = async (profileId, recipeId, body) => {
@@ -88,7 +86,6 @@ exports.deleteRecipeById = async (profileId, recipeId) => {
 }
 
 // Rate a recipe by Id
-
 exports.rateRecipe = async (userId, recipeId, rate) => {
     if (rate < 0 || rate > 5) {
         throw new Error("La calificacion debe ser entre 0 y 5");
@@ -99,23 +96,24 @@ exports.rateRecipe = async (userId, recipeId, rate) => {
         if (!recipe) {
             throw new Error("Recipe not found");
         }
-
-        // Add the rating and userId to the ratings array
-        recipe.ratings.push({userId, rate});
+        let existingRate = recipe.ratings.find(rating => rating.userId == userId);
+        if(1===2){//existingRate != null){
+            existingRate.rate = rate;
+        }else{
+            // Add the rating and userId to the ratings array
+            recipe.ratings.push({userId, rate});
+        }
 
         // Recalculate the average rating
         let totalRating = recipe.ratings.reduce((total, rating) => total + rating.rate, 0);
-        recipe.rating = totalRating / recipe.ratings.length;
+        recipe.rating = Math.round(totalRating / recipe.ratings.length);
 
         await recipe.save();
-        return recipe;
+        return {recipeId: recipe._id, userRating: rate };
     } catch (err) {
         console.log(err);
     }
 }
-
-
-
 
 // Create a recipe
 exports.createRecipe = async (profileId, body) => {
