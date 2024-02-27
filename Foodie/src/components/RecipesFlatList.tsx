@@ -22,8 +22,10 @@ interface RecipesListProps {
 
 const Item = ({data, onNextPress}: RecipesListItemProps) => (
   <View style={styles.listItem}>
-    <View style={{flex: 1, flexDirection: 'row'}}>
-      <View style={{width: '42%'}}>
+    <Pressable
+      style={{flex: 1, flexDirection: 'row'}}
+      onPress={() => onNextPress(data._id, data.profileId)}>
+      <View style={{width: '42%', marginTop: 'auto', marginBottom: 'auto'}}>
         {data.images && data.images.length > 0 && data.images[0].url ? (
           <Image source={{uri: data.images[0].url}} style={styles.listImage} />
         ) : (
@@ -33,13 +35,11 @@ const Item = ({data, onNextPress}: RecipesListItemProps) => (
       <View style={{width: '58%'}}>
         <Text style={styles.listItemTitle}>{data.title}</Text>
         <Text style={styles.listDescriptionText}>{data.description}</Text>
-        <Pressable
-          style={styles.nextPressable}
-          onPress={() => onNextPress(data._id, data.profileId)}>
+        <View style={styles.nextPressable}>
           <Text style={styles.nextArrow}>{'>>'}</Text>
-        </Pressable>
+        </View>
       </View>
-    </View>
+    </Pressable>
   </View>
 );
 
