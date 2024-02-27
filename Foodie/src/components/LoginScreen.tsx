@@ -4,69 +4,77 @@ import React, {useState, useEffect} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
-  statusCodes
+  statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {Screens} from '../navigation/RootNavigator';
 import {PrimaryButton} from './PrimaryButton';
 import {userLogin, storeUserSession} from '../api/ApiManager';
-import { useIsFocused } from '@react-navigation/native';
-
-
+import {useIsFocused} from '@react-navigation/native';
+import {ERROR_LOGIN, ErrorNavigate} from './Error/ErrorCodes';
 
 async function GetAuthData(idtoken: string, setUserName: any) {
-  try {
-    let user: any = await userLogin(idtoken);
-    let session: any = await storeUserSession(user.accessToken, user.refreshToken);
-    await setUserName(session.username);
-  } catch (error) {console.log(error);}
-};
+  let user: any = await userLogin(idtoken);
+  let session: any = await storeUserSession(
+    user.accessToken,
+    user.refreshToken,
+  );
+  await setUserName(session.username);
+}
 
-function GoogleConfigure(){
+function GoogleConfigure() {
   GoogleSignin.configure({
-      webClientId: '668505742836-j257248c8cr7hbaupc1hqi7toufmdt00.apps.googleusercontent.com' // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
+    webClientId:
+      '668505742836-j257248c8cr7hbaupc1hqi7toufmdt00.apps.googleusercontent.com', // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
   });
 }
 
 async function Signin(setloggedIn: any, setUserName: any) {
-  GoogleConfigure();  
-  
-  try {
-      const userInfo = await GoogleSignin.signIn();
-      const token = await GoogleSignin.getTokens();
-      await GetAuthData(token.idToken, setUserName);
+  GoogleConfigure();
 
-      setloggedIn(true);
-    } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log(error + ' SIGN_IN_CANCELLED');// user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(error + ' IN_PROGRESS');// operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log(error + ' PLAY_SERVICES_NOT_AVAILABLE');// play services not available or outdated
-      } else {
-        console.log(error);// some other error happened
-      }
-    }
-};
+  const userInfo = await GoogleSignin.signIn();
+  const token = await GoogleSignin.getTokens();
+  await GetAuthData(token.idToken, setUserName);
+
+  setloggedIn(true);
+}
 
 const LoginScreen = ({navigation}: {navigation: any}) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const isFocused = useIsFocused();
+  const [onlyOneTime, setOnlyOneTime] = useState(false);
+
   useEffect(() => {
-    if (isFocused) {setloggedIn(false); setUserName('');};
+    if (onlyOneTime) {
+      return;
+    }
+    setOnlyOneTime(true);
+    if (isFocused) {
+      setloggedIn(false);
+      setUserName('');
+    }
     const fetchLogInData = async () => {
       GoogleConfigure();
       await GoogleSignin.signInSilently();
       let isSignedIn = await GoogleSignin.isSignedIn();
-      if (isSignedIn){
+      if (isSignedIn) {
         const token = await GoogleSignin.getTokens();
         await GetAuthData(token.idToken, setUserName);
-        navigation.navigate(Screens.TabNavigator);}
+        navigation.navigate(Screens.TabNavigator);
+      }
     };
-    
-    fetchLogInData().catch((error: Error) => {console.log(error); setloggedIn(false);});
-    }, [isFocused]);
+
+    fetchLogInData()
+      .then(() => {
+        console.log('OK');
+      })
+      .catch((error: any) => {
+        console.log(error);
+        setloggedIn(false);
+        if (error?.code !== statusCodes.SIGN_IN_REQUIRED)
+          ErrorNavigate(navigation, ERROR_LOGIN);
+      });
+  }, [isFocused]);
   return (
     <View style={styles.background}>
       <ScrollView style={styles.mainContainer}>
@@ -78,16 +86,25 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
           <GoogleSigninButton
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Light}
-            onPress={async () => {
-              await Signin(setloggedIn, setUserName);
+            onPress={() => {
+              Signin(setloggedIn, setUserName)
+                .then(() => console.log('OK'))
+                .catch((e: any) => {
+                  console.log(e);
+                  ErrorNavigate(navigation, ERROR_LOGIN);
+                  setloggedIn(false);
+                });
             }}
             disabled={loggedIn}
           />
         )}
-         {loggedIn && <PrimaryButton
-        text={'Bienvenido '+userName}
-        onPress={() => navigation.navigate(Screens.TabNavigator)}>
-        </PrimaryButton>}
+        {loggedIn && (
+          <PrimaryButton
+            text={'Bienvenido ' + userName}
+            onPress={() =>
+              navigation.navigate(Screens.TabNavigator)
+            }></PrimaryButton>
+        )}
       </View>
     </View>
   );
