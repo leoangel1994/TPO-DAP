@@ -68,10 +68,11 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       .then(() => {
         console.log('OK');
       })
-      .catch((error: Error) => {
+      .catch((error: any) => {
         console.log(error);
-        ErrorNavigate(navigation, ERROR_LOGIN);
         setloggedIn(false);
+        if (error?.code !== statusCodes.SIGN_IN_REQUIRED)
+          ErrorNavigate(navigation, ERROR_LOGIN);
       });
   }, [isFocused]);
   return (
