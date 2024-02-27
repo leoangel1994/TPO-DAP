@@ -102,6 +102,12 @@ export const ERROR_GET_USER_IN_RECIPE_DETAILS: FoodieError = {
   nextScreen: Screens.Profile,
 };
 
+export const ERROR_FAVOURITES_POST: FoodieError = {
+  errorCode: '16',
+  errorMessage: 'Error al guardar receta a favoritas',
+  nextScreen: Screens.Profile
+};
+
 export const ERROR_LOGIN: FoodieError = {
   errorCode: '20',
   errorMessage: 'Error al intentar loguear. Volvé a intentar más tarde.',

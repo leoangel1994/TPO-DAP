@@ -42,5 +42,6 @@ export interface User {
     familyName: string;
     email: string;
     photo: string;
-    preferences: string[]; 
+    preferences: string[];
+    favourites: string[]; 
 }

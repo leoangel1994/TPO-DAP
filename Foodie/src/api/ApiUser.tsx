@@ -8,3 +8,11 @@ export const getUserById = async (profileId: string) =>
 export const putUser = async (userData: any) => await put('/users/', userData);
 
 export const deleteUser = async () => await deleteResource('/users/');
+
+export const getUserFavourites = async () => await get("/users/favourites/");
+
+export const postUserFavourite = async (recipeId: string) => 
+    await post('/users/favourites/' + recipeId, {});
+
+export const deleteUserFavourite = async (recipeId: string) =>
+    await deleteResource('/users/favourites/' + recipeId);

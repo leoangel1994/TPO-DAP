@@ -15,9 +15,9 @@ import {useRoute} from '@react-navigation/native';
 import {getRecipeById} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
-import {getUser, getUserById} from '../api/ApiUser';
+import {getUser, getUserById, postUserFavourite, deleteUserFavourite} from '../api/ApiUser';
 import { AirbnbRating } from 'react-native-ratings';
-import { ERROR_GET_USER_IN_RECIPE_DETAILS, ERROR_RECIPE_DETAIL_GET, ErrorNavigate } from './Error/ErrorCodes';
+import { ERROR_GET_USER_IN_RECIPE_DETAILS, ERROR_RECIPE_DETAIL_GET, ErrorNavigate, ERROR_FAVOURITES_POST } from './Error/ErrorCodes';
 
 
 // Archivos PNG
@@ -30,7 +30,27 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const [creator_data, setCreatorData] = useState<User>();
   const [activeMenu, setActiveMenu] = useState('Datos');
   const [recipeDetail, setRecipeDetail] = useState<Recipe>();
+  const [activeUser, setActiveUser] = useState<User>();
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const route: any = useRoute();
+
+const onAddToFavourite = async (recipeId: string) => {
+  try {
+    if (!activeUser?.favourites?.includes(recipeId)) {
+      await postUserFavourite(recipeId);
+      activeUser?.favourites?.push(recipeId);
+      setIsFavourite(true);
+    } else {
+      await deleteUserFavourite(recipeId);
+      const filteredFavourites = activeUser?.favourites?.filter((fav: string) => fav !== recipeId);
+      activeUser!.favourites = filteredFavourites;
+      setIsFavourite(false);
+    }
+  } catch (error) {
+    console.error('Error: ', error);
+    ErrorNavigate(navigation, ERROR_FAVOURITES_POST);
+  }
+}
 
 const getRecipeDetail = async (recipeId: string) => {
   try {
@@ -38,6 +58,18 @@ const getRecipeDetail = async (recipeId: string) => {
     console.log("GET Recipe: OK", recipe);
     const itemData: Recipe = recipe;
     setRecipeDetail(itemData);
+    
+    //Usuario logueado
+    const user = await getUser();
+    console.log('GET Logged User: OK');
+    const userData: User = user;
+    setActiveUser(userData);
+    console.log("favourite:"+user.favourites+" recipeId:"+recipe._id);
+
+    // Verificar si la receta es favorita
+    if (activeUser?.favourites?.includes(recipe._id)) {
+      setIsFavourite(true);
+    }
 
     // Obtener información del creador de la receta
     try {
@@ -88,8 +120,12 @@ const getRecipeDetail = async (recipeId: string) => {
 
           {/* Sección 2 - Botones Compartir y Fav */}
           <View style={styles.buttonSection}>
-            <TouchableOpacity style={styles.roundButton}>
-              <Image source={StarIcon} style={styles.buttonIcon} />
+            <TouchableOpacity style={styles.roundButton}
+            onPress={async () => {
+              await onAddToFavourite(recipeDetail._id);
+            }}
+            >
+              <Image source={StarIcon} style={(isFavourite) ?  styles.isFavouriteIcon : styles.buttonIcon} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.roundButton}
@@ -345,6 +381,11 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     tintColor: 'white',
+  },
+  isFavouriteIcon: {
+    width: 20,
+    height: 20,
+    tintColor: 'yellow',
   },
   authorSection: {
     backgroundColor: 'white',

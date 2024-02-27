@@ -4,14 +4,14 @@ import RecipesFlatList from './RecipesFlatList';
 import {Screens} from '../navigation/RootNavigator';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
-import {getRecipesForLoggedUser} from '../api/ApiRecipes';
+import {getUserFavourites} from '../api/ApiUser';
 import { ERROR_FAVORITES_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
 
   const getRecipesListData = async () => {
-    getRecipesForLoggedUser()
+    getUserFavourites()
       .then(recipes => {
         const item_data: Recipe[] = recipes;
         setFavRecipesListData(item_data);
