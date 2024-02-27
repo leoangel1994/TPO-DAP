@@ -32,7 +32,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
       .then(recipes => {
         const item_data: Recipe[] = recipes;
         setCarrouselData(item_data);
-        console.log('GET: OK');
+        //console.log('GET: OK');
       })
       .catch(() => {
         ErrorNavigate(navigation, ERROR_CARROUSEL_GET);

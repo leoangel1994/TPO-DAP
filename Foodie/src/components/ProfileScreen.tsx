@@ -19,7 +19,7 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
   const getUserData = async () => {
     getUser()
       .then(user => {
-        console.log('GET OK');
+        //console.log('GET OK');
         const user_data: User = user;
         setUserData(user_data);
       })

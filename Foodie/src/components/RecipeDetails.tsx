@@ -60,7 +60,7 @@ const onAddToFavourite = async (recipeId: string) => {
 const getRecipeDetail = async (recipeId: string) => {
   try {
     const recipe = await getRecipeById(recipeId);
-    console.log("GET Recipe: OK", recipe);
+    //console.log("GET Recipe: OK");
     const itemData: Recipe = recipe;
     setRecipeDetail(itemData);
 
@@ -69,7 +69,7 @@ const getRecipeDetail = async (recipeId: string) => {
 
     //Usuario logueado
     const user = await getUser();
-    console.log('GET Logged User: OK');
+    //console.log('GET Logged User: OK');
     const userData: User = user;
     setActiveUser(userData);
 
@@ -82,7 +82,7 @@ const getRecipeDetail = async (recipeId: string) => {
     try {
     if (itemData.profileId) {
       const user = await getUserById(itemData.profileId);
-      console.log('GET User: OK');
+      //console.log('GET User: OK');
       const creatorData: User = user;
       setCreatorData(creatorData);
     }

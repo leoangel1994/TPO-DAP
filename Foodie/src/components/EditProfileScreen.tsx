@@ -50,11 +50,11 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
   const editarPerfil = async () => {
     putUser({...userData})
       .then(() => {
-        console.log('UPDATE OK');
+        //console.log('UPDATE OK');
         if (newImage) {
           postProfileImages('unused?', [newImage])
             .then(() => {
-              console.log('POST IMAGE OK');
+              //console.log('POST IMAGE OK');
               navigation.navigate(Screens.Profile, {reload: true});
             })
             .catch(() => {

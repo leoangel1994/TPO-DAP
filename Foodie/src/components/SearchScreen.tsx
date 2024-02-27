@@ -52,7 +52,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
       .then(recipes => {
         const item_data: Recipe[] = recipes ?? [];
         setSearchResultRecipesListData(item_data);
-        console.log('GET: OK');
+        //console.log('GET: OK');
         if (item_data.length == 0)
           setMensajeCargando('Sin Recetas encontradas');
       })

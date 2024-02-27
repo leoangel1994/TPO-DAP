@@ -21,7 +21,7 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
       .then(recipes => {
         const item_data: Recipe[] = recipes;
         setFavRecipesListData(item_data);
-        console.log('GET: OK');
+        //console.log('GET: OK');
         if(item_data?.length === 0)
           setMensajeCargando('No tenés recetas favoritas')
       })
