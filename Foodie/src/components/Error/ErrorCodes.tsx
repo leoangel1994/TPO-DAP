@@ -108,6 +108,18 @@ export const ERROR_FAVOURITES_POST: FoodieError = {
   nextScreen: Screens.Profile
 };
 
+export const ERROR_NEW_RECIPE_OPEN_GALLERY: FoodieError = {
+  errorCode: '17',
+  errorMessage: 'Error al intentar cargar la imagen de tu galería.',
+  nextScreen: Screens.Landing,
+};
+
+export const ERROR_EDIT_RECIPE_OPEN_GALLERY: FoodieError = {
+  errorCode: '18',
+  errorMessage: 'Error al intentar cargar la imagen de tu galería.',
+  nextScreen: Screens.RecipeDetails,
+};
+
 export const ERROR_LOGIN: FoodieError = {
   errorCode: '20',
   errorMessage: 'Error al intentar loguear. Volvé a intentar más tarde.',

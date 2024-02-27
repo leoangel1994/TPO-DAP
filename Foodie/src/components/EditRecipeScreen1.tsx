@@ -20,6 +20,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ProgressBar from './ProgressBar';
 import {useRoute} from '@react-navigation/native';
 import {Recipe} from './FoodApiInterfaces/interfaces';
+import { ERROR_EDIT_RECIPE_OPEN_GALLERY, ErrorNavigate } from './Error/ErrorCodes';
 
 export interface RecipeEditImages {
   url: string;
@@ -54,6 +55,7 @@ export const EditRecipeScreen1 = ({navigation}: {navigation: any}) => {
       }
     } catch (err) {
       console.log(err);
+      ErrorNavigate(navigation, ERROR_EDIT_RECIPE_OPEN_GALLERY);
     }
   };
 

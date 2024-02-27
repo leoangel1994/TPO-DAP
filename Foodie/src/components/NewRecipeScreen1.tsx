@@ -18,6 +18,7 @@ import {SmallButton} from './SmallButton';
 import {Screens} from '../navigation/RootNavigator';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ProgressBar from './ProgressBar';
+import { ERROR_NEW_RECIPE_OPEN_GALLERY, ErrorNavigate } from './Error/ErrorCodes';
 
 export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
   const [titleText, setTitleText] = useState('');
@@ -41,6 +42,7 @@ export const NewRecipeScreen1 = ({navigation}: {navigation: any}) => {
       }
     } catch (err) {
       console.log(err);
+      ErrorNavigate(navigation, ERROR_NEW_RECIPE_OPEN_GALLERY);
     }
   };
 
