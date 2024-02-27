@@ -8,14 +8,20 @@ import {getUserFavourites} from '../api/ApiUser';
 import {ERROR_FAVORITES_GET, ErrorNavigate} from './Error/ErrorCodes';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
+  const [mensajeCargando, setMensajeCargando] = useState(
+    'No tenés recetas favoritas',
+  );
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
 
   const getRecipesListData = async () => {
+    setMensajeCargando('Cargando...')
     getUserFavourites()
       .then(recipes => {
         const item_data: Recipe[] = recipes;
         setFavRecipesListData(item_data);
         console.log('GET: OK');
+        if(item_data?.length === 0)
+          setMensajeCargando('No tenés recetas favoritas')
       })
       .catch(() => {
         ErrorNavigate(navigation, ERROR_FAVORITES_GET);
@@ -49,7 +55,7 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
             marginRight: 'auto',
             paddingTop: '30%',
           }}>
-          Cargando...
+          {mensajeCargando}
         </Text>
       )}
     </View>
