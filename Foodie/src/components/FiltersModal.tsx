@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import availableTags from './FoodApiInterfaces/filterTags';
 
 const tagColor = (isPressed: boolean) => {
   return isPressed ? Theme.colors.SECONDARY_2 : Theme.colors.NEUTRAL_4;
@@ -17,31 +18,33 @@ interface ModalFiltrosProps {
   visible: boolean;
   onFiltersChanged: (index: number, value: boolean) => void;
   onRequestClose: CallableFunction;
-  initialState : boolean[]
+  initialState: boolean[];
 }
 
 const ModalFiltros = (props: ModalFiltrosProps) => {
-  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] = useState(false);
-  const [filtersvegetariana, setFiltersvegetariana] = useState(false);
   const [filtersvegana, setFiltersvegana] = useState(false);
   const [filtersaptaCeliaco, setFiltersaptaCeliaco] = useState(false);
-  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] = useState(false);
+  const [filtersrapidaPreparacion, setFiltersrapidaPreparacion] =
+    useState(false);
+  const [filtersestimulaSistInmune, setFiltersestimulaSistInmune] =
+    useState(false);
+  const [filtersvegetariana, setFiltersvegetariana] = useState(false);
   const [filterspromueveFlora, setFilterspromueveFlora] = useState(false);
-  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(false);
   const [filtersBajaEnSodio, setFiltersBajaEnSodio] = useState(false);
   const [filtersBajaEnCarbo, setFiltersBajaEnCarbo] = useState(false);
+  const [filtersAntiInflamatoria, setFiltersAntiInflamatoria] = useState(false);
 
-  useEffect(()=>{
-    setFiltersrapidaPreparacion(props.initialState[0]);
-    setFiltersvegetariana(props.initialState[1]);
-    setFiltersvegana(props.initialState[2]);
-    setFiltersaptaCeliaco(props.initialState[3]);
-    setFiltersestimulaSistInmune(props.initialState[4]);
+  useEffect(() => {
+    setFiltersvegana(props.initialState[0]);
+    setFiltersaptaCeliaco(props.initialState[1]);
+    setFiltersrapidaPreparacion(props.initialState[2]);
+    setFiltersestimulaSistInmune(props.initialState[3]);
+    setFiltersvegetariana(props.initialState[4]);
     setFilterspromueveFlora(props.initialState[5]);
-    setFiltersAntiInflamatoria(props.initialState[6]);
-    setFiltersBajaEnSodio(props.initialState[7]);
-    setFiltersBajaEnCarbo(props.initialState[8]);
-  }, [props.initialState])
+    setFiltersBajaEnSodio(props.initialState[6]);
+    setFiltersBajaEnCarbo(props.initialState[7]);
+    setFiltersAntiInflamatoria(props.initialState[8]);
+  }, [props.initialState]);
 
   return (
     <Modal
@@ -66,33 +69,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
             <View style={styles.tagsRow}>
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(0, !filtersrapidaPreparacion);
-                  setFiltersrapidaPreparacion(!filtersrapidaPreparacion);
-                }}>
-                <Text
-                  style={{
-                    ...styles.tag,
-                    backgroundColor: tagColor(filtersrapidaPreparacion),
-                  }}>
-                  Rápida Preparación
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  props.onFiltersChanged(1, !filtersvegetariana);
-                  setFiltersvegetariana(!filtersvegetariana);
-                }}>
-                <Text
-                  style={{
-                    ...styles.tag,
-                    backgroundColor: tagColor(filtersvegetariana),
-                  }}>
-                  Vegetarianas
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  props.onFiltersChanged(2, !filtersvegana);
+                  props.onFiltersChanged(0, !filtersvegana);
                   setFiltersvegana(!filtersvegana);
                 }}>
                 <Text
@@ -100,12 +77,13 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersvegana),
                   }}>
-                  Veganas
+                  {availableTags[0]}
                 </Text>
               </Pressable>
+
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(3, !filtersaptaCeliaco);
+                  props.onFiltersChanged(1, !filtersaptaCeliaco);
                   setFiltersaptaCeliaco(!filtersaptaCeliaco);
                 }}>
                 <Text
@@ -113,12 +91,27 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersaptaCeliaco),
                   }}>
-                  Aptas Celiacos
+                  {availableTags[1]}
                 </Text>
               </Pressable>
+
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(4, !filtersestimulaSistInmune);
+                  props.onFiltersChanged(2, !filtersrapidaPreparacion);
+                  setFiltersrapidaPreparacion(!filtersrapidaPreparacion);
+                }}>
+                <Text
+                  style={{
+                    ...styles.tag,
+                    backgroundColor: tagColor(filtersrapidaPreparacion),
+                  }}>
+                  {availableTags[2]}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  props.onFiltersChanged(3, !filtersestimulaSistInmune);
                   setFiltersestimulaSistInmune(!filtersestimulaSistInmune);
                 }}>
                 <Text
@@ -126,9 +119,24 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersestimulaSistInmune),
                   }}>
-                  Estimula el Sistema Inmune
+                  {availableTags[3]}
                 </Text>
               </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  props.onFiltersChanged(4, !filtersvegetariana);
+                  setFiltersvegetariana(!filtersvegetariana);
+                }}>
+                <Text
+                  style={{
+                    ...styles.tag,
+                    backgroundColor: tagColor(filtersvegetariana),
+                  }}>
+                  {availableTags[4]}
+                </Text>
+              </Pressable>
+
               <Pressable
                 onPress={() => {
                   props.onFiltersChanged(5, !filterspromueveFlora);
@@ -139,25 +147,13 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filterspromueveFlora),
                   }}>
-                  Promueve la Flora Intestinal
+                  {availableTags[5]}
                 </Text>
               </Pressable>
+
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(6, !filtersAntiInflamatoria);
-                  setFiltersAntiInflamatoria(!filtersAntiInflamatoria);
-                }}>
-                <Text
-                  style={{
-                    ...styles.tag,
-                    backgroundColor: tagColor(filtersAntiInflamatoria),
-                  }}>
-                  Antiinflamatoria
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  props.onFiltersChanged(7, !filtersBajaEnSodio);
+                  props.onFiltersChanged(6, !filtersBajaEnSodio);
                   setFiltersBajaEnSodio(!filtersBajaEnSodio);
                 }}>
                 <Text
@@ -165,12 +161,13 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersBajaEnSodio),
                   }}>
-                  Baja en Sodio
+                  {availableTags[6]}
                 </Text>
               </Pressable>
+
               <Pressable
                 onPress={() => {
-                  props.onFiltersChanged(8, !filtersBajaEnCarbo);
+                  props.onFiltersChanged(7, !filtersBajaEnCarbo);
                   setFiltersBajaEnCarbo(!filtersBajaEnCarbo);
                 }}>
                 <Text
@@ -178,7 +175,21 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersBajaEnCarbo),
                   }}>
-                  Baja Carbohidratos
+                  {availableTags[7]}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  props.onFiltersChanged(8, !filtersAntiInflamatoria);
+                  setFiltersAntiInflamatoria(!filtersAntiInflamatoria);
+                }}>
+                <Text
+                  style={{
+                    ...styles.tag,
+                    backgroundColor: tagColor(filtersAntiInflamatoria),
+                  }}>
+                  {availableTags[8]}
                 </Text>
               </Pressable>
             </View>

@@ -21,6 +21,7 @@ import {
   ErrorNavigate,
 } from './Error/ErrorCodes';
 import TagsDropdown from './TagsSelector';
+import availableTags from './FoodApiInterfaces/filterTags';
 
 export const EditRecipeScreen4 = ({navigation}: any) => {
   const route: any = useRoute();
@@ -30,17 +31,7 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
   const [totalFat, setTotalFat] = useState(0);
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const availableTags = [
-    'Vegana',
-    'Apta Celiacos',
-    'Rápida Preparación',
-    'Estimula el Sistema Inmune',
-    'Vegetarianas',
-    'Promueve la Flora Intestinal',
-    'Baja en Sodio',
-    'Baja en Carbohidratos',
-    'Antiinflamatoria',
-  ];
+
 
   const submitFormEditRecipe = async () => {
     let editRecipe = {

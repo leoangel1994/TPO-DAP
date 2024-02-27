@@ -9,26 +9,14 @@ import RecipesFlatList from './RecipesFlatList';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {getRecipesByFilters} from '../api/ApiRecipes';
 import {ERROR_SEARCH_GET, ErrorNavigate} from './Error/ErrorCodes';
+import availableTags from './FoodApiInterfaces/filterTags';
 
 function mapTagsFilters(filters: boolean[]) {
   if (filters == undefined || filters.length == 0) return [];
-  let filterNames: string[] = [
-    'Rápida Preparación',
-    'Vegetarianas',
-    'Vegana',
-    'Aptas Celiacos',
-    'Estimula el Sistema Inmune',
-    'Promueve la Flora Intestinal',
-    'Antiinflamatoria',
-    'Baja en Sodio',
-    'Baja en Carbohidratos',
-  ];
-
   let selectedFilters: string[] = [];
-
   for (let i = 0; i < filters.length; i++) {
     if (filters[i] === true) {
-      selectedFilters.push(filterNames[i]);
+      selectedFilters.push(availableTags[i]);
     }
   }
   return selectedFilters;
@@ -97,10 +85,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             defaultValue={searchText}
             placeholder="Hoy quiero..."
             onSubmitEditing={() => {
-              getRecipesListData(
-                [...filters],
-                searchText,
-              );
+              getRecipesListData([...filters], searchText);
               navigation.navigate(Screens.Search, {
                 searchedText: searchText,
                 filtersApplied: [...filters],

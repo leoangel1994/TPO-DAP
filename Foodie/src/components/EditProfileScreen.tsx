@@ -24,22 +24,12 @@ import {
   ErrorNavigate,
 } from './Error/ErrorCodes';
 import TagsDropdown from './TagsSelector';
+import availableTags from './FoodApiInterfaces/filterTags';
 
 const EditProfileScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
   const [userData, setUserData] = useState<User>();
   const [newImage, setNewImage] = useState<string>();
-  const availableTags = [
-    'Vegana',
-    'Apta Celiacos',
-    'Rápida Preparación',
-    'Estimula el Sistema Inmune',
-    'Vegetarianas',
-    'Promueve la Flora Intestinal',
-    'Baja en Sodio',
-    'Baja en Carbohidratos',
-    'Antiinflamatoria',
-  ];
 
   const openGallery = async () => {
     try {
