@@ -6,12 +6,14 @@ import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {getUserFavourites} from '../api/ApiUser';
 import {ERROR_FAVORITES_GET, ErrorNavigate} from './Error/ErrorCodes';
+import { useIsFocused } from '@react-navigation/native';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
   const [mensajeCargando, setMensajeCargando] = useState(
     'No tenés recetas favoritas',
   );
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
+  const isFocused = useIsFocused();
 
   const getRecipesListData = async () => {
     setMensajeCargando('Cargando...')
@@ -30,7 +32,7 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
 
   useEffect(() => {
     getRecipesListData();
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={styles.background}>
