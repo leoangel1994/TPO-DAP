@@ -17,7 +17,7 @@ import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById} from '../api/ApiUser';
 import { AirbnbRating } from 'react-native-ratings';
-import { ERROR_RECIPE_DETAIL_GET, ErrorNavigate } from './Error/ErrorCodes';
+import { ERROR_GET_USER_IN_RECIPE_DETAILS, ERROR_RECIPE_DETAIL_GET, ErrorNavigate } from './Error/ErrorCodes';
 
 
 // Archivos PNG
@@ -40,12 +40,17 @@ const getRecipeDetail = async (recipeId: string) => {
     setRecipeDetail(itemData);
 
     // Obtener información del creador de la receta
+    try {
     if (itemData.profileId) {
       const user = await getUserById(itemData.profileId);
       console.log('GET User: OK');
       const creatorData: User = user;
       setCreatorData(creatorData);
     }
+  } catch (error) {
+    console.error('Error getUserById', error);
+    ErrorNavigate(navigation, ERROR_GET_USER_IN_RECIPE_DETAILS)
+  }
   } catch (error) {
     console.error('Error al obtener detalle de la receta', error);
     ErrorNavigate(navigation, ERROR_RECIPE_DETAIL_GET)
@@ -155,7 +160,7 @@ const getRecipeDetail = async (recipeId: string) => {
           <AirbnbRating
             count={5} // Número de estrellas
             reviews={['Terrible', 'Malo', 'Normal', 'Bueno', 'Excelente']}
-            defaultRating={recipeDetail?.currentRating} // Puedes establecer la nota actual aquí
+            defaultRating={recipeDetail?.currentRating} // Puedes establecer la nota actual aquí //TODO: completar?
             size={30}
             onFinishRating={(rating) => {
               // Aquí puedes manejar la lógica cuando el usuario termine de calificar

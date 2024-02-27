@@ -92,6 +92,12 @@ export const ERROR_RECIPE_PUT: FoodieError = {
 
 export const ERROR_RECIPE_IMAGE_POST_2: FoodieError = {
   errorCode: '14',
-  errorMessage: 'Error al intentar la imagen de la receta.',
+  errorMessage: 'Error al intentar cambiar una imagen de la receta.',
+  nextScreen: Screens.Profile,
+};
+
+export const ERROR_GET_USER_IN_RECIPE_DETAILS: FoodieError = {
+  errorCode: '15',
+  errorMessage: 'Error al obtener datos de tu usuario',
   nextScreen: Screens.Profile,
 };
