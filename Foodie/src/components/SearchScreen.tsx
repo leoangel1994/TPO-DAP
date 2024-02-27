@@ -10,9 +10,8 @@ import {Recipe} from './FoodApiInterfaces/interfaces';
 import {getRecipesByFilters} from '../api/ApiRecipes';
 import {ERROR_SEARCH_GET, ErrorNavigate} from './Error/ErrorCodes';
 
-function mapTagsFilters(filters: string[]) {
+function mapTagsFilters(filters: boolean[]) {
   if (filters == undefined || filters.length == 0) return [];
-  console.log(filters);
   let filterNames: string[] = [
     'Rápida Preparación',
     'Vegetarianas',
@@ -28,7 +27,7 @@ function mapTagsFilters(filters: string[]) {
   let selectedFilters: string[] = [];
 
   for (let i = 0; i < filters.length; i++) {
-    if ((filters[i] as unknown) == true) {
+    if (filters[i] === true) {
       selectedFilters.push(filterNames[i]);
     }
   }
@@ -58,7 +57,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
   const [searchResultRecipesListData, setSearchResultRecipesListData] =
     useState<Recipe[]>([]);
 
-  const getRecipesListData = async (tags: string[], searchText: string) => {
+  const getRecipesListData = async (tags: boolean[], searchText: string) => {
     setMensajeCargando('Cargando...');
     let mappedFilters = mapTagsFilters(tags);
     getRecipesByFilters(mappedFilters, searchText)
@@ -98,6 +97,10 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
             defaultValue={searchText}
             placeholder="Hoy quiero..."
             onSubmitEditing={() => {
+              getRecipesListData(
+                [...filters],
+                searchText,
+              );
               navigation.navigate(Screens.Search, {
                 searchedText: searchText,
                 filtersApplied: [...filters],
