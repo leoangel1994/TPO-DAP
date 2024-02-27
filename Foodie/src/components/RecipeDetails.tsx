@@ -18,7 +18,7 @@ import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById, postUserFavourite, deleteUserFavourite} from '../api/ApiUser';
 import { AirbnbRating } from 'react-native-ratings';
 import { ERROR_GET_USER_IN_RECIPE_DETAILS, ERROR_RECIPE_DETAIL_GET, ErrorNavigate, ERROR_FAVOURITES_POST } from './Error/ErrorCodes';
-
+//import { WebView } from 'react-native-webview'; //PARA EL VIDEO
 
 // Archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
@@ -32,6 +32,9 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const [recipeDetail, setRecipeDetail] = useState<Recipe>();
   const [activeUser, setActiveUser] = useState<User>();
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const [favoriteButtonColor, setFavoriteButtonColor] = useState(Theme.colors.SECONDARY_2);
+  const [youtubeLink, setYoutubeLink] = useState(null); // PARA EL VIDEO
+
   const route: any = useRoute();
 
 const onAddToFavourite = async (recipeId: string) => {
@@ -40,11 +43,13 @@ const onAddToFavourite = async (recipeId: string) => {
       await postUserFavourite(recipeId);
       activeUser?.favourites?.push(recipeId);
       setIsFavourite(true);
+      setFavoriteButtonColor(Theme.colors.NEUTRAL_3); //
     } else {
       await deleteUserFavourite(recipeId);
       const filteredFavourites = activeUser?.favourites?.filter((fav: string) => fav !== recipeId);
       activeUser!.favourites = filteredFavourites;
       setIsFavourite(false);
+      setFavoriteButtonColor(Theme.colors.SECONDARY_2);
     }
   } catch (error) {
     console.error('Error: ', error);
@@ -58,7 +63,11 @@ const getRecipeDetail = async (recipeId: string) => {
     console.log("GET Recipe: OK", recipe);
     const itemData: Recipe = recipe;
     setRecipeDetail(itemData);
-    
+
+    //PARA EL VIDEO
+//    setYoutubeLink(itemData.youtubeLink);
+//    console.log(itemData.youtubeLink);
+
     //Usuario logueado
     const user = await getUser();
     console.log('GET Logged User: OK');
@@ -120,12 +129,13 @@ const getRecipeDetail = async (recipeId: string) => {
 
           {/* Sección 2 - Botones Compartir y Fav */}
           <View style={styles.buttonSection}>
-            <TouchableOpacity style={styles.roundButton}
-            onPress={async () => {
-              await onAddToFavourite(recipeDetail._id);
-            }}
+            <TouchableOpacity
+              style={[styles.roundButton, { backgroundColor: favoriteButtonColor }]}
+              onPress={async () => {
+                await onAddToFavourite(recipeDetail._id);
+              }}
             >
-              <Image source={StarIcon} style={(isFavourite) ?  styles.isFavouriteIcon : styles.buttonIcon} />
+              <Image source={StarIcon} style={(isFavourite) ? styles.isFavouriteIcon : styles.buttonIcon} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.roundButton}
@@ -327,10 +337,23 @@ const getRecipeDetail = async (recipeId: string) => {
             ))}
           </View>
         )}
+
       </ScrollView>
     )
   );
 };
+//
+//        {youtubeLink && (
+//          <View style={styles.videoSection}>
+//            <Text style={styles.subTitleText}>Video de la receta</Text>
+//            {console.log("YouTube Link:", youtubeLink)}
+//            <WebView
+//              source={{ uri: youtubeLink }}
+//              style={styles.videoContainer}
+//            />
+//          </View>
+//        )}
+
 
 const styles = StyleSheet.create({
   background: {
@@ -525,6 +548,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     fontFamily: Theme.fontFamily.REGULAR,
+  },
+ videoSection: {
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
+  },
+  videoContainer: {
+    height: 200,
+    marginTop: 10,
   },
 });
 
