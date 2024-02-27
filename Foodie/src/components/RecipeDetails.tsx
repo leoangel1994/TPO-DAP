@@ -118,11 +118,19 @@ const getRecipeDetail = async (recipeId: string) => {
               <Text style={styles.infoText}>{recipeDetail.portions}</Text>
             </View>
 
-            {/* Tiempo */}
-            <View style={styles.iconContainer}>
+             {/* Tiempo */}
+             <View style={styles.iconContainer}>
               <Image source={TiempoIcon} style={styles.icon} />
               <Text style={styles.infoText}>
                 {recipeDetail.preparationTime}
+              </Text>
+            </View>
+
+            {/* Rating */}
+            <View style={styles.iconContainer}>
+              <Image source={StarIcon} style={styles.icon} />
+              <Text style={styles.infoText}>
+                {recipeDetail.rating}
               </Text>
             </View>
           </View>
