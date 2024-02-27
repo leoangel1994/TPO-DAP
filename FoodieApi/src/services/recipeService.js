@@ -97,7 +97,7 @@ exports.rateRecipe = async (userId, recipeId, rate) => {
             throw new Error("Recipe not found");
         }
         let existingRate = recipe.ratings.find(rating => rating.userId == userId);
-        if(1===2){//existingRate != null){
+        if(existingRate != null){
             existingRate.rate = rate;
         }else{
             // Add the rating and userId to the ratings array
