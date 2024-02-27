@@ -22,6 +22,7 @@ import {
   ErrorNavigate,
 } from './Error/ErrorCodes';
 import TagsDropdown from './TagsSelector';
+import Modal from 'react-native-modal';
 
 export const NewRecipeScreen4 = ({navigation}: any) => {
   const route: any = useRoute();
@@ -29,6 +30,7 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
   const [calories, setCalories] = useState(0);
   const [proteins, setProteins] = useState(0);
   const [totalFat, setTotalFat] = useState(0);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
   const [selectedTags, setSelectedTags] = useState([]);
   const availableTags = [
@@ -42,6 +44,11 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
     'Baja en Carbohidratos',
     'Antiinflamatoria',
   ];
+
+   const toggleSuccessModal = () => {
+      setIsSuccessModalVisible(!isSuccessModalVisible);
+    };
+
 
   const [isKeyboardActive, setIsKeyboardActive] = useState(false);
 
@@ -67,8 +74,9 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
     };
   }, []);
 
-  const submitFormNewRecipe = async () => {
-    let newRecipe = {
+const submitFormNewRecipe = async () => {
+  try {
+    let recipe = await postRecipe({
       title: route.params.step1.title,
       description: route.params.step1.description,
       youtubeLink: route.params.step1.videoLink,
@@ -82,94 +90,107 @@ export const NewRecipeScreen4 = ({navigation}: any) => {
         totalFat: totalFat,
       },
       tags: selectedTags,
-    };
-    try {
-      let recipe = await postRecipe(newRecipe);
+    });
 
-      if (route.params.step1.images.length > 0) {
-        try {
-          await postRecipeImages(recipe._id, route.params.step1.images);
-        } catch (error) {
-          console.log(error);
-          ErrorNavigate(navigation, ERROR_RECIPE_IMAGE_POST);
-        }
+    if (route.params.step1.images.length > 0) {
+      try {
+        await postRecipeImages(recipe._id, route.params.step1.images);
+      } catch (error) {
+        console.log(error);
+        ErrorNavigate(navigation, ERROR_RECIPE_IMAGE_POST);
       }
-    } catch (error) {
-      console.log(error);
-      ErrorNavigate(navigation, ERROR_RECIPE_POST);
     }
-    navigateToNextScreen();
-  };
 
-  const navigateToNextScreen = () => {
-    navigation.navigate(Screens.Landing);
-  };
+    toggleSuccessModal(); // Mostrar modal de éxito
+  } catch (error) {
+    console.log(error);
+    ErrorNavigate(navigation, ERROR_RECIPE_POST);
+  }
+};
 
-  return (
-    <View style={styles.background}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.titleText}>Otros Datos</Text>
-          <Text style={styles.subTitleText}>
-            Agregá más información para que otros puedan encontrar tu receta
-            fácilmente
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Cantidad de calorías"
-            keyboardType="numeric"
-            onChangeText={newText => {
-              newText.replace(/[^0-9]/, '');
-              setCalories(Number.parseInt(newText));
-            }}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Cantidad de proteínas"
-            keyboardType="numeric"
-            onChangeText={newText => {
-              newText.replace(/[^0-9]/, '');
-              setProteins(Number.parseInt(newText));
-            }}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Cantidad de grasas totales"
-            keyboardType="numeric"
-            onChangeText={newText => {
-              newText.replace(/[^0-9]/, '');
-              setTotalFat(Number.parseInt(newText));
-            }}
-          />
+const navigateToNextScreen = () => {
+  toggleSuccessModal(); // Ocultar modal de éxito antes de navegar
+  navigation.navigate(Screens.Landing);
+};
 
-          <TagsDropdown
-            availableTags={availableTags}
-            selectedTags={selectedTags}
-            onTagSelect={(tags: any) => {
-              setSelectedTags(tags);
-            }}
-          />
-        </View>
-      </ScrollView>
-      {!isKeyboardActive && (
-        <View style={{height: 160}}>
-          <ProgressBar currentStep={4} />
-          <View style={{height: 36}} />
-          <PrimaryButton
-            text="Finalizar"
-            backgroundColor={
-              calories && proteins && totalFat
-                ? Theme.colors.SECONDARY_2
-                : Theme.colors.NEUTRAL_3
-            }
-            onPress={() => {
-              if (calories && proteins && totalFat) submitFormNewRecipe();
-            }}
-          />
-        </View>
-      )}
-    </View>
-  );
+return (
+  <View style={styles.background}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.titleText}>Otros Datos</Text>
+        <Text style={styles.subTitleText}>
+          Agregá más información para que otros puedan encontrar tu receta fácilmente
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Cantidad de calorías"
+          keyboardType="numeric"
+          onChangeText={newText => {
+            newText.replace(/[^0-9]/, '');
+            setCalories(Number.parseInt(newText));
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Cantidad de proteínas"
+          keyboardType="numeric"
+          onChangeText={newText => {
+            newText.replace(/[^0-9]/, '');
+            setProteins(Number.parseInt(newText));
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Cantidad de grasas totales"
+          keyboardType="numeric"
+          onChangeText={newText => {
+            newText.replace(/[^0-9]/, '');
+            setTotalFat(Number.parseInt(newText));
+          }}
+        />
+
+        <TagsDropdown
+          availableTags={availableTags}
+          selectedTags={selectedTags}
+          onTagSelect={(tags: any) => {
+            setSelectedTags(tags);
+          }}
+        />
+      </View>
+    </ScrollView>
+    {!isKeyboardActive && (
+      <View style={{ height: 160 }}>
+        <ProgressBar currentStep={4} />
+        <View style={{ height: 36 }} />
+        <PrimaryButton
+          text="Finalizar"
+          backgroundColor={
+            calories && proteins && totalFat
+              ? Theme.colors.SECONDARY_2
+              : Theme.colors.NEUTRAL_3
+          }
+          onPress={() => {
+            if (calories && proteins && totalFat) submitFormNewRecipe();
+          }}
+        />
+      </View>
+    )}
+
+    <Modal
+      isVisible={isSuccessModalVisible}
+      onBackdropPress={toggleSuccessModal}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
+    >
+      <View style={styles.modalContent}>
+        <Text style={styles.modalText}>¡Ya tenemos tu receta!</Text>
+        <TouchableOpacity onPress={navigateToNextScreen}>
+          <Text style={styles.modalButton}>OK</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  </View>
+);
 };
 
 const styles = StyleSheet.create({
@@ -191,6 +212,20 @@ const styles = StyleSheet.create({
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
   input: CommonStyle.input,
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  modalButton: {
+    fontSize: 16,
+    color: Theme.colors.SECONDARY_2,
+  },
 });
 
 export default NewRecipeScreen4;
