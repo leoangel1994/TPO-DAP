@@ -147,7 +147,8 @@ const getRecipeDetail = async (recipeId: string) => {
             >
               <Image source={StarIcon} style={(isFavourite) ? styles.isFavouriteIcon : styles.buttonIcon} />
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity 
+              disabled={recipeDetail.profileId !== activeUser?.profileId} 
               style={styles.roundButton}
               onPress={() => {
                 navigation.navigate(Screens.EditRecipe1, {"recipe": {...recipeDetail}});
