@@ -45,6 +45,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
   const [onlyOneTime, setOnlyOneTime] = useState(false);
 
   useEffect(() => {
+    setloggedIn(false)
     if (onlyOneTime) {
       return;
     }
@@ -60,7 +61,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       if (isSignedIn) {
         const token = await GoogleSignin.getTokens();
         await GetAuthData(token.idToken, setUserName);
-        navigation.navigate(Screens.TabNavigator);
+        navigation.replace(Screens.TabNavigator);
       }
     };
 
@@ -82,29 +83,22 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       </ScrollView>
 
       <View style={styles.buttonPosition}>
-        {!loggedIn && (
-          <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Light}
-            onPress={() => {
-              Signin(setloggedIn, setUserName)
-                .then(() => console.log('OK'))
-                .catch((e: any) => {
-                  console.log(e);
-                  ErrorNavigate(navigation, ERROR_LOGIN);
-                  setloggedIn(false);
-                });
-            }}
-            disabled={loggedIn}
-          />
-        )}
-        {loggedIn && (
-          <PrimaryButton
-            text={'Bienvenido ' + userName}
-            onPress={() =>
-              navigation.navigate(Screens.TabNavigator)
-            }></PrimaryButton>
-        )}
+        <GoogleSigninButton
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Light}
+          onPress={() => {
+            Signin(setloggedIn, setUserName)
+              .then(() => {
+                navigation.replace(Screens.TabNavigator);
+              })
+              .catch((e: any) => {
+                console.log(e);
+                ErrorNavigate(navigation, ERROR_LOGIN);
+                setloggedIn(false);
+              });
+          }}
+          disabled={loggedIn}
+        />
       </View>
     </View>
   );

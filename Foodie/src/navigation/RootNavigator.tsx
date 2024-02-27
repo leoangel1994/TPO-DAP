@@ -155,11 +155,15 @@ const RootNavigator = () => {
           component={ErrorScreen}
           options={{}}
         />
+        
+        <Stack.Group>
         <Stack.Screen
           name={Screens.Login}
           component={LoginScreen}
           options={{}}
         />
+        </Stack.Group>
+
         <Stack.Group>
           <Stack.Screen
             name={Screens.TabNavigator}

@@ -7,7 +7,11 @@ interface FoodieError {
 }
 
 export const ErrorNavigate = (navigation: any, error: FoodieError) => {
-  navigation.navigate(Screens.ErrorScreen, error);
+  if (error.nextScreen !== Screens.Login) {
+    navigation.navigate(Screens.ErrorScreen, error);
+  } else {
+    navigation.replace(Screens.ErrorScreen, error);
+  }
 };
 
 // ERROR CODE LIST
@@ -105,7 +109,7 @@ export const ERROR_GET_USER_IN_RECIPE_DETAILS: FoodieError = {
 export const ERROR_FAVOURITES_POST: FoodieError = {
   errorCode: '16',
   errorMessage: 'Error al guardar receta a favoritas',
-  nextScreen: Screens.Profile
+  nextScreen: Screens.Profile,
 };
 
 export const ERROR_NEW_RECIPE_OPEN_GALLERY: FoodieError = {
@@ -123,5 +127,11 @@ export const ERROR_EDIT_RECIPE_OPEN_GALLERY: FoodieError = {
 export const ERROR_LOGIN: FoodieError = {
   errorCode: '20',
   errorMessage: 'Error al intentar loguear. Volvé a intentar más tarde.',
+  nextScreen: Screens.Login,
+};
+
+export const ERROR_LOGOUT: FoodieError = {
+  errorCode: '21',
+  errorMessage: 'Error al cerrar la sesion.',
   nextScreen: Screens.Login,
 };

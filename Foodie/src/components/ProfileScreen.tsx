@@ -7,7 +7,11 @@ import {getUser} from '../api/ApiUser';
 import {User} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {ERROR_USER_DATA_GET, ErrorNavigate} from './Error/ErrorCodes';
+import {
+  ERROR_LOGOUT,
+  ERROR_USER_DATA_GET,
+  ErrorNavigate,
+} from './Error/ErrorCodes';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
@@ -71,8 +75,14 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
           <PrimaryButton
             text="Cerrar Sesión"
             backgroundColor={Theme.colors.DANGER}
-            onPress={async () => {
-              (await userLogout()) ? navigation.navigate(Screens.Login) : null;
+            onPress={() => {
+              userLogout()
+                .then(() => {
+                  navigation.replace(Screens.Login);
+                })
+                .catch(e => {
+                  ErrorNavigate(navigation, ERROR_LOGOUT);
+                });
             }}></PrimaryButton>
         </View>
       </ScrollView>
