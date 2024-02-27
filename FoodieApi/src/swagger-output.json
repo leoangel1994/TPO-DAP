@@ -2,7 +2,7 @@
   "openapi": "3.0.2",
   "info": {
     "title": "GoDeLi Recetas API",
-    "description": "GoDeLi es una aplicación que tiene el enfoque de ser una red social de recetas de cocina, donde los usuarios podrán Crear\ny visualizar recetas.\n\n ### LINKS:\n\n https://github.com/leoangel1994/TPO-DAP\n https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.\n https://swagger.io/specification/\n https://www.restapitutorial.com/httpstatuscodes.html\n https://swagger.io/docs/specification/describing-parameters/ \n",
+    "description": "GoDeLi es una aplicación que tiene el enfoque de ser una red social de recetas de cocina, donde los usuarios podrán Crear y visualizar recetas.\n\n ### LINKS:\n\n https://github.com/leoangel1994/TPO-DAP\n https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.\n https://swagger.io/specification/\n https://www.restapitutorial.com/httpstatuscodes.html\n https://swagger.io/docs/specification/describing-parameters/ \n",
     "version": "1.0.0"
   },
   "servers": [
@@ -22,6 +22,10 @@
     {
       "name": "users",
       "description": "Operaciones relacionadas a los usuarios."
+    },
+    {
+      "name": "health",
+      "description": "Operaciones relacionadas al estado de la API."
     }
   ],
   "paths": {
@@ -886,7 +890,7 @@
           "ingredients",
           "portions",
           "preparationTime",
-          "propiedadesNutricionales",
+          "nutritionalProperties",
           "steps",
           "tags",
           "title",
@@ -936,10 +940,10 @@
               "$ref": "#/components/schemas/Ingredient"
             }
           },
-          "propiedadesNutricionales": {
+          "nutritionalProperties": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PropiedadesNutricionales"
+              "$ref": "#/components/schemas/nutritionalProperties"
             }
           }
         }
@@ -967,7 +971,9 @@
           "apellido",
           "email",
           "nombre",
-          "username"
+          "username",
+          "familyName",
+          "photo"
         ],
         "type": "object",
         "properties": {
@@ -984,6 +990,12 @@
             "type": "string"
           },
           "username": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "photo": {
             "type": "string"
           }
         }
@@ -1004,7 +1016,9 @@
           "apellido",
           "email",
           "nombre",
-          "username"
+          "username",
+          "familyName",
+          "photo"
         ],
         "type": "object",
         "properties": {
@@ -1021,6 +1035,12 @@
             "type": "string"
           },
           "username": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "photo": {
             "type": "string"
           }
         }
@@ -1051,7 +1071,7 @@
           }
         }
       },
-      "PropiedadesNutricionales": {
+      "nutritionalProperties": {
         "type": "object",
         "properties": {
           "calorias": {
