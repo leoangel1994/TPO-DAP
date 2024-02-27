@@ -17,7 +17,12 @@ import {useRoute} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-ico-material-design';
 import {postProfileImages} from '../api/ApiFilesManager';
-import { ERROR_PROFILE_IMAGE_OPEN_GALLERY, ERROR_PROFILE_IMAGE_POST, ERROR_PROFILE_USER_PUT, ErrorNavigate } from './Error/ErrorCodes';
+import {
+  ERROR_PROFILE_IMAGE_OPEN_GALLERY,
+  ERROR_PROFILE_IMAGE_POST,
+  ERROR_PROFILE_USER_PUT,
+  ErrorNavigate,
+} from './Error/ErrorCodes';
 
 const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
   const handleTagSelect = (tag: any) => {
@@ -42,13 +47,15 @@ const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
               {
                 backgroundColor: selectedTags.includes(tag)
                   ? Theme.colors.SECONDARY_2
-                  :Theme.colors.NEUTRAL_4,
+                  : Theme.colors.NEUTRAL_4,
               },
             ]}
             onPress={() => handleTagSelect(tag)}>
             <Text
               style={{
-                color: selectedTags.includes(tag) ? Theme.colors.NEUTRAL_1 : Theme.colors.NEUTRAL_1,
+                color: selectedTags.includes(tag)
+                  ? Theme.colors.NEUTRAL_1
+                  : Theme.colors.NEUTRAL_1,
               }}>
               {tag}
             </Text>
@@ -103,14 +110,14 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
               navigation.navigate(Screens.Profile, {reload: true});
             })
             .catch(() => {
-              ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_POST)
+              ErrorNavigate(navigation, ERROR_PROFILE_IMAGE_POST);
             });
         } else {
           navigation.navigate(Screens.Profile, {reload: true});
         }
       })
       .catch(() => {
-        ErrorNavigate(navigation, ERROR_PROFILE_USER_PUT)
+        ErrorNavigate(navigation, ERROR_PROFILE_USER_PUT);
       });
   };
 
@@ -176,7 +183,15 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
             />
           </>
         ) : (
-          <Text>Cargando...</Text>
+          <Text
+            style={{
+              ...styles.subTitleText,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              paddingTop: '30%',
+            }}>
+            Cargando...
+          </Text>
         )}
         <View style={{marginTop: 32, marginBottom: 64}}>
           <PrimaryButton

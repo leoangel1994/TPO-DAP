@@ -5,7 +5,7 @@ import {Screens} from '../navigation/RootNavigator';
 import {Recipe} from './FoodApiInterfaces/interfaces';
 import {useEffect, useState} from 'react';
 import {getUserFavourites} from '../api/ApiUser';
-import { ERROR_FAVORITES_GET, ErrorNavigate } from './Error/ErrorCodes';
+import {ERROR_FAVORITES_GET, ErrorNavigate} from './Error/ErrorCodes';
 
 const FavoritesScreen = ({navigation}: {navigation: any}) => {
   const [favRecipesListData, setFavRecipesListData] = useState<Recipe[]>([]);
@@ -18,7 +18,7 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        ErrorNavigate(navigation, ERROR_FAVORITES_GET)
+        ErrorNavigate(navigation, ERROR_FAVORITES_GET);
       });
   };
 
@@ -42,7 +42,15 @@ const FavoritesScreen = ({navigation}: {navigation: any}) => {
           }
         />
       ) : (
-        <Text>Cargando...</Text>
+        <Text
+          style={{
+            ...styles.subTitleText,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            paddingTop: '30%',
+          }}>
+          Cargando...
+        </Text>
       )}
     </View>
   );

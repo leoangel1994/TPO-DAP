@@ -6,9 +6,9 @@ import {useEffect, useState} from 'react';
 import {Screens} from '../navigation/RootNavigator';
 import ModalFiltros from './FiltersModal';
 import {Recipe} from './FoodApiInterfaces/interfaces';
-import { getUserSession } from '../api/ApiManager';
-import { getRecipesForCarousel } from '../api/ApiRecipes';
-import { ERROR_CARROUSEL_GET, ErrorNavigate } from './Error/ErrorCodes';
+import {getUserSession} from '../api/ApiManager';
+import {getRecipesForCarousel} from '../api/ApiRecipes';
+import {ERROR_CARROUSEL_GET, ErrorNavigate} from './Error/ErrorCodes';
 
 const LandingScreen = ({navigation}: {navigation: any}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,7 +35,7 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
         console.log('GET: OK');
       })
       .catch(() => {
-        ErrorNavigate(navigation, ERROR_CARROUSEL_GET)
+        ErrorNavigate(navigation, ERROR_CARROUSEL_GET);
       });
   };
 
@@ -43,8 +43,11 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
     getUserSession()
       .then((session: any) => {
         setUserName(session.username);
-      }).catch((error) => {console.log(error);});
-  }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     getCarrouselData();
@@ -86,7 +89,15 @@ const LandingScreen = ({navigation}: {navigation: any}) => {
         {carrouselData.length != 0 ? (
           <CarouselCards navigation={navigation} data={carrouselData} />
         ) : (
-          <Text>Cargando...</Text>
+          <Text
+            style={{
+              ...styles.subTitleText,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              paddingTop: '30%',
+            }}>
+            Cargando...
+          </Text>
         )}
       </View>
       <ModalFiltros
