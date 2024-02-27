@@ -48,7 +48,6 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
   };
 
   const editarPerfil = async () => {
-    //console.log({...userData})
     putUser({...userData})
       .then(() => {
         console.log('UPDATE OK');

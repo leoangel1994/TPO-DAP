@@ -13,7 +13,6 @@ async function post(url: string, data: any) {
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log();
   return result.data;
 }
 
@@ -32,7 +31,6 @@ const imgForm = async (recipeId: string, images: string[]) => {
 
 export const postRecipeImages = async (recipeId: string, images: string[]) => {
   images.forEach(async (img: string) => {
-    console.log('imgasdasda', img);
     let imgData = await imgForm(recipeId, [img]);
     return await post('/recipes/' + recipeId + '/image', imgData);  }
 )};

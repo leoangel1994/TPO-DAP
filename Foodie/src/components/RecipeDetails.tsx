@@ -66,14 +66,12 @@ const getRecipeDetail = async (recipeId: string) => {
 
     //PARA EL VIDEO
     setYoutubeLink(itemData.youtubeLink);
-    console.log(itemData.youtubeLink);
 
     //Usuario logueado
     const user = await getUser();
     console.log('GET Logged User: OK');
     const userData: User = user;
     setActiveUser(userData);
-    console.log("favourite:"+user.favourites+" recipeId:"+recipe._id);
 
     // Verificar si la receta es favorita
     if (activeUser?.favourites?.includes(recipe._id)) {
@@ -221,7 +219,6 @@ const getRecipeDetail = async (recipeId: string) => {
             defaultRating={recipeDetail?.ratings.filter((rating) => rating.userId === activeUser?.profileId)[0]?.rate ?? 3} 
             size={30}
             onFinishRating={async (rating) => {
-              console.log(rating);
               await postRecipeRating(recipeDetail._id, {rating: rating});
             }}
           />
