@@ -12,7 +12,7 @@ import Swiper from 'react-native-swiper';
 import {Recipe, User} from './FoodApiInterfaces/interfaces';
 import {Screens} from '../navigation/RootNavigator';
 import {useRoute} from '@react-navigation/native';
-import {getRecipeById} from '../api/ApiRecipes';
+import {getRecipeById, postRecipeRating} from '../api/ApiRecipes';
 import onRecipeShare from './RecipeShare';
 import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById, postUserFavourite, deleteUserFavourite} from '../api/ApiUser';
@@ -196,12 +196,11 @@ const getRecipeDetail = async (recipeId: string) => {
           <AirbnbRating
             count={5} // Número de estrellas
             reviews={['Terrible', 'Malo', 'Normal', 'Bueno', 'Excelente']}
-            defaultRating={recipeDetail?.currentRating} // Puedes establecer la nota actual aquí //TODO: completar?
+            defaultRating={recipeDetail?.ratings.filter((rating) => rating.userId === activeUser?.profileId)[0]?.rate ?? 3} 
             size={30}
-            onFinishRating={(rating) => {
-              // Aquí puedes manejar la lógica cuando el usuario termine de calificar
-              console.log('Calificación:', rating);
-              // También puedes enviar la calificación al backend si es necesario
+            onFinishRating={async (rating) => {
+              console.log(rating);
+              await postRecipeRating(recipeDetail._id, {rating: rating});
             }}
           />
         </View>

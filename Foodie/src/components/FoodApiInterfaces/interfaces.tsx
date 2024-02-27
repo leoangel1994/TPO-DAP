@@ -31,6 +31,8 @@ export interface Recipe {
     ingredients: RecipeIngredients[];
     images: RecipeImages[];
     createdAt: string;
+    rating: number;
+    ratings:[{rate: number, userId: string}];
     __v: number;
 }
 
