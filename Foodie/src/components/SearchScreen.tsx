@@ -14,16 +14,17 @@ function mapTagsFilters(filters: string[]) {
   if (filters == undefined || filters.length == 0) return [];
   console.log(filters);
   let filterNames: string[] = [
-    'Rápida preparación',
+    'Rápida Preparación',
     'Vegetarianas',
-    'Veganas',
-    'Aptas celiacos',
+    'Vegana',
+    'Aptas Celiacos',
     'Estimula el sistema inmune',
-    'Promueve la flora intestinal',
+    'Promueve la Flora Intestinal',
     'Antiinflamatoria',
     'Baja en sodio',
-    'Baja carbohidratos',
+    'Baja en Carbohidratos',
   ];
+  
   let selectedFilters: string[] = [];
 
   for (let i = 0; i < filters.length; i++) {
