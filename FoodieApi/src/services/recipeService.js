@@ -8,13 +8,12 @@ exports.getRecipesByFilters = async (tags, search) => {
         console.log(tags, search)
         let tagsFilters = tags == null ? [] : tags.split(',');
         let searchFilters = search == null ? [] : [search];
-        let recipes = await Recipe
-        .find({$or:[
-            {tags: {$in:tagsFilters}},
-            {'ingredients.name': {$in:searchFilters}},
-            {title: { $regex: '.*' + search + '.*' }}
-        ]
-        });
+        let recipes = await Recipe.find({
+        $or: [
+            { $or: [{'ingredients.name': {$in:searchFilters}}, 
+                    {title: { $regex: '.*' + search + '.*' }}] },
+            {tags: {$in:tagsFilters}}
+        ]});
         return recipes;
     } 
     catch (err) {
@@ -23,17 +22,6 @@ exports.getRecipesByFilters = async (tags, search) => {
 }
 
 exports.getRecipesForCarousel = async () => {
-    try {
-        let recipes = await Recipe
-        .find({}).limit(10);
-        return recipes;
-    } 
-    catch (err) {
-        console.log(err);  
-    }
-}
-
-exports.getRecipesForCarouselByRating = async () => {
     try {
         let recipes = await Recipe
         .find({}).sort({rating: -1}).limit(10);
@@ -131,7 +119,7 @@ exports.createRecipe = async (profileId, body) => {
 // Get user recipes
 exports.getUserRecipes = async (userId) => {
     try {
-        let recipes = await Recipe.find({profileId: userId});
+        let recipes = await Recipe.find({profileId: userId}).sort({createdAt: -1});
         return recipes;
     } 
     catch (err) {

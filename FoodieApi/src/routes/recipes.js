@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', auth.authenticateToken, recipeController.getRecipesByFilters);
 
 //'Listar recetas que cumplan con los filtros de búsqueda.'
-router.get('/carousel', recipeController.getRecipesForCarousel);
+router.get('/carousel', auth.authenticateToken, recipeController.getRecipesForCarousel);
 
 //'Crea una nueva receta.'
 router.post('/', auth.authenticateToken, recipeController.createRecipe);
