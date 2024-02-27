@@ -31,9 +31,11 @@ const imgForm = async (recipeId: string, images: string[]) => {
 };
 
 export const postRecipeImages = async (recipeId: string, images: string[]) => {
-  let imgData = await imgForm(recipeId, images);
-  return await post('/recipes/' + recipeId + '/image', imgData);
-};
+  images.forEach(async (img: string) => {
+    console.log('imgasdasda', img);
+    let imgData = await imgForm(recipeId, [img]);
+    return await post('/recipes/' + recipeId + '/image', imgData);  }
+)};
 
 export const postProfileImages = async (recipeId: string, images: string[]) => {
   let imgData = await imgForm(recipeId, images);
