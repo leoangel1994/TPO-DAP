@@ -20,7 +20,7 @@ class MainApplication : Application(), ReactApplication {
       object : DefaultReactNativeHost(this) {
         override fun getPackages(): List<ReactPackage> =
             PackageList(this).packages.apply {
-                add(RNCWebViewPackage())
+                //add(RNCWebViewPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

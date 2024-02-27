@@ -18,7 +18,7 @@ import Icon from 'react-native-ico-material-design';
 import {getUser, getUserById, postUserFavourite, deleteUserFavourite} from '../api/ApiUser';
 import { AirbnbRating } from 'react-native-ratings';
 import { ERROR_GET_USER_IN_RECIPE_DETAILS, ERROR_RECIPE_DETAIL_GET, ErrorNavigate, ERROR_FAVOURITES_POST } from './Error/ErrorCodes';
-//import { WebView } from 'react-native-webview'; //PARA EL VIDEO
+import { WebView } from 'react-native-webview'; //PARA EL VIDEO
 
 // Archivos PNG
 const TiempoIcon = require('../../assets/img/Tiempo.png');
@@ -33,7 +33,7 @@ const RecipeDetailsScreen = ({navigation}: {navigation: any}) => {
   const [activeUser, setActiveUser] = useState<User>();
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [favoriteButtonColor, setFavoriteButtonColor] = useState(Theme.colors.SECONDARY_2);
-  const [youtubeLink, setYoutubeLink] = useState(null); // PARA EL VIDEO
+  const [youtubeLink, setYoutubeLink] = useState<string>(); // PARA EL VIDEO
 
   const route: any = useRoute();
 
@@ -65,8 +65,8 @@ const getRecipeDetail = async (recipeId: string) => {
     setRecipeDetail(itemData);
 
     //PARA EL VIDEO
-//    setYoutubeLink(itemData.youtubeLink);
-//    console.log(itemData.youtubeLink);
+    setYoutubeLink(itemData.youtubeLink);
+    console.log(itemData.youtubeLink);
 
     //Usuario logueado
     const user = await getUser();
@@ -337,22 +337,22 @@ const getRecipeDetail = async (recipeId: string) => {
             ))}
           </View>
         )}
+        {youtubeLink && (
+          <View style={styles.videoSection}>
+            <Text style={styles.subTitleText}>Video de la receta</Text>
+            <WebView
+              source={{ uri: youtubeLink }}
+              style={styles.videoContainer}
+            />
+          </View>
+        )}
 
       </ScrollView>
     )
   );
 };
-//
-//        {youtubeLink && (
-//          <View style={styles.videoSection}>
-//            <Text style={styles.subTitleText}>Video de la receta</Text>
-//            {console.log("YouTube Link:", youtubeLink)}
-//            <WebView
-//              source={{ uri: youtubeLink }}
-//              style={styles.videoContainer}
-//            />
-//          </View>
-//        )}
+
+
 
 
 const styles = StyleSheet.create({
