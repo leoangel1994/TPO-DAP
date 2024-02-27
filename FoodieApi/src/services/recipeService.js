@@ -6,15 +6,32 @@ const mongoose = require('mongoose');
 exports.getRecipesByFilters = async (tags, search) => {
     try {
         console.log(tags, search)
-        let tagsFilters = tags == null ? [] : tags.split(',');
-        let searchFilters = search == null ? [] : [search];
-        let recipes = await Recipe.find({
-        $or: [
-            { $or: [{'ingredients.name': {$in:searchFilters}}, 
-                    {title: { $regex: '.*' + search + '.*' }}] },
-            {tags: {$in:tagsFilters}}
-        ]});
-        return recipes;
+        let tagsFilters = (tags == null || tags == undefined || tags == '')  ? [] : tags.split(',');
+        let searchFilters = (search == null || search == undefined) ? [] : [search];
+        let searchRegex = { $regex: '.*' + (search == null ? '':search) + '.*', $options: 'i' };
+
+        if (tagsFilters.length > 0) {
+            let recipes = await Recipe.find({
+                $and: [
+                    {
+                        $or: [
+                            { 'ingredients.name': { $in: searchFilters } },
+                            { title: searchRegex }
+                        ]
+                    },
+                    { tags: { $in: tagsFilters } }
+                ]
+            });
+            return recipes;
+        } else {
+            let recipes = await Recipe.find({
+                $or: [
+                    { 'ingredients.name': { $in: searchFilters } },
+                    { title: searchRegex }
+                    ]
+                });
+            return recipes;
+        }
     } 
     catch (err) {
         console.log(err);  
