@@ -36,6 +36,9 @@ function mapTagsFilters(filters: string[]) {
 }
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
+  const [mensajeCargando, setMensajeCargando] = useState(
+    'Sin Recetas encontradas',
+  );
   const [modalVisible, setModalVisible] = useState(false);
   const route: any = useRoute(); // For searches received from Landing Screen
 
@@ -56,12 +59,15 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
     useState<Recipe[]>([]);
 
   const getRecipesListData = async (tags: string[], searchText: string) => {
+    setMensajeCargando('Cargando...');
     let mappedFilters = mapTagsFilters(tags);
     getRecipesByFilters(mappedFilters, searchText)
       .then(recipes => {
         const item_data: Recipe[] = recipes ?? [];
         setSearchResultRecipesListData(item_data);
         console.log('GET: OK');
+        if (item_data.length == 0)
+          setMensajeCargando('Sin Recetas encontradas');
       })
       .catch(() => {
         ErrorNavigate(navigation, ERROR_SEARCH_GET);
@@ -75,10 +81,11 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         : [false, false, false, false, false, false, false, false, false],
     );
     setSearchText(route.params?.searchedText ?? '');
-    getRecipesListData(
-      route.params?.filtersApplied,
-      route.params?.searchedText,
-    );
+    if ((route.params?.searchedText?.length ?? 0) > 0)
+      getRecipesListData(
+        route.params?.filtersApplied,
+        route.params?.searchedText,
+      );
   }, [route.params?.filtersApplied, route.params?.searchedText]);
   return (
     <View style={styles.background}>
@@ -122,7 +129,15 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
           }
         />
       ) : (
-        <Text>Cargando...</Text>
+        <Text
+          style={{
+            ...styles.subTitleText,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            paddingTop: '30%',
+          }}>
+          {mensajeCargando}
+        </Text>
       )}
       <ModalFiltros
         initialState={[...filters]}
