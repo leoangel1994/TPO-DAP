@@ -72,7 +72,7 @@ const LoginScreen = ({navigation}: {navigation: any}) => {
       .catch((error: any) => {
         console.log(error);
         setloggedIn(false);
-        if (error?.code !== statusCodes.SIGN_IN_REQUIRED)
+        if (error?.code !== statusCodes.SIGN_IN_REQUIRED && error?.code !== statusCodes.SIGN_IN_CANCELLED)
           ErrorNavigate(navigation, ERROR_LOGIN);
       });
   }, [isFocused]);
