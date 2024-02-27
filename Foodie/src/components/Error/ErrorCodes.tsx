@@ -101,3 +101,9 @@ export const ERROR_GET_USER_IN_RECIPE_DETAILS: FoodieError = {
   errorMessage: 'Error al obtener datos de tu usuario',
   nextScreen: Screens.Profile,
 };
+
+export const ERROR_LOGIN: FoodieError = {
+  errorCode: '20',
+  errorMessage: 'Error al intentar loguear. Volvé a intentar más tarde.',
+  nextScreen: Screens.Login,
+};
