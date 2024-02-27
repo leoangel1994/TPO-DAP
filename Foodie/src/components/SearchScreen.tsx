@@ -18,13 +18,13 @@ function mapTagsFilters(filters: string[]) {
     'Vegetarianas',
     'Vegana',
     'Aptas Celiacos',
-    'Estimula el sistema inmune',
+    'Estimula el Sistema Inmune',
     'Promueve la Flora Intestinal',
     'Antiinflamatoria',
-    'Baja en sodio',
+    'Baja en Sodio',
     'Baja en Carbohidratos',
   ];
-  
+
   let selectedFilters: string[] = [];
 
   for (let i = 0; i < filters.length; i++) {

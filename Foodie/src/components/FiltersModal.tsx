@@ -74,7 +74,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersrapidaPreparacion),
                   }}>
-                  Rápida preparación
+                  Rápida Preparación
                 </Text>
               </Pressable>
               <Pressable
@@ -113,7 +113,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersaptaCeliaco),
                   }}>
-                  Aptas celiacos
+                  Aptas Celiacos
                 </Text>
               </Pressable>
               <Pressable
@@ -126,7 +126,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersestimulaSistInmune),
                   }}>
-                  Estimula el sistema inmune
+                  Estimula el Sistema Inmune
                 </Text>
               </Pressable>
               <Pressable
@@ -139,7 +139,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filterspromueveFlora),
                   }}>
-                  Promueve la flora intestinal
+                  Promueve la Flora Intestinal
                 </Text>
               </Pressable>
               <Pressable
@@ -165,7 +165,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersBajaEnSodio),
                   }}>
-                  Baja en sodio
+                  Baja en Sodio
                 </Text>
               </Pressable>
               <Pressable
@@ -178,7 +178,7 @@ const ModalFiltros = (props: ModalFiltrosProps) => {
                     ...styles.tag,
                     backgroundColor: tagColor(filtersBajaEnCarbo),
                   }}>
-                  Baja carbohidratos
+                  Baja Carbohidratos
                 </Text>
               </Pressable>
             </View>
