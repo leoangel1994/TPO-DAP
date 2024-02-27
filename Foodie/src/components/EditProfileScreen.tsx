@@ -23,48 +23,7 @@ import {
   ERROR_PROFILE_USER_PUT,
   ErrorNavigate,
 } from './Error/ErrorCodes';
-
-const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
-  const handleTagSelect = (tag: any) => {
-    if (!selectedTags.includes(tag)) {
-      onTagSelect([...selectedTags, tag]);
-    } else {
-      const updatedTags = selectedTags.filter(
-        (selectedTag: any) => selectedTag !== tag,
-      );
-      onTagSelect(updatedTags);
-    }
-  };
-
-  return (
-    <View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 16}}>
-        {availableTags.map((tag: any, index: any) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.selectedTag,
-              {
-                backgroundColor: selectedTags.includes(tag)
-                  ? Theme.colors.SECONDARY_2
-                  : Theme.colors.NEUTRAL_4,
-              },
-            ]}
-            onPress={() => handleTagSelect(tag)}>
-            <Text
-              style={{
-                color: selectedTags.includes(tag)
-                  ? Theme.colors.NEUTRAL_1
-                  : Theme.colors.NEUTRAL_1,
-              }}>
-              {tag}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
+import TagsDropdown from './TagsSelector';
 
 const EditProfileScreen = ({navigation}: {navigation: any}) => {
   const route: any = useRoute();
@@ -206,11 +165,6 @@ const EditProfileScreen = ({navigation}: {navigation: any}) => {
 const styles = StyleSheet.create({
   background: CommonStyle.background,
   mainContainer: CommonStyle.mainContainer,
-  backgroundTabBar: {
-    backgroundColor: Theme.colors.SECONDARY_2,
-    width: '100%',
-    height: 64,
-  },
   titleText: CommonStyle.titleText,
   profileImage: {
     height: 152,
@@ -230,29 +184,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  tagsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  tag: {
-    color: Theme.colors.NEUTRAL_1,
-    fontFamily: Theme.fontFamily.REGULAR,
-    fontSize: Theme.fontSize.LIST_ITEM_TEXT,
-    padding: 4,
-    marginBottom: 4,
-    borderRadius: 10,
-    backgroundColor: Theme.colors.SECONDARY_2,
-    marginRight: 4,
-  },
   input: CommonStyle.input,
-  selectedTag: {
-    borderRadius: 15,
-    padding: 8,
-    margin: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 1,
-  },
 });
 
 export default EditProfileScreen;

@@ -20,48 +20,7 @@ import {
   ERROR_RECIPE_PUT,
   ErrorNavigate,
 } from './Error/ErrorCodes';
-
-const TagsDropdown = ({availableTags, selectedTags, onTagSelect}: any) => {
-  const handleTagSelect = (tag: any) => {
-    if (!selectedTags.includes(tag)) {
-      onTagSelect([...selectedTags, tag]);
-    } else {
-      const updatedTags = selectedTags.filter(
-        (selectedTag: any) => selectedTag !== tag,
-      );
-      onTagSelect(updatedTags);
-    }
-  };
-
-  return (
-    <View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 16}}>
-        {availableTags.map((tag: any, index: any) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.selectedTag,
-              {
-                backgroundColor: selectedTags.includes(tag)
-                  ? Theme.colors.SECONDARY_2
-                  : Theme.colors.NEUTRAL_4,
-              },
-            ]}
-            onPress={() => handleTagSelect(tag)}>
-            <Text
-              style={{
-                color: selectedTags.includes(tag)
-                  ? Theme.colors.NEUTRAL_1
-                  : Theme.colors.NEUTRAL_1,
-              }}>
-              {tag}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
+import TagsDropdown from './TagsSelector';
 
 export const EditRecipeScreen4 = ({navigation}: any) => {
   const route: any = useRoute();
@@ -83,9 +42,6 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
     'Antiinflamatoria',
   ];
 
-  const handleTagSelect = (tags: any) => {
-    setSelectedTags(tags);
-  };
   const submitFormEditRecipe = async () => {
     let editRecipe = {
       title: route.params.step1.title,
@@ -183,7 +139,9 @@ export const EditRecipeScreen4 = ({navigation}: any) => {
           <TagsDropdown
             availableTags={availableTags}
             selectedTags={selectedTags}
-            onTagSelect={handleTagSelect}
+            onTagSelect={(tags: any) => {
+              setSelectedTags(tags);
+            }}
           />
         </View>
       </ScrollView>
@@ -225,14 +183,6 @@ const styles = StyleSheet.create({
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
   input: CommonStyle.input,
-  selectedTag: {
-    borderRadius: 15,
-    padding: 8,
-    margin: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 1,
-  },
 });
 
 export default EditRecipeScreen4;

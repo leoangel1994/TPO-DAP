@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, {useState, useEffect} from 'react'; // Import useEffect
 import {
   ScrollView,
   StyleSheet,
@@ -9,58 +9,21 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from 'react-native';
-import { CommonStyle, Theme } from '../../Theme';
-import { PrimaryButton } from './PrimaryButton';
+import {CommonStyle, Theme} from '../../Theme';
+import {PrimaryButton} from './PrimaryButton';
 import ProgressBar from './ProgressBar';
-import { Screens } from '../navigation/RootNavigator';
-import { useRoute } from '@react-navigation/native';
-import { postRecipeImages } from '../api/ApiFilesManager';
-import { postRecipe } from '../api/ApiRecipes';
-import { ERROR_RECIPE_IMAGE_POST, ERROR_RECIPE_POST, ErrorNavigate } from './Error/ErrorCodes';
+import {Screens} from '../navigation/RootNavigator';
+import {useRoute} from '@react-navigation/native';
+import {postRecipeImages} from '../api/ApiFilesManager';
+import {postRecipe} from '../api/ApiRecipes';
+import {
+  ERROR_RECIPE_IMAGE_POST,
+  ERROR_RECIPE_POST,
+  ErrorNavigate,
+} from './Error/ErrorCodes';
+import TagsDropdown from './TagsSelector';
 
-const TagsDropdown = ({ availableTags, selectedTags, onTagSelect }: any) => {
-  const handleTagSelect = (tag: any) => {
-    if (!selectedTags.includes(tag)) {
-      onTagSelect([...selectedTags, tag]);
-    } else {
-      const updatedTags = selectedTags.filter(
-        (selectedTag: any) => selectedTag !== tag,
-      );
-      onTagSelect(updatedTags);
-    }
-  };
-
-  return (
-    <View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 16 }}>
-        {availableTags.map((tag: any, index: any) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.selectedTag,
-              {
-                backgroundColor: selectedTags.includes(tag)
-                  ? Theme.colors.SECONDARY_2
-                  : Theme.colors.NEUTRAL_4,
-              },
-            ]}
-            onPress={() => handleTagSelect(tag)}>
-            <Text
-              style={{
-                color: selectedTags.includes(tag)
-                  ? Theme.colors.NEUTRAL_1
-                  : Theme.colors.NEUTRAL_1,
-              }}>
-              {tag}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
-
-export const NewRecipeScreen4 = ({ navigation }: any) => {
+export const NewRecipeScreen4 = ({navigation}: any) => {
   const route: any = useRoute();
 
   const [calories, setCalories] = useState(0);
@@ -79,10 +42,6 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
     'Baja en Carbohidratos',
     'Antiinflamatoria',
   ];
-
-  const handleTagSelect = (tags: any) => {
-    setSelectedTags(tags);
-  };
 
   const [isKeyboardActive, setIsKeyboardActive] = useState(false);
 
@@ -159,7 +118,7 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
             style={styles.input}
             placeholder="Cantidad de calorías"
             keyboardType="numeric"
-            onChangeText={(newText) => {
+            onChangeText={newText => {
               newText.replace(/[^0-9]/, '');
               setCalories(Number.parseInt(newText));
             }}
@@ -168,7 +127,7 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
             style={styles.input}
             placeholder="Cantidad de proteínas"
             keyboardType="numeric"
-            onChangeText={(newText) => {
+            onChangeText={newText => {
               newText.replace(/[^0-9]/, '');
               setProteins(Number.parseInt(newText));
             }}
@@ -177,7 +136,7 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
             style={styles.input}
             placeholder="Cantidad de grasas totales"
             keyboardType="numeric"
-            onChangeText={(newText) => {
+            onChangeText={newText => {
               newText.replace(/[^0-9]/, '');
               setTotalFat(Number.parseInt(newText));
             }}
@@ -186,14 +145,16 @@ export const NewRecipeScreen4 = ({ navigation }: any) => {
           <TagsDropdown
             availableTags={availableTags}
             selectedTags={selectedTags}
-            onTagSelect={handleTagSelect}
+            onTagSelect={(tags: any) => {
+              setSelectedTags(tags);
+            }}
           />
         </View>
       </ScrollView>
       {!isKeyboardActive && (
-        <View style={{ height: 160 }}>
+        <View style={{height: 160}}>
           <ProgressBar currentStep={4} />
-          <View style={{ height: 36 }} />
+          <View style={{height: 36}} />
           <PrimaryButton
             text="Finalizar"
             backgroundColor={
@@ -230,15 +191,6 @@ const styles = StyleSheet.create({
   titleText: CommonStyle.titleText,
   subTitleText: CommonStyle.subTitleText,
   input: CommonStyle.input,
-  selectedTag: {
-    borderRadius: 15,
-    padding: 8,
-    margin: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 1,
-  },
 });
 
 export default NewRecipeScreen4;
-
