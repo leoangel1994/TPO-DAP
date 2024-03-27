@@ -1,0 +1,1124 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "GoDeLi Recetas API",
+    "description": "GoDeLi es una aplicación que tiene el enfoque de ser una red social de recetas de cocina, donde los usuarios podrán Crear y visualizar recetas.\n\n ### LINKS:\n\n https://github.com/leoangel1994/TPO-DAP\n https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.\n https://swagger.io/specification/\n https://www.restapitutorial.com/httpstatuscodes.html\n https://swagger.io/docs/specification/describing-parameters/ \n",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/langel/Tpo-DAP-GrupoIII/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://api.server.test/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "recipes",
+      "description": "Operaciones relaciones a las recetas de cocina."
+    },
+    {
+      "name": "users",
+      "description": "Operaciones relacionadas a los usuarios."
+    },
+    {
+      "name": "health",
+      "description": "Operaciones relacionadas al estado de la API."
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Estado de la API",
+        "description": "Retorna el estado de la API.\n",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Listar recetas que cumplan con los filtros de búsqueda.",
+        "description": "Retorna una lista de recetas.\n",
+        "operationId": "getRecipes",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Tags de recetas.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recipe"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Agrega una receta nueva",
+        "description": "Crea una nueva receta.\n",
+        "operationId": "addRecipe",
+        "requestBody": {
+          "description": "Crea la receta nueva",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/recipes/{recipeId}": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Retorna una unica receta",
+        "description": "Retorna una receta.\n",
+        "operationId": "getRecipe",
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Actualizar receta",
+        "description": "Actualiza una receta.\n",
+        "operationId": "updateRecipe",
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Eliminar receta",
+        "description": "Elimina una receta.\n",
+        "operationId": "deleteRecipe",
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/recipes/{recipeId}/rating": {
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Permitir que los usuarios califiquen las recetas",
+        "operationId": "createReview",
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta a calificar",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Calificación agregada con éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensajeConfirmacion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Datos de calificación inválidos"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Registrar un nuevo usuario",
+        "description": "Registrar un usuario público utilizando Google",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosRegistroUsuarioPublico"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Registro exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenAutenticacionGoogle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Datos de entrada inválidos"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Obtener datos del perfil de un usuario público",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos del perfil del usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatosPerfilUsuarioPublico"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Datos de entrada inválidos"
+          },
+          "401": {
+            "description": "Unauthorized. No autorizado para ver este perfil"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Editar los datos del perfil del usuario público",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPerfilUsuarioPublico"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Datos del perfil del usuario editados con éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensajeConfirmacion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Datos de entrada inválidos"
+          },
+          "401": {
+            "description": "Unauthorized. No autorizado para editar este perfil"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Dar de baja la cuenta de un usuario público",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cuenta de usuario público dada de baja con éxito"
+          },
+          "401": {
+            "description": "Unauthorized. No autorizado para dar de baja esta cuenta"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/{userId}/favourites": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Listar recetas favoritas de un usuario.",
+        "description": "Muestra una lista de recetas favoritas.\n",
+        "operationId": "getFavouritesRecipes",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "query",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de recetas a retornar.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Cantidad de recetas a saltar.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recipe"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Guardar receta en favoritos.",
+        "description": "Guarda una receta en favoritos.\n",
+        "operationId": "favouriteRecipe",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Eliminar receta guardada en favoritos.",
+        "description": "Elimina una receta guardada en favoritos.\n",
+        "operationId": "deleteFavouriteRecipe",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "query",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Iniciar sesión de un usuario público",
+        "operationId": "loginUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosLoginUsuarioPublico"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenAutenticacionGoogle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Datos de entrada inválidos"
+          },
+          "401": {
+            "description": "Unauthorized. Credenciales inválidas"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Cerrar sesión de un usuario público",
+        "operationId": "logoutUser",
+        "responses": {
+          "204": {
+            "description": "Cierre de sesión exitoso"
+          },
+          "401": {
+            "description": "Unauthorized. No autorizado para cerrar sesión"
+          },
+          "500": {
+            "description": "Internal Server Error. Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/{userId}/recipes/{recipeId}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Obtener receta de un usuario",
+        "operationId": "getUserRecipe",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Actualizar receta de un usuario",
+        "operationId": "updateUserRecipe",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Eliminar receta de un usuario",
+        "operationId": "deleteUserRecipe",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID del usuario.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID de la receta.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Recipe": {
+        "required": [
+          "description",
+          "ingredients",
+          "portions",
+          "preparationTime",
+          "nutritionalProperties",
+          "steps",
+          "tags",
+          "title",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "recipeId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "preparationTime": {
+            "type": "string"
+          },
+          "portions": {
+            "type": "integer"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "image": {
+            "type": "string"
+          },
+          "youtubeLink": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "ingredientes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Ingredient"
+            }
+          },
+          "nutritionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/nutritionalProperties"
+            }
+          }
+        }
+      },
+      "Ingredient": {
+        "required": [
+          "amount",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          }
+        }
+      },
+      "DatosRegistroUsuarioPublico": {
+        "required": [
+          "apellido",
+          "email",
+          "nombre",
+          "username",
+          "familyName",
+          "photo"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "imagen": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          }
+        }
+      },
+      "TokenAutenticacionGoogle": {
+        "required": [
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "DatosPerfilUsuarioPublico": {
+        "required": [
+          "apellido",
+          "email",
+          "nombre",
+          "username",
+          "familyName",
+          "photo"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "imagen": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          }
+        }
+      },
+      "MensajeConfirmacion": {
+        "required": [
+          "mensaje"
+        ],
+        "type": "object",
+        "properties": {
+          "mensaje": {
+            "type": "string"
+          }
+        }
+      },
+      "DatosLoginUsuarioPublico": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "nutritionalProperties": {
+        "type": "object",
+        "properties": {
+          "calorias": {
+            "type": "integer"
+          },
+          "proteinas": {
+            "type": "integer"
+          },
+          "grasas totales": {
+            "type": "integer"
+          }
+        }
+      },
+      "Tag": {
+        "type": "string",
+        "enum": [
+          "Rapida preparación",
+          "Vegetarianas",
+          "Veganas",
+          "Aptas celiacos",
+          "Estimula el sistema inmune",
+          "Promueve la florea intestinal",
+          "Antiinflamatoria",
+          "Baja en sodio",
+          "Baja en carbohidratos"
+        ]
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "UP",
+              "DOWN"
+            ]
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
